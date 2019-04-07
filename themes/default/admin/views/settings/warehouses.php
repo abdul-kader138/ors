@@ -18,7 +18,7 @@
                 });
                 $.ajax({'dataType': 'json', 'type': 'POST', 'url': sSource, 'data': aoData, 'success': fnCallback});
             },
-            "aoColumns": [{"bSortable": false, "mRender": checkbox}, { "bSortable": false, "mRender": img_hl }, null, null, null, null, null, null, {"bSortable": false}]
+            "aoColumns": [{"bSortable": false, "mRender": checkbox}, { "bSortable": false, "mRender": img_hl }, null, null, null, null, null, {"bSortable": false}]
         });
     });
 </script>
@@ -71,7 +71,6 @@
                             <th style="min-width:40px; width: 40px; text-align: center;"><?= lang("map"); ?></th>
                             <th class="col-xs-1"><?= lang("code"); ?></th>
                             <th class="col-xs-2"><?= lang("name"); ?></th>
-                            <th class="col-xs-2"><?= lang("price_group"); ?></th>
                             <th class="col-xs-2"><?= lang("phone"); ?></th>
                             <th class="col-xs-2"><?= lang("email"); ?></th>
                             <th class="col-xs-3"><?= lang("address"); ?></th>
@@ -80,7 +79,7 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td colspan="9" class="dataTables_empty"><?= lang('loading_data_from_server') ?></td>
+                            <td colspan="8" class="dataTables_empty"><?= lang('loading_data_from_server') ?></td>
                         </tr>
 
                         </tbody>

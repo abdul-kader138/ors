@@ -341,5 +341,37 @@ class Db_model extends CI_Model
     }
 
 
+    //abdul Kader
+    public function getTotalUsers()
+    {
+        $this->db->select('count(id) as total', FALSE);
+        $q = $this->db->get('users');
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
+        return FALSE;
+    }
+
+    public function getLatestUsers()
+    {
+//        if ($this->Settings->restrict_user && !$this->Owner && !$this->Admin) {
+//            $this->db->where('created_by', $this->session->userdata('user_id'));
+//        }
+        $this->db->select('*')
+            ->from('users')
+//            ->join('companies', 'sales.customer_id = companies.id', 'left')
+            ->limit(5);
+        $this->db->order_by('users.id', 'desc');
+        $q = $this->db->get();
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+
+    }
+
+
 
 }

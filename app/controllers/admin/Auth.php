@@ -50,7 +50,7 @@ class Auth extends MY_Controller
 
         $this->load->library('datatables');
         $this->datatables
-            ->select($this->db->dbprefix('users').".id as id, first_name, last_name, email, company, award_points, " . $this->db->dbprefix('groups') . ".name, active")
+            ->select($this->db->dbprefix('users').".id as id, first_name, last_name, email,  " . $this->db->dbprefix('groups') . ".name, active")
             ->from("users")
             ->join('groups', 'users.group_id=groups.id', 'left')
             ->group_by('users.id')
@@ -116,7 +116,6 @@ class Auth extends MY_Controller
         $this->data['csrf'] = $this->_get_csrf_nonce();
         $this->data['user'] = $user;
         $this->data['groups'] = $groups;
-        $this->data['billers'] = $this->site->getAllCompanies('biller');
         $this->data['warehouses'] = $this->site->getAllWarehouses();
 
         $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
@@ -539,15 +538,12 @@ class Auth extends MY_Controller
             $additional_data = array(
                 'first_name' => $this->input->post('first_name'),
                 'last_name' => $this->input->post('last_name'),
-                'company' => $this->input->post('company'),
                 'phone' => $this->input->post('phone'),
                 'gender' => $this->input->post('gender'),
                 'group_id' => $this->input->post('group') ? $this->input->post('group') : '3',
-                'biller_id' => $this->input->post('biller'),
                 'warehouse_id' => $this->input->post('warehouse'),
                 'view_right' => $this->input->post('view_right'),
                 'edit_right' => $this->input->post('edit_right'),
-                'allow_discount' => $this->input->post('allow_discount'),
             );
             $active = $this->input->post('status');
         }
@@ -597,7 +593,6 @@ class Auth extends MY_Controller
                     $data = array(
                         'first_name' => $this->input->post('first_name'),
                         'last_name' => $this->input->post('last_name'),
-                        'company' => $this->input->post('company'),
                         'phone' => $this->input->post('phone'),
                         'gender' => $this->input->post('gender'),
                     );
@@ -605,7 +600,6 @@ class Auth extends MY_Controller
                     $data = array(
                         'first_name' => $this->input->post('first_name'),
                         'last_name' => $this->input->post('last_name'),
-                        'company' => $this->input->post('company'),
                         'phone' => $this->input->post('phone'),
                         'gender' => $this->input->post('gender'),
                     );
@@ -613,19 +607,15 @@ class Auth extends MY_Controller
                     $data = array(
                         'first_name' => $this->input->post('first_name'),
                         'last_name' => $this->input->post('last_name'),
-                        'company' => $this->input->post('company'),
                         'username' => $this->input->post('username'),
                         'email' => $this->input->post('email'),
                         'phone' => $this->input->post('phone'),
                         'gender' => $this->input->post('gender'),
                         'active' => $this->input->post('status'),
                         'group_id' => $this->input->post('group'),
-                        'biller_id' => $this->input->post('biller') ? $this->input->post('biller') : NULL,
                         'warehouse_id' => $this->input->post('warehouse') ? $this->input->post('warehouse') : NULL,
-                        'award_points' => $this->input->post('award_points'),
                         'view_right' => $this->input->post('view_right'),
                         'edit_right' => $this->input->post('edit_right'),
-                        'allow_discount' => $this->input->post('allow_discount'),
                     );
                 }
 
@@ -633,17 +623,14 @@ class Auth extends MY_Controller
                 $data = array(
                     'first_name' => $this->input->post('first_name'),
                     'last_name' => $this->input->post('last_name'),
-                    'company' => $this->input->post('company'),
                     'phone' => $this->input->post('phone'),
                     'gender' => $this->input->post('gender'),
                     'active' => $this->input->post('status'),
-                    'award_points' => $this->input->post('award_points'),
                 );
             } else {
                 $data = array(
                     'first_name' => $this->input->post('first_name'),
                     'last_name' => $this->input->post('last_name'),
-                    'company' => $this->input->post('company'),
                     'phone' => $this->input->post('phone'),
                     'gender' => $this->input->post('gender'),
                 );
@@ -871,14 +858,6 @@ class Auth extends MY_Controller
                 'required' => 'required',
                 'class' => 'form-control',
                 'value' => $this->form_validation->set_value('email'),
-            );
-            $this->data['company'] = array(
-                'name' => 'company',
-                'id' => 'company',
-                'type' => 'text',
-                'required' => 'required',
-                'class' => 'form-control',
-                'value' => $this->form_validation->set_value('company'),
             );
             $this->data['phone'] = array(
                 'name' => 'phone',

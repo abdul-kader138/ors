@@ -40,11 +40,6 @@ $config = array(
             'rules' => 'required'
         ),
         array(
-            'field' => 'company',
-            'label' => lang('company'),
-            'rules' => 'required'
-        ),
-        array(
             'field' => 'gender',
             'label' => lang('gender'),
             'rules' => 'required'
@@ -84,11 +79,6 @@ $config = array(
         array(
             'field' => 'phone',
             'label' => lang('phone'),
-            'rules' => 'required'
-        ),
-        array(
-            'field' => 'company',
-            'label' => lang('company'),
             'rules' => 'required'
         ),
         array(
@@ -135,11 +125,7 @@ $config = array(
             'label' => lang('contact_person'),
             'rules' => 'trim|required'
         ),
-        array(
-            'field' => 'company',
-            'label' => lang('company'),
-            'rules' => 'trim|required'
-        ),
+
         array(
             'field' => 'email',
             'label' => lang('email_address'),

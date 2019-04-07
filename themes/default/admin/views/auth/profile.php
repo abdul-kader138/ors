@@ -56,16 +56,6 @@
                                                     <?php echo form_input('last_name', $user->last_name, 'class="form-control" id="last_name" required="required"'); ?>
                                                 </div>
                                             </div>
-                                            <?php if (!$this->ion_auth->in_group('customer', $id) && !$this->ion_auth->in_group('supplier', $id)) { ?>
-                                                <div class="form-group">
-                                                    <?php echo lang('company', 'company'); ?>
-                                                    <div class="controls">
-                                                        <?php echo form_input('company', $user->company, 'class="form-control" id="company" required="required"'); ?>
-                                                    </div>
-                                                </div>
-                                            <?php } else {
-                                                echo form_hidden('company', $user->company);
-                                            } ?>
                                             <div class="form-group">
 
                                                 <?php echo lang('phone', 'phone'); ?>
@@ -159,16 +149,6 @@
                                                                         </div>
                                                                         <div class="clearfix"></div>
                                                                         <div class="no">
-                                                                            <div class="form-group">
-                                                                                <?= lang("biller", "biller"); ?>
-                                                                                <?php
-                                                                                $bl[""] = lang('select').' '.lang('biller');
-                                                                                foreach ($billers as $biller) {
-                                                                                    $bl[$biller->id] = $biller->company != '-' ? $biller->company : $biller->name;
-                                                                                }
-                                                                                echo form_dropdown('biller', $bl, (isset($_POST['biller']) ? $_POST['biller'] : $user->biller_id), 'id="biller" data-placeholder="' . $this->lang->line("select") . ' ' . $this->lang->line("biller") . '" class="form-control select" style="width:100%;"');
-                                                                                ?>
-                                                                            </div>
 
                                                                             <div class="form-group">
                                                                                 <?= lang("warehouse", "warehouse"); ?>
@@ -193,10 +173,6 @@
                                                                                 $opts = array(1 => lang('yes'), 0 => lang('no'));
                                                                                 echo form_dropdown('edit_right', $opts, (isset($_POST['edit_right']) ? $_POST['edit_right'] : $user->edit_right), 'id="edit_right" class="form-control select" style="width:100%;"');
                                                                                 ?>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <?= lang("allow_discount", "allow_discount"); ?>
-                                                                                <?= form_dropdown('allow_discount', $opts, (isset($_POST['allow_discount']) ? $_POST['allow_discount'] : $user->allow_discount), 'id="allow_discount" class="form-control select" style="width:100%;"'); ?>
                                                                             </div>
                                                                             <?php } ?>
                                                                         </div>

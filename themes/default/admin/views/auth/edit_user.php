@@ -27,12 +27,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <?php echo lang('edit_user_company_label', 'company'); ?>
-                                <div class="controls">
-                                    <?php echo form_input($company); ?>
-                                </div>
-                            </div>
 
                             <div class="form-group">
                                 <?php echo lang('edit_user_phone_label', 'phone'); ?>

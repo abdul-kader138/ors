@@ -20,16 +20,6 @@
                 <?php echo form_input('name', $warehouse->name, 'class="form-control" id="name" required="required"'); ?>
             </div>
             <div class="form-group">
-                <label class="control-label" for="price_group"><?php echo $this->lang->line("price_group"); ?></label>
-                <?php
-                $pgs[''] = lang('select').' '.lang('price_group');
-                foreach ($price_groups as $price_group) {
-                    $pgs[$price_group->id] = $price_group->name;
-                }
-                echo form_dropdown('price_group', $pgs, $warehouse->price_group_id, 'class="form-control tip select" id="price_group" style="width:100%;"');
-                ?>
-            </div>
-            <div class="form-group">
                 <label class="control-label" for="phone"><?php echo $this->lang->line("phone"); ?></label>
                 <?php echo form_input('phone', $warehouse->phone, 'class="form-control" id="phone"'); ?>
             </div>

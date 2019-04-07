@@ -29,6 +29,10 @@ class Welcome extends MY_Controller
 
         $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
         $this->data['sales'] = $this->db_model->getLatestSales();
+
+        $this->data['users'] = $this->db_model->getLatestUsers();
+
+
         $this->data['quotes'] = $this->db_model->getLastestQuotes();
         $this->data['purchases'] = $this->db_model->getLatestPurchases();
         $this->data['transfers'] = $this->db_model->getLatestTransfers();
@@ -52,6 +56,7 @@ class Welcome extends MY_Controller
         $this->data['total_ready'] = $this->db_model->getTotalReady();
         $this->data['total_ready_paid'] = $this->db_model->getTotalReadyPaid();
         $this->data['total_ready_due'] = $this->db_model->getTotalReadyDue();
+        $this->data['total_users'] = $this->db_model->getTotalUsers();
         $lmsdate = date('Y-m-d', strtotime('first day of last month')) . ' 00:00:00';
         $lmedate = date('Y-m-d', strtotime('last day of last month')) . ' 23:59:59';
         $this->data['lmbs'] = $this->db_model->getBestSeller($lmsdate, $lmedate);
