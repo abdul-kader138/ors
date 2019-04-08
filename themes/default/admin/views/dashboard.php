@@ -62,7 +62,7 @@ function row_status($x)
                 </div>
             </div>
             <div class="col-sm-3">
-                <div class="small-box padding1010 bred">
+                <div class="small-box padding1010 " style="background-color: #ffc582">
                     <h2 class="bold" style="color: white"><?= lang('Total_Team') ?></h2>
                     <i class="icon fa fa-plus-circle"></i>
 

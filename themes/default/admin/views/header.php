@@ -579,11 +579,11 @@
                                                 <i class="fa fa-envelope"></i><span class="text"> <?= lang('email_templates'); ?></span>
                                             </a>
                                         </li>
-                                        <li id="system_settings_user_groups">
-                                            <a style="padding-left: 30px" href="<?= admin_url('system_settings/user_groups') ?>">
-                                                <i class="fa fa-key"></i><span class="text"> <?= lang('group_permissions'); ?></span>
-                                            </a>
-                                        </li>
+<!--                                        <li id="system_settings_user_groups">-->
+<!--                                            <a style="padding-left: 30px" href="--><?//= admin_url('system_settings/user_groups') ?><!--">-->
+<!--                                                <i class="fa fa-key"></i><span class="text"> --><?//= lang('group_permissions'); ?><!--</span>-->
+<!--                                            </a>-->
+<!--                                        </li>-->
                                         <li id="system_settings_backups">
                                             <a style="padding-left: 30px" href="<?= admin_url('system_settings/backups') ?>">
                                                 <i class="fa fa-database"></i><span class="text"> <?= lang('backups'); ?></span>

@@ -17,11 +17,11 @@
                                 <a data-toggle="dropdown" class="dropdown-toggle" id="more" href="#">More <b
                                         class="caret"></b></a>
                                 <ul aria-labelledby="more" role="menu" class="dropdown-menu">
-                                    <li class=""><a href="#sale"><?= lang('sale') ?></a></li>
-                                    <li class=""><a href="#quote"><?= lang('quote') ?></a></li>
-                                    <li class=""><a href="#purchase"><?= lang('purchase') ?></a></li>
-                                    <li class=""><a href="#transfer"><?= lang('transfer') ?></a></li>
-                                    <li class=""><a href="#payment"><?= lang('payment') ?></a></li>
+                                    <li class=""><a href="#sale"><?= lang('Coach') ?></a></li>
+                                    <li class=""><a href="#quote"><?= lang('Players') ?></a></li>
+<!--                                    <li class=""><a href="#purchase">--><?//= lang('purchase') ?><!--</a></li>-->
+<!--                                    <li class=""><a href="#transfer">--><?//= lang('transfer') ?><!--</a></li>-->
+<!--                                    <li class=""><a href="#payment">--><?//= lang('payment') ?><!--</a></li>-->
                                 </ul>
                             </li>
 

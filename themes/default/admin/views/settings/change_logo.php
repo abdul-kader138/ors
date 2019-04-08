@@ -21,7 +21,7 @@
                 <?= lang("login_logo", "login_logo") ?>
                 <input id="login_logo" type="file" data-browse-label="<?= lang('browse'); ?>" name="login_logo" data-show-upload="false" data-show-preview="false" class="form-control file">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display: none">
                 <?= lang("biller_logo", "biller_logo") ?>
                 <input id="biller_logo" type="file" data-browse-label="<?= lang('browse'); ?>" name="biller_logo" data-show-upload="false"
                        data-show-preview="false" class="form-control file">
