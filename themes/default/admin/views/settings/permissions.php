@@ -322,6 +322,24 @@
                                     </td>
                                 </tr>
 
+
+                                <tr>
+                                    <td><?= lang("Players"); ?></td>
+                                    <td class="text-center">
+                                        <input type="checkbox" value="1" class="checkbox" name="players-index" <?php echo $p->{'players-index'} ? "checked" : ''; ?>>
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" value="1" class="checkbox" name="players-add" <?php echo $p->{'players-add'} ? "checked" : ''; ?>>
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" value="1" class="checkbox" name="players-edit" <?php echo $p->{'players-edit'} ? "checked" : ''; ?>>
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" value="1" class="checkbox" name="players-delete" <?php echo $p->{'players-delete'} ? "checked" : ''; ?>>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td><?= lang("reports"); ?></td>
                                     <td colspan="5">

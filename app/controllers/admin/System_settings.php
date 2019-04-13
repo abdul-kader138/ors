@@ -713,6 +713,11 @@ class system_settings extends MY_Controller
                 'returns-email' => $this->input->post('returns-email'),
                 'returns-pdf' => $this->input->post('returns-pdf'),
                 'reports-tax' => $this->input->post('reports-tax'),
+
+                'players-index' => $this->input->post('players-index'),
+                'players-edit' => $this->input->post('players-edit'),
+                'players-add' => $this->input->post('players-add'),
+                'players-delete' => $this->input->post('players-delete'),
             );
 
             if (POS) {

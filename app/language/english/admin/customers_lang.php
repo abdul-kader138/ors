@@ -63,3 +63,5 @@ $lang['address_deleted']                = "Address successfully deleted";
 $lang['are_required']                   = "are required";
 $lang['data_x_customers']               = "CSV data is not belong to any customer";
 $lang['csv_update_tip']                 = "System will check if the email belong to any customer then will update that customer otherwise will add new customer. If the email address already exist for biller/supplier it will be ignored.";
+$lang['pasword_hint']                               = "At least 1 capital, 1 lowercase, 1 number and more than 8 characters long";
+$lang['pw_not_same']                                = "The password and confirm password are not the same";
