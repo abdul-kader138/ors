@@ -38,6 +38,11 @@ class system_settings extends MY_Controller
         $this->form_validation->set_rules('theme', lang('theme'), 'trim|required');
         $this->form_validation->set_rules('rows_per_page', lang('rows_per_page'), 'trim|required');
         $this->form_validation->set_rules('protocol', lang('email_protocol'), 'trim|required');
+        $this->form_validation->set_rules('iwidth', lang('image_width'), 'trim|numeric|required');
+        $this->form_validation->set_rules('iheight', lang('image_height'), 'trim|numeric|required');
+        $this->form_validation->set_rules('twidth', lang('thumbnail_width'), 'trim|numeric|required');
+        $this->form_validation->set_rules('theight', lang('thumbnail_height'), 'trim|numeric|required');
+
         if ($this->input->post('protocol') == 'smtp') {
             $this->form_validation->set_rules('smtp_host', lang('smtp_host'), 'required');
             $this->form_validation->set_rules('smtp_user', lang('smtp_user'), 'required');
@@ -86,6 +91,10 @@ class system_settings extends MY_Controller
                 'decimals_sep' => $this->input->post('decimals_sep'),
                 'thousands_sep' => $this->input->post('thousands_sep'),
                 'invoice_view' => $this->input->post('invoice_view'),
+                'iwidth' => $this->input->post('iwidth'),
+                'iheight' => $this->input->post('iheight'),
+                'twidth' => $this->input->post('twidth'),
+                'theight' => $this->input->post('theight'),
                 'rtl' => $this->input->post('rtl'),
                 'each_spent' => $this->input->post('each_spent') ? $this->input->post('each_spent') : NULL,
                 'qty_decimals' => $this->input->post('qty_decimals'),

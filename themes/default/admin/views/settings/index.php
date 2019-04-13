@@ -172,6 +172,39 @@ $ps = array('0' => lang("disable"), '1' => lang("enable"));
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="image_size"><?= lang("image_size"); ?> (Width :
+                                        Height) *</label>
+
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <?= form_input('iwidth', $Settings->iwidth, 'class="form-control tip" id="iwidth" placeholder="image width" required="required"'); ?>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <?= form_input('iheight', $Settings->iheight, 'class="form-control tip" id="iheight" placeholder="image height" required="required"'); ?></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="thumbnail_size"><?= lang("thumbnail_size"); ?>
+                                        (Width : Height) *</label>
+
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <?= form_input('twidth', $Settings->twidth, 'class="form-control tip" id="twidth" placeholder="thumbnail width" required="required"'); ?>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <?= form_input('theight', $Settings->theight, 'class="form-control tip" id="theight" placeholder="thumbnail height" required="required"'); ?>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <?= lang('pdf_lib', 'pdf_lib'); ?>
