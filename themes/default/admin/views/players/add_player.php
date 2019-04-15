@@ -9,7 +9,7 @@
                 <p class="introtext"><?php echo lang('Add_Player'); ?></p>
 
                 <?php $attrib = array('class' => 'form-horizontal', 'data-toggle' => 'validator', 'role' => 'form');
-                echo admin_form_open("auth/create_user", $attrib);
+                echo admin_form_open("players/add", $attrib);
                 ?>
                 <div class="row">
                     <div class="col-md-12">
@@ -55,7 +55,7 @@
                             <div class="form-group">
                                 <?php echo lang('Birth_Certificate_Pin', 'Birth_Certificate_Pin'); ?>
                                 <div class="controls">
-                                    <?php echo form_input('phone', (isset($_POST['bcp']) ? $_POST['bcp'] : ''), 'class="form-control" id="bcp" required="required"'); ?>
+                                    <?php echo form_input('bcp', (isset($_POST['bcp']) ? $_POST['bcp'] : ''), 'class="form-control" id="bcp" required="required"'); ?>
                                 </div>
                             </div>
 
@@ -63,7 +63,7 @@
                                 <?= lang('Year', 'Year'); ?>
                                 <?php
                                 $opt = array("2018" => lang('2018'), "2019" => lang('2019'), "2020" => lang('2020'), "2021" => lang('2021'), "2022" => lang('2022'), "2023" => lang('2023'), "2024" => lang('2024'), "2025" => lang('2025'), "2026" => lang('2026'), "2027" => lang('2027'), "2028" => lang('2028'));
-                                echo form_dropdown('status', $opt, (isset($_POST['status']) ? $_POST['status'] : ''), 'id="status" required="required" class="form-control select" style="width:100%;"');
+                                echo form_dropdown('year', $opt, (isset($_POST['year']) ? $_POST['year'] : ''), 'id="year" required="required" class="form-control select" style="width:100%;"');
                                 ?>
                             </div>
 
