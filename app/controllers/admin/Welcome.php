@@ -31,35 +31,11 @@ class Welcome extends MY_Controller
         $this->data['sales'] = $this->db_model->getLatestSales();
 
         $this->data['users'] = $this->db_model->getLatestUsers();
-
-
-        $this->data['quotes'] = $this->db_model->getLastestQuotes();
-        $this->data['purchases'] = $this->db_model->getLatestPurchases();
-        $this->data['transfers'] = $this->db_model->getLatestTransfers();
-        $this->data['customers'] = $this->db_model->getLatestCustomers();
-        $this->data['suppliers'] = $this->db_model->getLatestSuppliers();
-        $this->data['chatData'] = $this->db_model->getChartData();
-        $this->data['stock'] = $this->db_model->getStockValue();
-        $this->data['bs'] = $this->db_model->getBestSeller();
-        $this->data['total_purchases'] = $this->db_model->getTotalPurchases();
-        $this->data['total_sales'] = $this->db_model->getTotalSales();
-        $this->data['total_expenses'] = $this->db_model->getTotalExpenses();
-        $this->data['total_progress'] = $this->db_model->getTotalInProgress();
-        $this->data['total_progress_paid'] = $this->db_model->getTotalInProgressPaid();
-        $this->data['total_progress_due'] = $this->db_model->getTotalInProgressDue();
-        $this->data['total_waiting'] = $this->db_model->getTotalWaitingForParts();
-        $this->data['total_waiting_paid'] = $this->db_model->getTotalWaitingForPartsPaid();
-        $this->data['total_waiting_due'] = $this->db_model->getTotalWaitingForPartsDue();
-        $this->data['total_return'] = $this->db_model->getTotalReturnFixable();
-        $this->data['total_return_paid'] = $this->db_model->getTotalReturnFixablePaid();
-        $this->data['total_return_due'] = $this->db_model->getTotalReturnFixableDue();
-        $this->data['total_ready'] = $this->db_model->getTotalReady();
-        $this->data['total_ready_paid'] = $this->db_model->getTotalReadyPaid();
-        $this->data['total_ready_due'] = $this->db_model->getTotalReadyDue();
+        $this->data['players'] = $this->db_model->getLatestPlayers();
         $this->data['total_users'] = $this->db_model->getTotalUsers();
+        $this->data['total_players'] = $this->db_model->getTotalPlayers();
         $lmsdate = date('Y-m-d', strtotime('first day of last month')) . ' 00:00:00';
         $lmedate = date('Y-m-d', strtotime('last day of last month')) . ' 23:59:59';
-        $this->data['lmbs'] = $this->db_model->getBestSeller($lmsdate, $lmedate);
         $bc = array(array('link' => '#', 'page' => lang('dashboard')));
         $meta = array('page_title' => lang('dashboard'), 'bc' => $bc);
         $this->page_construct('dashboard', $meta, $this->data);

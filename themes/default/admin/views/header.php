@@ -572,7 +572,7 @@
                                             <span class="chevron closed"></span>
                                         </a>
                                         <ul>
-                                            <li id="mm_players">
+                                            <li id="players_index">
                                                 <a style="padding-left: 30px" class="submenu"
                                                    href="<?= admin_url('players'); ?>">
                                                     <i class="fa fa-users"></i><span

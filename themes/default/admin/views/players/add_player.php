@@ -15,16 +15,23 @@
                     <div class="col-md-12">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <?php echo lang('Name', 'Name'); ?>
+                                <?php echo lang('First_Name', 'First_Name'); ?>
                                 <div class="controls">
-                                    <?php echo form_input('name', (isset($_POST['name']) ? $_POST['name'] : ''), 'class="form-control" id="name" required="required" pattern=".{3,10}"'); ?>
+                                    <?php echo form_input('first_name', (isset($_POST['first_name']) ? $_POST['first_name'] : ''), 'class="form-control" id="first_name" required="required" pattern=".{3,10}"'); ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <?php echo lang('Last_Name', 'Last_Name'); ?>
+                                <div class="controls">
+                                    <?php echo form_input('last_name', (isset($_POST['last_name']) ? $_POST['last_name'] : ''), 'class="form-control" id="last_name" required="required" pattern=".{3,10}"'); ?>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <?= lang('gender', 'gender'); ?>
                                 <?php
-                                $ge[''] = array('male' => lang('male'), 'female' => lang('female'));
+                                $ge[''] = array('Male' => lang('Male'), 'Female' => lang('Female'));
                                 echo form_dropdown('gender', $ge, (isset($_POST['gender']) ? $_POST['gender'] : ''), 'class="tip form-control" id="gender" data-placeholder="' . lang("select") . ' ' . lang("gender") . '" required="required"');
                                 ?>
                             </div>
@@ -67,11 +74,6 @@
                                 ?>
                             </div>
 
-                            <div class="form-group all">
-                                <?= lang("Image", "Image") ?>
-                                <input id="image" type="file" data-browse-label="<?= lang('browse'); ?>" name="image" data-show-upload="false"
-                                       data-show-preview="false" accept="image/*" class="form-control file">
-                            </div>
 
                         </div>
                         <div class="col-md-5 col-md-offset-1">
@@ -118,6 +120,8 @@
                                     echo form_dropdown('view_right', $vropts, (isset($_POST['view_right']) ? $_POST['view_right'] : 1), 'id="view_right" class="form-control select" style="width:100%;"');
                                     ?>
                                 </div>
+
+
                                 <div class="form-group">
                                     <?= lang("edit_right", "edit_right"); ?>
                                     <?php
@@ -133,6 +137,7 @@
                                     echo form_dropdown('status', $opt, (isset($_POST['status']) ? $_POST['status'] : ''), 'id="status" required="required" class="form-control select" style="width:100%;"');
                                     ?>
                                 </div>
+
                             </div>
 
                             <div class="row">

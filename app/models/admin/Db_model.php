@@ -352,6 +352,17 @@ class Db_model extends CI_Model
         return FALSE;
     }
 
+
+    public function getTotalPlayers()
+    {
+        $this->db->select('count(id) as total', FALSE);
+        $q = $this->db->get('players');
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
+        return FALSE;
+    }
+
     public function getLatestUsers()
     {
 //        if ($this->Settings->restrict_user && !$this->Owner && !$this->Admin) {
@@ -360,6 +371,27 @@ class Db_model extends CI_Model
         $this->db->select('*')
             ->from('users')
 //            ->join('companies', 'sales.customer_id = companies.id', 'left')
+            ->limit(5);
+        $this->db->order_by('users.id', 'desc');
+        $q = $this->db->get();
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+
+    }
+
+    public function getLatestPlayers()
+    {
+//        if ($this->Settings->restrict_user && !$this->Owner && !$this->Admin) {
+//            $this->db->where('created_by', $this->session->userdata('user_id'));
+//        }
+        $this->db->select('players.*,warehouses.name as wname')
+            ->from('players')
+            ->join('users', 'users.username = players.username', 'inner')
+            ->join('warehouses', 'warehouses.id = players.school_id', 'inner')
             ->limit(5);
         $this->db->order_by('users.id', 'desc');
         $q = $this->db->get();
