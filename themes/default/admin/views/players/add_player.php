@@ -15,14 +15,14 @@
                     <div class="col-md-12">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <?php echo lang('First_Name', 'First_Name'); ?>
+                                <?php echo lang('First_Name', 'First_Name').'<b> *</b>'; ?>
                                 <div class="controls">
                                     <?php echo form_input('first_name', (isset($_POST['first_name']) ? $_POST['first_name'] : ''), 'class="form-control" id="first_name" required="required" pattern=".{3,10}"'); ?>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <?php echo lang('Last_Name', 'Last_Name'); ?>
+                                <?php echo lang('Last_Name', 'Last_Name').'<b> *</b>'; ?>
                                 <div class="controls">
                                     <?php echo form_input('last_name', (isset($_POST['last_name']) ? $_POST['last_name'] : ''), 'class="form-control" id="last_name" required="required" pattern=".{3,10}"'); ?>
                                 </div>
@@ -103,9 +103,9 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <?= lang("warehouse", "warehouse"); ?>
+                                    <?= lang("School", "School"); ?>
                                     <?php
-                                    $wh[''] = lang('select') . ' ' . lang('warehouse');
+                                    $wh[''] = lang('select') . ' ' . lang('School');
                                     foreach ($schools as $school) {
                                         $wh[$school->id] = $school->name;
                                     }

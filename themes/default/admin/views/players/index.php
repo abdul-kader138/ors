@@ -1,3 +1,9 @@
+<style>
+    .players_link {
+        cursor: pointer;
+    }
+
+</style>
 <script>
     function player_status(x) {
         var y = x.split('__');
@@ -9,7 +15,7 @@
     function bcp_status(x) {
         if (x == null) {
             return '';
-        }  else {
+        } else {
             return '<div class="text-center"><span class="payment_status label label-default">' + x + '</span></div>';
         }
     }
@@ -17,10 +23,11 @@
     function name_status(x) {
         if (x == null) {
             return '';
-        }  else {
+        } else {
             return '<div class="text-center"><span class="payment_status label label-info">' + x + '</span></div>';
         }
     }
+
     $(document).ready(function () {
         'use strict';
         oTable = $('#UsrTable').dataTable({
@@ -36,20 +43,37 @@
                 });
                 $.ajax({'dataType': 'json', 'type': 'POST', 'url': sSource, 'data': aoData, 'success': fnCallback});
             },
+            'fnRowCallback': function (nRow, aData, iDisplayIndex) {
+                var oSettings = oTable.fnSettings();
+                nRow.id = aData[0];
+                nRow.className = "players_link";
+                //if(aData[7] > aData[9]){ nRow.className = "product_link warning"; } else { nRow.className = "product_link"; }
+                return nRow;
+            },
             "aoColumns": [{
                 "bSortable": false,
                 "mRender": checkbox
-            }, {"mRender": name_status}, null, {"mRender": fsd}, null,{"mRender": bcp_status},null,null,  {"mRender": bcp_status},{"mRender": player_status}, {"bSortable": false}]
+            }, {"mRender": name_status}, null, {"mRender": fsd}, null, {"mRender": bcp_status}, null, null, {"mRender": bcp_status}, {"mRender": player_status}, {"bSortable": false}]
         }).fnSetFilteringDelay().dtFilter([
             {column_number: 1, filter_default_label: "[<?=lang('Name');?>]", filter_type: "text", data: []},
             {column_number: 2, filter_default_label: "[<?=lang('Gender');?>]", filter_type: "text", data: []},
             {column_number: 3, filter_default_label: "[<?=lang('Date_Of_birth');?>]", filter_type: "text", data: []},
             {column_number: 4, filter_default_label: "[<?=lang('Age');?>]", filter_type: "text", data: []},
-            {column_number: 5, filter_default_label: "[<?=lang('Birth_Certificate_Pin');?>]", filter_type: "text", data: []},
+            {
+                column_number: 5,
+                filter_default_label: "[<?=lang('Birth_Certificate_Pin');?>]",
+                filter_type: "text",
+                data: []
+            },
             {column_number: 6, filter_default_label: "[<?=lang('School');?>]", filter_type: "text", data: []},
             {column_number: 7, filter_default_label: "[<?=lang('Year');?>]", filter_type: "text", data: []},
             {column_number: 8, filter_default_label: "[<?=lang('Team_Name');?>]", filter_type: "text", data: []},
-            {column_number: 9, filter_default_label: "[<?=lang('Is_Tagged_With_Team');?>]", filter_type: "text", data: []},
+            {
+                column_number: 9,
+                filter_default_label: "[<?=lang('Is_Tagged_With_Team');?>]",
+                filter_type: "text",
+                data: []
+            },
             {
                 column_number: 9, select_type: 'select2',
                 select_type_options: {
@@ -82,9 +106,12 @@
         <div class="box-icon">
             <ul class="btn-tasks">
                 <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="icon fa fa-tasks tip" data-placement="left" title="<?= lang("actions") ?>"></i></a>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="icon fa fa-tasks tip"
+                                                                                  data-placement="left"
+                                                                                  title="<?= lang("actions") ?>"></i></a>
                     <ul class="dropdown-menu pull-right tasks-menus" role="menu" aria-labelledby="dLabel">
-                        <li><a href="<?= admin_url('players/add'); ?>"><i class="fa fa-plus-circle"></i> <?= lang("Add_Player"); ?></a></li>
+                        <li><a href="<?= admin_url('players/add'); ?>"><i
+                                        class="fa fa-plus-circle"></i> <?= lang("Add_Player"); ?></a></li>
                     </ul>
                 </li>
             </ul>

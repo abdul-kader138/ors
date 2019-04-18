@@ -204,7 +204,7 @@ class Settings_model extends CI_Model
 
     public function getGroups()
     {
-        $this->db->where('id >', 4);
+        $this->db->where('id >', 7);
         $q = $this->db->get('groups');
         if ($q->num_rows() > 0) {
             foreach (($q->result()) as $row) {

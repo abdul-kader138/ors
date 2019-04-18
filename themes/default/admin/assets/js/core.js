@@ -1855,6 +1855,19 @@ if (site.settings.auto_detect_barcode == 1) {
 }
 
 
+// a.kader
+$('body').on('click', '.players_link td:not(:first-child, :nth-child(2), :last-child)', function() {
+    $('#myModal').modal({
+        remote:
+        site.base_url +
+        'players/modal_view/' +
+        $(this)
+            .parent('.players_link')
+            .attr('id'),
+    });
+    $('#myModal').modal('show');
+});
+
 
 $('.sortable_table tbody').sortable({
     containerSelector: 'tr',

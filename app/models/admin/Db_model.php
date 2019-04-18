@@ -13,18 +13,18 @@ class Db_model extends CI_Model
         if ($this->Settings->restrict_user && !$this->Owner && !$this->Admin) {
             $this->db->where('created_by', $this->session->userdata('user_id'));
         }
-                $this->db->select('sales.*,companies.name as nam')
-                ->from('sales')
-                ->join('companies', 'sales.customer_id = companies.id', 'left')
-                ->limit(5);
-            $this->db->order_by('sales.id', 'desc');
-            $q = $this->db->get();
-            if ($q->num_rows() > 0) {
-                foreach (($q->result()) as $row) {
-                    $data[] = $row;
-                }
-                return $data;
+        $this->db->select('sales.*,companies.name as nam')
+            ->from('sales')
+            ->join('companies', 'sales.customer_id = companies.id', 'left')
+            ->limit(5);
+        $this->db->order_by('sales.id', 'desc');
+        $q = $this->db->get();
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
             }
+            return $data;
+        }
 
     }
 
@@ -217,7 +217,7 @@ class Db_model extends CI_Model
         }
         return FALSE;
     }
-    
+
     public function getTotalInProgressPaid()
     {
         $this->db->select('count(id) as id', FALSE)
@@ -228,7 +228,7 @@ class Db_model extends CI_Model
         }
         return FALSE;
     }
-    
+
     public function getTotalInProgressDue()
     {
         $this->db->select('count(id) as id', FALSE)
@@ -250,7 +250,7 @@ class Db_model extends CI_Model
         }
         return FALSE;
     }
-    
+
     public function getTotalWaitingForPartsPaid()
     {
         $this->db->select('count(id) as id', FALSE)
@@ -261,7 +261,7 @@ class Db_model extends CI_Model
         }
         return FALSE;
     }
-    
+
     public function getTotalWaitingForPartsDue()
     {
         $this->db->select('count(id) as id', FALSE)
@@ -284,7 +284,7 @@ class Db_model extends CI_Model
         }
         return FALSE;
     }
-    
+
     public function getTotalReturnFixablePaid()
     {
         $this->db->select('count(id) as id', FALSE)
@@ -295,7 +295,7 @@ class Db_model extends CI_Model
         }
         return FALSE;
     }
-    
+
     public function getTotalReturnFixableDue()
     {
         $this->db->select('count(id) as id', FALSE)
@@ -317,7 +317,7 @@ class Db_model extends CI_Model
         }
         return FALSE;
     }
-    
+
     public function getTotalReadyPaid()
     {
         $this->db->select('count(id) as id', FALSE)
@@ -328,7 +328,7 @@ class Db_model extends CI_Model
         }
         return FALSE;
     }
-    
+
     public function getTotalReadyDue()
     {
         $this->db->select('count(id) as id', FALSE)
@@ -388,11 +388,18 @@ class Db_model extends CI_Model
 //        if ($this->Settings->restrict_user && !$this->Owner && !$this->Admin) {
 //            $this->db->where('created_by', $this->session->userdata('user_id'));
 //        }
+
+        $warehouse_id = null;
+        if (!$this->Owner || !$this->Admin) {
+            $user = $this->site->getUser();
+            $warehouse_id = $user->warehouse_id;
+        }
         $this->db->select('players.*,warehouses.name as wname')
             ->from('players')
             ->join('users', 'users.username = players.username', 'inner')
             ->join('warehouses', 'warehouses.id = players.school_id', 'inner')
             ->limit(5);
+        if ($warehouse_id) $this->db->where('warehouse_id', $warehouse_id);
         $this->db->order_by('users.id', 'desc');
         $q = $this->db->get();
         if ($q->num_rows() > 0) {
@@ -403,7 +410,6 @@ class Db_model extends CI_Model
         }
 
     }
-
 
 
 }

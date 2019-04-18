@@ -86,7 +86,7 @@ function row_status($x)
                             if ($Owner || $Admin || $GP['coach-index']) { ?>
                                 <li class=""><a href="#coaches"><?= lang('Coaches') ?></a></li>
                             <?php }
-                            if ($Owner || $Admin || $GP['player-index']) { ?>
+                            if ($Owner || $Admin || $GP['players-index']) { ?>
                                 <li class=""><a href="#players"><?= lang('Players') ?></a></li>
                             <?php }
                             if ($Owner || $Admin || $GP['teams-index']) { ?>
@@ -188,7 +188,7 @@ function row_status($x)
                                 </div>
 
                             <?php }
-                            if ($Owner || $Admin || $GP['purchases-index']) { ?>
+                            if ($Owner || $Admin || $GP['players-index']) { ?>
 
                                 <div id="players" class="tab-pane fade in">
                                     <div class="row">
