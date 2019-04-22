@@ -14,7 +14,7 @@
                 });
                 $.ajax({'dataType': 'json', 'type': 'POST', 'url': sSource, 'data': aoData, 'success': fnCallback});
             },
-            "aoColumns": [{"bSortable": false, "mRender": checkbox}, {"bSortable": false, "mRender": img_hl}, null, null, null, null, {"bSortable": false}]
+            "aoColumns": [{"bSortable": false, "mRender": checkbox}, {"bSortable": false, "mRender": img_hl}, null, null,  {"bSortable": false}]
         });
     });
 </script>
@@ -33,16 +33,6 @@
                         <li>
                             <a href="<?php echo admin_url('system_settings/add_category'); ?>" data-toggle="modal" data-target="#myModal">
                                 <i class="fa fa-plus"></i> <?= lang('add_category') ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo admin_url('system_settings/import_categories'); ?>" data-toggle="modal" data-target="#myModal">
-                                <i class="fa fa-plus"></i> <?= lang('import_categories') ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" id="excel" data-action="export_excel">
-                                <i class="fa fa-file-excel-o"></i> <?= lang('export_to_excel') ?>
                             </a>
                         </li>
                         <li class="divider"></li>
@@ -72,8 +62,6 @@
                                 </th>
                                 <th><?= lang("category_code"); ?></th>
                                 <th><?= lang("category_name"); ?></th>
-                                <th><?= lang("slug"); ?></th>
-                                <th><?= lang("parent_category"); ?></th>
                                 <th style="width:100px;"><?= lang("actions"); ?></th>
                             </tr>
                         </thead>

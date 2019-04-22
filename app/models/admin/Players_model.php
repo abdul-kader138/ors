@@ -19,8 +19,12 @@ class Players_model extends CI_Model
     {
         $this->db->trans_strict(TRUE);
         $this->db->trans_start();
-        $this->db->insert('players', $data);
         $this->db->insert('users', $user_data);
+        $this->db->insert('players', $data);
+        $last_id = $this->db->insert_id();
+        $ref=date("Y").sprintf("%04d", $last_id);
+        $this->db->where('id',$last_id);
+        $this->db->update('players', array('ssfl'=>$ref));
         $this->db->trans_complete();
         if ($this->db->trans_status() === FALSE) return false;
         return true;
@@ -89,6 +93,15 @@ class Players_model extends CI_Model
         $this->db->trans_complete();
         if ($this->db->trans_status() === FALSE) return false;
         else return true;
+    }
+
+    public function getCategoryByID($id)
+    {
+        $q = $this->db->get_where("categories", array('id' => $id), 1);
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
+        return FALSE;
     }
 
 

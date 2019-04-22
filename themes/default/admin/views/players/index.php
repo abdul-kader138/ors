@@ -5,6 +5,12 @@
 
 </style>
 <script>
+
+    function pad(n, width, z) {
+        z = z || '0';
+        n = n + '';
+        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+    }
     function player_status(x) {
         var y = x.split('__');
         return y[0] == 1
@@ -26,6 +32,26 @@
         } else {
             return '<div class="text-center"><span class="payment_status label label-info">' + x + '</span></div>';
         }
+    }
+
+    function ref_status(x) {
+        if (x == null) {
+            return '';
+        } else {
+            // return '';
+            return '<div class="text-center"><span class="payment_status label label-success">' + x + '</span></div>';
+        }
+    }
+
+    function player_img_hl(x) {
+        var image_link = x == null || x == '' ? 'no_image.png' : x;
+        return (
+            '<div class="text-center"><img src="' +
+            site.url +
+            'assets/uploads/avatars/thumbs/' +
+            image_link +
+            '" alt="" style="width:30px; height:30px;" /></div>'
+        );
     }
 
     $(document).ready(function () {
@@ -53,37 +79,27 @@
             "aoColumns": [{
                 "bSortable": false,
                 "mRender": checkbox
-            }, {"mRender": name_status}, null, {"mRender": fsd}, null, {"mRender": bcp_status}, null, null, {"mRender": bcp_status}, {"mRender": player_status}, {"bSortable": false}]
+            },  {"bSortable": false,"mRender": player_img_hl},{"mRender": ref_status},{"mRender": name_status}, null, {"mRender": fsd}, null, {"mRender": bcp_status}, null, null, null, {"mRender": player_status}, {"bSortable": false}]
         }).fnSetFilteringDelay().dtFilter([
-            {column_number: 1, filter_default_label: "[<?=lang('Name');?>]", filter_type: "text", data: []},
-            {column_number: 2, filter_default_label: "[<?=lang('Gender');?>]", filter_type: "text", data: []},
-            {column_number: 3, filter_default_label: "[<?=lang('Date_Of_birth');?>]", filter_type: "text", data: []},
-            {column_number: 4, filter_default_label: "[<?=lang('Age');?>]", filter_type: "text", data: []},
+            {column_number: 2, filter_default_label: "[<?=lang('SSFL');?>]", filter_type: "text", data: []},
+            {column_number: 3, filter_default_label: "[<?=lang('Name');?>]", filter_type: "text", data: []},
+            {column_number: 4, filter_default_label: "[<?=lang('Gender');?>]", filter_type: "text", data: []},
+            {column_number: 5, filter_default_label: "[<?=lang('Date_Of_birth');?>]", filter_type: "text", data: []},
+            {column_number: 6, filter_default_label: "[<?=lang('Age');?>]", filter_type: "text", data: []},
             {
-                column_number: 5,
+                column_number: 7,
                 filter_default_label: "[<?=lang('Birth_Certificate_Pin');?>]",
                 filter_type: "text",
                 data: []
             },
-            {column_number: 6, filter_default_label: "[<?=lang('School');?>]", filter_type: "text", data: []},
-            {column_number: 7, filter_default_label: "[<?=lang('Year');?>]", filter_type: "text", data: []},
-            {column_number: 8, filter_default_label: "[<?=lang('Team_Name');?>]", filter_type: "text", data: []},
+            {column_number: 8, filter_default_label: "[<?=lang('School');?>]", filter_type: "text", data: []},
+            {column_number: 9, filter_default_label: "[<?=lang('SEA_Year');?>]", filter_type: "text", data: []},
+            {column_number: 10, filter_default_label: "[<?=lang('Division');?>]", filter_type: "text", data: []},
             {
-                column_number: 9,
+                column_number: 11,
                 filter_default_label: "[<?=lang('Is_Tagged_With_Team');?>]",
                 filter_type: "text",
                 data: []
-            },
-            {
-                column_number: 9, select_type: 'select2',
-                select_type_options: {
-                    placeholder: '<?=lang('Status');?>',
-                    width: '100%',
-                    style: 'width:100%;',
-                    minimumResultsForSearch: -1,
-                    allowClear: true
-                },
-                data: [{value: '1', label: '<?=lang('Yes');?>'}, {value: '0', label: '<?=lang('No');?>'}]
             }
         ], "footer");
     });
@@ -120,7 +136,7 @@
     <div class="box-content">
         <div class="row">
             <div class="col-lg-12">
-                <p class="introtext"><?= lang('list_results'); ?></p>
+<!--                <p class="introtext">--><?//= lang('list_results'); ?><!--</p>-->
 
                 <div class="table-responsive">
                     <table id="UsrTable" cellpadding="0" cellspacing="0" border="0"
@@ -130,21 +146,23 @@
                             <th style="min-width:30px; width: 30px; text-align: center;">
                                 <input class="checkbox checkth" type="checkbox" name="check"/>
                             </th>
+                            <th class="col-xs-1"><?php echo lang('Photo'); ?></th>
+                            <th class="col-xs-2"><?php echo lang('SSFL_No'); ?></th>
                             <th class="col-xs-2"><?php echo lang('Name'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Gender'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Date_Of_birth'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Age'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Birth_Certificate_Pin'); ?></th>
                             <th class="col-xs-2"><?php echo lang('School'); ?></th>
-                            <th class="col-xs-1"><?php echo lang('Year'); ?></th>
-                            <th class="col-xs-2"><?php echo lang('Team_Name'); ?></th>
+                            <th class="col-xs-1"><?php echo lang('SEA_Year'); ?></th>
+                            <th class="col-xs-1"><?php echo lang('Division'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Is_Tagged_With_Team'); ?></th>
                             <th style="width:80px;"><?php echo lang('actions'); ?></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td colspan="9" class="dataTables_empty"><?= lang('loading_data_from_server') ?></td>
+                            <td colspan="10" class="dataTables_empty"><?= lang('loading_data_from_server') ?></td>
                         </tr>
                         </tbody>
                         <tfoot class="dtFilter">
@@ -152,6 +170,8 @@
                             <th style="min-width:30px; width: 30px; text-align: center;">
                                 <input class="checkbox checkft" type="checkbox" name="check"/>
                             </th>
+                            <th></th>
+                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>

@@ -223,7 +223,7 @@
                                         <li class="mm_calendar">
                                             <a class="submenu" href="<?= admin_url('calendar'); ?>">
                                                 <i class="fa fa-calendar"></i><span
-                                                        class="text"> <?= lang('Calender'); ?></span>
+                                                        class="text"> <?= lang('Event_Calender'); ?></span>
                                             </a>
                                         </li>
                                         <?php if ($Owner) { ?>
@@ -440,9 +440,9 @@
                                             </li>
                                         <?php } ?>
 
-                                            <li class="calendar_index">
+                                            <li class="mm_calendar">
                                                 <a href="<?= admin_url('calendar') ?>" class="btn-block link">
-                                                    <i class="fa fa-calendar"></i> <?= lang('calender') ?>
+                                                    <i class="fa fa-calendar"></i> <?= lang('Event_Calender') ?>
                                                 </a>
                                             </li>
                                         <?php if ($GP['reports-quantity_alerts'] || $GP['reports-expiry_alerts'] || $GP['reports-products'] || $GP['reports-monthly_sales'] || $GP['reports-sales'] || $GP['reports-payments'] || $GP['reports-purchases'] || $GP['reports-customers'] || $GP['reports-suppliers'] || $GP['reports-expenses'] || $GP['reports-order_transaction_report']) { ?>

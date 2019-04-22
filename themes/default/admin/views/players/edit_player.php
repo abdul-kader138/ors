@@ -15,9 +15,28 @@
                     <div class="col-md-12">
                         <div class="col-md-5">
                             <div class="form-group">
+                                <?= lang("Zone", "Zone").'<b>*</b>'; ?>
+                                <?php
+                                $zones = array('East' => lang('East'), 'North' => lang('North'), 'South' => lang('South'), 'Central' => lang('Central'), 'Tobago' => lang('Tobago'));
+                                echo form_dropdown('zone', $zones, (isset($_POST['zone']) ? $_POST['zone'] : $player->zone), 'id="zone" class="form-control select" style="width:100%;" ');
+                                ?>
+                            </div>
+
+                            <div class="form-group">
+                                <?= lang("School", "School"); ?>
+                                <?php
+                                $wh[''] = lang('select') . ' ' . lang('School');
+                                foreach ($schools as $school) {
+                                    $wh[$school->id] = $school->name;
+                                }
+                                echo form_dropdown('school_id', $wh, (isset($_POST['school_id']) ? $_POST['school_id'] : $player->school_id), 'id="school_id" class="form-control select" style="width:100%;" ');
+                                ?>
+                            </div>
+
+                            <div class="form-group">
                                 <?php echo lang('First_Name', 'First_Name').'<b> *</b>'; ?>
                                 <div class="controls">
-                                    <?php echo form_input('first_name', (isset($_POST['first_name']) ? $_POST['first_name'] : $player->last_name), 'class="form-control" id="first_name" required="required" pattern=".{3,10}"'); ?>
+                                    <?php echo form_input('first_name', (isset($_POST['first_name']) ? $_POST['first_name'] : $player->first_name), 'class="form-control" id="first_name" required="required" pattern=".{3,10}"'); ?>
                                 </div>
                             </div>
 
@@ -40,7 +59,29 @@
                             <div class="form-group">
                                 <?php echo lang('phone', 'phone'); ?>
                                 <div class="controls">
-                                    <?php echo form_input('phone', (isset($_POST['phone']) ? $_POST['phone'] : $user->phone), 'class="form-control" id="phone" required="required"'); ?>
+                                    <?php echo form_input('phone', (isset($_POST['phone']) ? $_POST['phone'] : $user->phone), 'class="form-control" id="phone"'); ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <?php echo lang('Last_Attend_school', 'Last_Attend_school').'<b>*</b>'; ?>
+                                <div class="controls">
+                                    <?php echo form_input('last_attend_school', (isset($_POST['last_attend_school']) ? $_POST['last_attend_school'] : $player->last_attend_school), 'class="form-control" required="required" id="last_attend_school"'); ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <?= lang('SEA_Year', 'SEA_Year').'<b>*</b>'; ?>
+                                <?php
+                                $opt = array("2012" => lang('2012'), "2013" => lang('2013'), "2014" => lang('2014'), "2015" => lang('2015'), "2016" => lang('2016'), "2017" => lang('2017'), "2018" => lang('2018'), "2019" => lang('2019'), "2020" => lang('2020'), "2021" => lang('2021'), "2022" => lang('2022'), "2023" => lang('2023'), "2024" => lang('2024'), "2025" => lang('2025'), "2026" => lang('2026'), "2027" => lang('2027'), "2028" => lang('2028'));
+                                echo form_dropdown('sea_year', $opt, (isset($_POST['sea_year']) ? $_POST['sea_year'] : $player->sea_year), 'id="sea_year" required="required" class="form-control select" style="width:100%;"');
+                                ?>
+                            </div>
+
+                            <div class="form-group">
+                                <?php echo lang('SEA_Number', 'SEA_Number'); ?>
+                                <div class="controls">
+                                    <?php echo form_input('sea_number', (isset($_POST['sea_number']) ? $_POST['sea_number'] : $player->sea_number), 'class="form-control" id="sea_number"'); ?>
                                 </div>
                             </div>
 
@@ -48,7 +89,17 @@
                         <div class="col-md-5 col-md-offset-1">
 
                             <div class="clearfix"></div>
+
                             <div>
+                                <div class="form-group">
+                                    <?= lang("Division", "Division").'<b>*</b>'; ?>
+                                    <?php
+                                    foreach ($categories as $category) {
+                                        $gp[$category->id] = $category->name;
+                                    }
+                                    echo form_dropdown('division', $gp, (isset($_POST['division']) ? $_POST['division'] : $player->division), 'id="division" class="form-control select" style="width:100%;" ');
+                                    ?>
+                                </div>
                                 <div class="form-group">
                                     <?php echo lang('Date_Of_Birth', 'Date_Of_Birth'); ?>
                                     <div class="controls">
@@ -70,18 +121,48 @@
                                     ?>
                                 </div>
                                 <div class="form-group">
-                                    <?= lang("School", "School"); ?>
+                                    <?php echo lang('Jersey_Number', 'Jersey_Number'); ?>
+                                    <div class="controls">
+                                        <?php echo form_input('jersey_number', (isset($_POST['jersey_number']) ? $_POST['jersey_number'] : $player->jersey_number), 'class="form-control" id="jersey_number"'); ?>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <?= lang('Enrolment_Year_At_Present_School', 'Enrolment_Year_At_Present_School').'<b>*</b>'; ?>
                                     <?php
-                                    $wh[''] = lang('select') . ' ' . lang('School');
-                                    foreach ($schools as $school) {
-                                        $wh[$school->id] = $school->name;
-                                    }
-                                    echo form_dropdown('school_id', $wh, (isset($_POST['school_id']) ? $_POST['school_id'] : $player->school_id), 'id="school_id" class="form-control select" style="width:100%;" ');
+                                    $opt = array("2012" => lang('2012'), "2013" => lang('2013'), "2014" => lang('2014'), "2015" => lang('2015'), "2016" => lang('2016'), "2017" => lang('2017'), "2018" => lang('2018'), "2019" => lang('2019'), "2020" => lang('2020'), "2021" => lang('2021'), "2022" => lang('2022'), "2023" => lang('2023'), "2024" => lang('2024'), "2025" => lang('2025'), "2026" => lang('2026'), "2027" => lang('2027'), "2028" => lang('2028'));
+                                    echo form_dropdown('pey', $opt, (isset($_POST['pey']) ? $_POST['pey'] : $player->pey), 'id="pey" required="required" class="form-control select" style="width:100%;"');
                                     ?>
                                 </div>
 
+                                <div class="form-group">
+                                    <?= lang("Present_Class", "Present_Class").'<b>*</b>'; ?>
+                                    <?php
+                                    $pc = array('Form 1' => lang('Form_1'), 'Form 2' => lang('Form_2'), 'Form 3' => lang('Form_3'), 'Form 4' => lang('Form_4'), 'Form 5' => lang('Form_5'), 'Upper 6' => lang('Upper_6'), 'Lower 6' => lang('Lower_6'));
+                                    echo form_dropdown('pc', $pc, (isset($_POST['pc']) ? $_POST['pc'] : $player->pc), 'id="pc" class="form-control select" style="width:100%;" ');
+                                    ?>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <?= lang('Transfer_Or_Repeat_Student?', 'Transfer_Or_Repeat_Student?').'<b>*</b>'; ?>
+                                    <?php
+                                    $tr = array('Yes' => lang('Yes'), 'No' => lang('No'));
+                                    echo form_dropdown('trs', $tr, (isset($_POST['trs']) ? $_POST['trs'] : $player->trs), 'id="trs" required="required" class="form-control select" style="width:100%;"');
+                                    ?>
+                                </div>
+
+
                             </div>
 
+                        </div>
+
+                        <div class="col-md-12">
+                                <div class="clearfix"></div>
+                                <div class="form-group">
+                                    <?= lang("Address", "Address") ?>
+                                    <?= form_textarea('address', (isset($_POST['address']) ? $_POST['address'] : $player->address), 'class="form-control" id="address"'); ?>
+                                </div>
                         </div>
                     </div>
                 </div>

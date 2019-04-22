@@ -943,15 +943,13 @@ class System_settings extends MY_Controller
     function getCategories()
     {
 
-        $print_barcode = anchor('admin/products/print_barcodes/?category=$1', '<i class="fa fa-print"></i>', 'title="'.lang('print_barcodes').'" class="tip"');
-
         $this->load->library('datatables');
         $this->datatables
-            ->select("{$this->db->dbprefix('categories')}.id as id, {$this->db->dbprefix('categories')}.image, {$this->db->dbprefix('categories')}.code, {$this->db->dbprefix('categories')}.name, {$this->db->dbprefix('categories')}.slug, c.name as parent", FALSE)
+            ->select("{$this->db->dbprefix('categories')}.id as id, {$this->db->dbprefix('categories')}.image, {$this->db->dbprefix('categories')}.code, {$this->db->dbprefix('categories')}.name", FALSE)
             ->from("categories")
             ->join("categories c", 'c.id=categories.parent_id', 'left')
             ->group_by('categories.id')
-            ->add_column("Actions", "<div class=\"text-center\">".$print_barcode." <a href='" . admin_url('system_settings/edit_category/$1') . "' data-toggle='modal' data-target='#myModal' class='tip' title='" . lang("edit_category") . "'><i class=\"fa fa-edit\"></i></a> <a href='#' class='tip po' title='<b>" . lang("delete_category") . "</b>' data-content=\"<p>" . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . admin_url('system_settings/delete_category/$1') . "'>" . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i></a></div>", "id");
+            ->add_column("Actions", "<div class=\"text-center\"><a href='" . admin_url('system_settings/edit_category/$1') . "' data-toggle='modal' data-target='#myModal' class='tip' title='" . lang("edit_category") . "'><i class=\"fa fa-edit\"></i></a> <a href='#' class='tip po' title='<b>" . lang("delete_category") . "</b>' data-content=\"<p>" . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . admin_url('system_settings/delete_category/$1') . "'>" . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i></a></div>", "id");
 
         echo $this->datatables->generate();
     }
@@ -962,7 +960,6 @@ class System_settings extends MY_Controller
         $this->load->helper('security');
         $this->form_validation->set_rules('code', lang("category_code"), 'trim|is_unique[categories.code]|required');
         $this->form_validation->set_rules('name', lang("name"), 'required|min_length[3]');
-        $this->form_validation->set_rules('slug', lang("slug"), 'required|is_unique[categories.slug]|alpha_dash');
         $this->form_validation->set_rules('userfile', lang("category_image"), 'xss_clean');
         $this->form_validation->set_rules('description', lang("description"), 'trim|required');
 
@@ -1050,10 +1047,6 @@ class System_settings extends MY_Controller
         $pr_details = $this->settings_model->getCategoryByID($id);
         if ($this->input->post('code') != $pr_details->code) {
             $this->form_validation->set_rules('code', lang("category_code"), 'required|is_unique[categories.code]');
-        }
-        $this->form_validation->set_rules('slug', lang("slug"), 'required|alpha_dash');
-        if ($this->input->post('slug') != $pr_details->slug) {
-            $this->form_validation->set_rules('slug', lang("slug"), 'required|alpha_dash|is_unique[categories.slug]');
         }
         $this->form_validation->set_rules('name', lang("category_name"), 'required|min_length[3]');
         $this->form_validation->set_rules('userfile', lang("category_image"), 'xss_clean');

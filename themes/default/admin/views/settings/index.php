@@ -204,22 +204,13 @@ $ps = array('0' => lang("disable"), '1' => lang("enable"));
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
-
-                            <div class="col-md-4">
+                             <div class="col-md-4">
                                 <div class="form-group">
                                     <?= lang('pdf_lib', 'pdf_lib'); ?>
                                     <?php $pdflibs = ['mpdf' => 'mPDF', 'dompdf' => 'Dompdf']; ?>
                                     <?= form_dropdown('pdf_lib', $pdflibs, $Settings->pdf_lib, 'class="form-control tip" id="pdf_lib" required="required"'); ?>
                                 </div>
                             </div>
-                            <?php if (SHOP) { ?>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <?= lang('apis_feature', 'apis'); ?>
-                                        <?= form_dropdown('apis', $ps, $Settings->apis, 'class="form-control tip" id="apis" required="required"'); ?>
-                                    </div>
-                                </div>
-                            <?php } ?>
                         </fieldset>
 
 

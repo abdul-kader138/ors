@@ -62,12 +62,13 @@ class Players extends MY_Controller
 
         $this->load->library('datatables');
         $this->datatables
-            ->select($this->db->dbprefix('players') . ".id as ids,concat(" . $this->db->dbprefix('users') . ".first_name,' ', " . $this->db->dbprefix('users') . ".last_name) as u_name, " . $this->db->dbprefix('players') . ".gender,  " . $this->db->dbprefix('players') . ".dob, floor(datediff(curdate()," . $this->db->dbprefix('players') . ".dob) / 365) as ages," . $this->db->dbprefix('players') . ".bcp, " . $this->db->dbprefix('warehouses') . ".name, " . $this->db->dbprefix('players') . ".year,  " . $this->db->dbprefix('players') . ".team_id," . $this->db->dbprefix('players') . ".is_tagged")
+            ->select($this->db->dbprefix('players') . ".id as ids," . $this->db->dbprefix('users') . ".avatar," . $this->db->dbprefix('players') . ".ssfl as ref,concat(" . $this->db->dbprefix('users') . ".first_name,' ', " . $this->db->dbprefix('users') . ".last_name) as u_name, " . $this->db->dbprefix('players') . ".gender,  " . $this->db->dbprefix('players') . ".dob, floor(datediff(curdate()," . $this->db->dbprefix('players') . ".dob) / 365) as ages," . $this->db->dbprefix('players') . ".bcp, " . $this->db->dbprefix('warehouses') . ".name, " . $this->db->dbprefix('players') . ".sea_year,  " . $this->db->dbprefix('categories') . ".name as names," . $this->db->dbprefix('players') . ".is_tagged")
             ->from("users");
         if ($user_id) {
             $this->datatables->where('users.id', $user_id);
         }
         $this->datatables->join('players', 'users.username=players.username', 'inner')
+            ->join('categories', 'players.division=categories.id', 'left')
             ->join('warehouses', 'players.school_id=warehouses.id', 'inner');
         $this->datatables->group_by('users.id');
 
@@ -100,6 +101,13 @@ class Players extends MY_Controller
         $this->form_validation->set_rules('dob', lang("dob"), 'trim|required');
         $this->form_validation->set_rules('bcp', lang("bcp"), 'trim|required');
         $this->form_validation->set_rules('gender', lang("gender"), 'trim|required');
+        $this->form_validation->set_rules('zone', lang("zone"), 'trim|required');
+        $this->form_validation->set_rules('division', lang("division"), 'trim|required');
+        $this->form_validation->set_rules('pey', lang("pey"), 'trim|required');
+        $this->form_validation->set_rules('pc', lang("pc"), 'trim|required');
+        $this->form_validation->set_rules('sea_year', lang("sea_year"), 'trim|required');
+        $this->form_validation->set_rules('trs', lang("trs"), 'trim|required');
+        $this->form_validation->set_rules('last_attend_school', lang("last_attend_school"), 'trim|required');
 
         if ($this->form_validation->run() == true) {
             $username = strtolower($this->input->post('username'));
@@ -117,8 +125,8 @@ class Players extends MY_Controller
                 'gender' => $this->input->post('gender'),
                 'group_id' => $this->input->post('group') ? $this->input->post('group') : '5',
                 'warehouse_id' => $this->input->post('school_id'),
-                'view_right' => $this->input->post('view_right'),
-                'edit_right' => $this->input->post('edit_right'),
+                'view_right' => 0,
+                'edit_right' => 0,
                 'username' => $username,
                 'password' => $password,
                 'email' => $email,
@@ -139,7 +147,17 @@ class Players extends MY_Controller
                 'username' => $username,
                 'is_tagged' => 0,
                 'created_date' => date('Y-m-d h:i:s'),
-                'created_by' => $this->session->userdata('user_id')
+                'created_by' => $this->session->userdata('user_id'),
+                'zone' => $this->input->post('zone'),
+                'division' => $this->input->post('division'),
+                'pey' => $this->input->post('pey'),
+                'pc' => $this->input->post('pc'),
+                'sea_year' => $this->input->post('sea_year'),
+                'trs' => $this->input->post('trs'),
+                'last_attend_school' => $this->input->post('last_attend_school'),
+                'address' => $this->input->post('address'),
+                'jersey_number' => $this->input->post('jersey_number'),
+                'sea_number' => $this->input->post('sea_number')
             );
 
         }
@@ -150,8 +168,8 @@ class Players extends MY_Controller
 
         } else {
             $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
-            $this->data['billers'] = $this->site->getAllCompanies('biller');
             $this->data['schools'] = $this->site->getAllWarehouses();
+            $this->data['categories'] = $this->site->getAllCategories();
             $bc = array(array('link' => admin_url('home'), 'page' => lang('home')), array('link' => admin_url('players'), 'page' => lang('Players')), array('link' => '#', 'page' => lang('Add_Player')));
             $meta = array('page_title' => lang('Players'), 'bc' => $bc);
             $this->page_construct('players/add_player', $meta, $this->data);
@@ -185,6 +203,14 @@ class Players extends MY_Controller
         $this->form_validation->set_rules('year', lang("year"), 'trim|required');
         $this->form_validation->set_rules('gender', lang("gender"), 'trim|required');
         $this->form_validation->set_rules('school_id', lang("school_id"), 'trim|required');
+        $this->form_validation->set_rules('zone', lang("zone"), 'trim|required');
+        $this->form_validation->set_rules('division', lang("division"), 'trim|required');
+        $this->form_validation->set_rules('pey', lang("pey"), 'trim|required');
+        $this->form_validation->set_rules('pc', lang("pc"), 'trim|required');
+        $this->form_validation->set_rules('sea_year', lang("sea_year"), 'trim|required');
+        $this->form_validation->set_rules('trs', lang("trs"), 'trim|required');
+        $this->form_validation->set_rules('last_attend_school', lang("last_attend_school"), 'trim|required');
+
 
         if ($this->form_validation->run() == true) {
             $user_data = array(
@@ -203,16 +229,27 @@ class Players extends MY_Controller
                 'gender' => $this->input->post('gender'),
                 'year' => $this->input->post('year'),
                 'updated_date' => date('Y-m-d h:i:s'),
-                'updated_by' => $this->session->userdata('user_id')
+                'updated_by' => $this->session->userdata('user_id'),
+                'zone' => $this->input->post('zone'),
+                'division' => $this->input->post('division'),
+                'pey' => $this->input->post('pey'),
+                'pc' => $this->input->post('pc'),
+                'sea_year' => $this->input->post('sea_year'),
+                'trs' => $this->input->post('trs'),
+                'last_attend_school' => $this->input->post('last_attend_school'),
+                'address' => $this->input->post('address'),
+                'jersey_number' => $this->input->post('jersey_number'),
+                'sea_number' => $this->input->post('sea_number')
             );
         }
-        if ($this->form_validation->run() == true && $this->players_model->updatePlayers($id, $players_data,$usr_details->id,$user_data)) {
+        if ($this->form_validation->run() == true && $this->players_model->updatePlayers($id, $players_data, $usr_details->id, $user_data)) {
             $this->session->set_flashdata('message', lang("Info_Updated_Successfully."));
             admin_redirect("players");
         } else {
             $this->data['player'] = $pr_details;
             $this->data['user'] = $usr_details;
             $this->data['schools'] = $this->site->getAllWarehouses();
+            $this->data['categories'] = $this->site->getAllCategories();
             $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
             $bc = array(array('link' => admin_url('home'), 'page' => lang('home')), array('link' => admin_url('players'), 'page' => lang('Players')), array('link' => '#', 'page' => lang('Edit_Player')));
             $meta = array('page_title' => lang('Players'), 'bc' => $bc);
@@ -258,6 +295,7 @@ class Players extends MY_Controller
         $this->data['players'] = $pr_details;
         $this->data['user'] = $this->players_model->getUsersByID($pr_details->username);
         $this->data['warehouses'] = $this->players_model->getWarehouseByID($pr_details->school_id);
+        $this->data['category'] = $this->players_model->getCategoryByID($pr_details->division);
         $this->load->view($this->theme . 'players/modal_view', $this->data);
     }
 
@@ -267,8 +305,7 @@ class Players extends MY_Controller
         if (!$this->Owner && !$this->Admin) {
             $get_permission = $this->permission_details[0];
             if ((!$get_permission['players-delete'])) {
-                $this->session->set_flashdata('warning', lang('access_denied'));
-                die("<script type='text/javascript'>setTimeout(function(){ window.top.location.href = '" . (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : site_url('welcome')) . "'; }, 10);</script>");
+                $this->sma->send_json(array('error' => 1, 'msg' => lang("access_denied")));
                 redirect($_SERVER["HTTP_REFERER"]);
             }
         }
@@ -282,7 +319,7 @@ class Players extends MY_Controller
 
         $pr_details = $this->players_model->getPlayersByID($id);
         $usr_details = $this->players_model->getUsersByID($pr_details->username);
-        if ($this->players_model->deletePlayer($id,$usr_details->id)) {
+        if ($this->players_model->deletePlayer($id, $usr_details->id)) {
             $this->sma->send_json(array('error' => 0, 'msg' => lang("Info_Deleted_Successfully")));
         } else {
             $this->sma->send_json(array('error' => 1, 'msg' => lang("Operation_Not_Success")));

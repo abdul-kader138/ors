@@ -21,10 +21,6 @@
                 <?= form_input('name', set_value('name', $category->name), 'class="form-control gen_slug" id="name" required="required"'); ?>
             </div>
 
-            <div class="form-group all">
-                <?= lang('slug', 'slug'); ?>
-                <?= form_input('slug', set_value('slug', $category->slug), 'class="form-control tip" id="slug" required="required"'); ?>
-            </div>
 
             <div class="form-group all">
                 <?= lang('description', 'description'); ?>
@@ -34,16 +30,6 @@
             <div class="form-group">
                 <?= lang("category_image", "image") ?>
                 <input id="image" type="file" data-browse-label="<?= lang('browse'); ?>" name="userfile" data-show-upload="false" data-show-preview="false" class="form-control file">
-            </div>
-            <div class="form-group">
-                <?= lang("parent_category", "parent") ?>
-                <?php
-                $cat[''] = lang('select').' '.lang('parent_category');
-                foreach ($categories as $pcat) {
-                    $cat[$pcat->id] = $pcat->name;
-                }
-                echo form_dropdown('parent', $cat, (isset($_POST['parent']) ? $_POST['parent'] : $category->parent_id), 'class="form-control select" id="parent" style="width:100%"')
-                ?>
             </div>
 
         </div>
