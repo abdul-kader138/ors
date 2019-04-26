@@ -35,10 +35,12 @@ class MY_Controller extends CI_Controller {
             $this->data['default_currency'] = $this->default_currency;
             $this->Owner = $this->sma->in_group('owner') ? TRUE : NULL;
             $this->data['Owner'] = $this->Owner;
-            $this->Customer = $this->sma->in_group('customer') ? TRUE : NULL;
-            $this->data['Customer'] = $this->Customer;
-            $this->Supplier = $this->sma->in_group('supplier') ? TRUE : NULL;
-            $this->data['Supplier'] = $this->Supplier;
+            $this->Teams = $this->sma->in_group('teams') ? TRUE : NULL;
+            $this->data['Teams'] = $this->Teams;
+            $this->Players = $this->sma->in_group('players') ? TRUE : NULL;
+            $this->data['Players'] = $this->Players;
+            $this->Coaches = $this->sma->in_group('coaches') ? TRUE : NULL;
+            $this->data['Coaches'] = $this->Coaches;
             $this->Admin = $this->sma->in_group('admin') ? TRUE : NULL;
             $this->data['Admin'] = $this->Admin;
 
@@ -107,8 +109,8 @@ class MY_Controller extends CI_Controller {
         $meta['ip_address'] = $this->input->ip_address();
         $meta['Owner'] = $data['Owner'];
         $meta['Admin'] = $data['Admin'];
-        $meta['Supplier'] = $data['Supplier'];
-        $meta['Customer'] = $data['Customer'];
+        $meta['Players'] = $data['Players'];
+        $meta['Coaches'] = $data['Coaches'];
         $meta['Settings'] = $data['Settings'];
         $meta['dateFormats'] = $data['dateFormats'];
         $meta['assets'] = $data['assets'];

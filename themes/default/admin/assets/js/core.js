@@ -1869,6 +1869,31 @@ $('body').on('click', '.players_link td:not(:first-child, :nth-child(2), :last-c
 });
 
 
+$('body').on('click', '.coaches_link td:not(:first-child, :nth-child(2), :last-child)', function() {
+    $('#myModal').modal({
+        remote:
+        site.base_url +
+        'coaches/modal_view/' +
+        $(this)
+            .parent('.coaches_link')
+            .attr('id'),
+    });
+    $('#myModal').modal('show');
+});
+
+
+$('body').on('click', '.teams_link td:not(:first-child, :nth-child(2), :last-child)', function() {
+    $('#myModal').modal({
+        remote:
+        site.base_url +
+        'teams/modal_view/' +
+        $(this)
+            .parent('.teams_link')
+            .attr('id'),
+    });
+    $('#myModal').modal('show');
+});
+
 $('.sortable_table tbody').sortable({
     containerSelector: 'tr',
 });

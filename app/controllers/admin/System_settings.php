@@ -727,6 +727,16 @@ class System_settings extends MY_Controller
                 'players-edit' => $this->input->post('players-edit'),
                 'players-add' => $this->input->post('players-add'),
                 'players-delete' => $this->input->post('players-delete'),
+
+                'coaches-index' => $this->input->post('coaches-index'),
+                'coaches-edit' => $this->input->post('coaches-edit'),
+                'coaches-add' => $this->input->post('coaches-add'),
+                'coaches-delete' => $this->input->post('coaches-delete'),
+
+                'teams-index' => $this->input->post('teams-index'),
+                'teams-edit' => $this->input->post('teams-edit'),
+                'teams-add' => $this->input->post('teams-add'),
+                'teams-delete' => $this->input->post('teams-delete')
             );
 
             if (POS) {

@@ -54,7 +54,14 @@
                                 echo form_dropdown('gender', $ge, (isset($_POST['gender']) ? $_POST['gender'] : $player->gender), 'class="tip form-control" id="gender" data-placeholder="' . lang("select") . ' ' . lang("gender") . '" required="required"');
                                 ?>
                             </div>
-
+                            <div class="form-group">
+                                <?php echo lang('email', 'email'); ?>
+                                <div class="controls">
+                                    <?php
+                                    $atr=array('name'=>'email', 'id'=>'email','type'=>'email','class'=>'form-control');
+                                    echo form_input($atr, (isset($_POST['email']) ? $_POST['email'] : $user->email)); ?>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <?php echo lang('phone', 'phone'); ?>

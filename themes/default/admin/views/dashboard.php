@@ -45,13 +45,14 @@ function row_status($x)
         </div>
         <div class="col-sm-3">
             <div class="small-box padding1010 bpurple">
-                <h2 class="bold" style="color: white"><?= lang('Total_Coach') ?></h2>
+                <h2 class="bold" style="color: white"><?= lang('Total_Coaches') ?></h2>
                 <i class="icon fa fa-star"></i>
 
                 <h1 class="bold">&nbsp;&nbsp;</h1>
 
                 <p class="bold">
-                <h1 style="text-align: center;color: white;">0</h1></p>
+                <h1 style="text-align: center;color: white;"><?= $total_coaches->total ? $total_coaches->total:0 ?></h1></p>
+
             </div>
         </div>
         <div class="col-sm-3">
@@ -62,7 +63,7 @@ function row_status($x)
                 <h1 class="bold">&nbsp;&nbsp;</h1>
 
                 <p class="bold">
-                <h1 style="text-align: center;color: white;">0</h1></p>
+                <h1 style="text-align: center;color: white;"><?= $total_teams->total ? $total_teams->total:0 ?></h1></p>
             </div>
 
         </div>
@@ -83,7 +84,7 @@ function row_status($x)
                             <?php if ($Owner || $Admin || $GP['users-index']) { ?>
                                 <li class=""><a href="#sales"><?= lang('Users') ?></a></li>
                             <?php }
-                            if ($Owner || $Admin || $GP['coach-index']) { ?>
+                            if ($Owner || $Admin || $GP['coaches-index']) { ?>
                                 <li class=""><a href="#coaches"><?= lang('Coaches') ?></a></li>
                             <?php }
                             if ($Owner || $Admin || $GP['players-index']) { ?>
@@ -142,7 +143,7 @@ function row_status($x)
                                 </div>
 
                             <?php }
-                            if ($Owner || $Admin || $GP['coach-index']) { ?>
+                            if ($Owner || $Admin || $GP['coaches-index']) { ?>
 
                                 <div id="coaches" class="tab-pane fade">
                                     <div class="row">
@@ -157,20 +158,20 @@ function row_status($x)
                                                         <th><?= $this->lang->line("Full_Name"); ?></th>
                                                         <th><?= $this->lang->line("User_Name"); ?></th>
                                                         <th><?= $this->lang->line("Gender"); ?></th>
-                                                        <th><?= $this->lang->line("Email"); ?></th>
-                                                        <th><?= $this->lang->line("Phone"); ?></th>
+                                                        <th><?= $this->lang->line("School"); ?></th>
+                                                        <th><?= $this->lang->line("Zone"); ?></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <?php if (!empty($coachs)) {
+                                                    <?php if (!empty($coaches)) {
                                                         $r = 1;
                                                         foreach ($coaches as $coach) {
                                                             echo '<tr><td>' . $r . '</td>
                                                             <td>' . $coach->first_name . ' ' . $coach->last_name . '</td>
                                                             <td>' . $coach->username . '</td>
                                                             <td>' . $coach->gender . '</td>
-                                                            <td>' . $coach->email . '</td>
-                                                            <td>' . $coach->phone . '</td>
+                                                            <td>' . $coach->wname . '</td>
+                                                            <td>' . $coach->zone . '</td>
                                                     </tr>';
                                                             $r++;
                                                         }
@@ -234,7 +235,7 @@ function row_status($x)
                                 </div>
 
                             <?php }
-                            if ($Owner || $Admin || $GP['transfers-index']) { ?>
+                            if ($Owner || $Admin || $GP['teams-index']) { ?>
 
                                 <div id="teams" class="tab-pane fade">
                                     <div class="row">
@@ -248,9 +249,9 @@ function row_status($x)
                                                         <th style="width:30px !important;">#</th>
                                                         <th><?= $this->lang->line("Full_Name"); ?></th>
                                                         <th><?= $this->lang->line("User_Name"); ?></th>
-                                                        <th><?= $this->lang->line("Gender"); ?></th>
-                                                        <th><?= $this->lang->line("Email"); ?></th>
-                                                        <th><?= $this->lang->line("Phone"); ?></th>
+                                                        <th><?= $this->lang->line("Division"); ?></th>
+                                                        <th><?= $this->lang->line("School"); ?></th>
+                                                        <th><?= $this->lang->line("Zone"); ?></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -258,11 +259,11 @@ function row_status($x)
                                                         $r = 1;
                                                         foreach ($teams as $team) {
                                                             echo '<tr><td>' . $r . '</td>
-                                                            <td>' . $team->first_name . ' ' . $team->last_name . '</td>
+                                                            <td>' . $team->name.'</td>
                                                             <td>' . $team->username . '</td>
-                                                            <td>' . $team->gender . '</td>
-                                                            <td>' . $team->email . '</td>
-                                                            <td>' . $team->phone . '</td>
+                                                            <td>' . $team->cname . '</td>
+                                                            <td>' . $team->wname . '</td>
+                                                            <td>' . $team->zone . '</td>
                                             </tr>';
                                                             $r++;
                                                         }

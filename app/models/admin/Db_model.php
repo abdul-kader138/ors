@@ -344,7 +344,11 @@ class Db_model extends CI_Model
     //abdul Kader
     public function getTotalUsers()
     {
+
         $this->db->select('count(id) as total', FALSE);
+        if (!$this->Owner && !$this->Admin) {
+            $this->db->where('users.warehouse_id', $this->session->userdata('warehouse_id'));
+        }
         $q = $this->db->get('users');
         if ($q->num_rows() > 0) {
             return $q->row();
@@ -355,7 +359,11 @@ class Db_model extends CI_Model
 
     public function getTotalPlayers()
     {
+
         $this->db->select('count(id) as total', FALSE);
+        if (!$this->Owner && !$this->Admin) {
+            $this->db->where('players.school_id', $this->session->userdata('warehouse_id'));
+        }
         $q = $this->db->get('players');
         if ($q->num_rows() > 0) {
             return $q->row();
@@ -365,14 +373,15 @@ class Db_model extends CI_Model
 
     public function getLatestUsers()
     {
-//        if ($this->Settings->restrict_user && !$this->Owner && !$this->Admin) {
-//            $this->db->where('created_by', $this->session->userdata('user_id'));
-//        }
+
         $this->db->select('*')
             ->from('users')
 //            ->join('companies', 'sales.customer_id = companies.id', 'left')
             ->limit(5);
         $this->db->order_by('users.id', 'desc');
+        if (!$this->Owner && !$this->Admin) {
+            $this->db->where('users.warehouse_id', $this->session->userdata('warehouse_id'));
+        }
         $q = $this->db->get();
         if ($q->num_rows() > 0) {
             foreach (($q->result()) as $row) {
@@ -385,21 +394,97 @@ class Db_model extends CI_Model
 
     public function getLatestPlayers()
     {
-//        if ($this->Settings->restrict_user && !$this->Owner && !$this->Admin) {
-//            $this->db->where('created_by', $this->session->userdata('user_id'));
-//        }
 
         $warehouse_id = null;
         if (!$this->Owner || !$this->Admin) {
-            $user = $this->site->getUser();
-            $warehouse_id = $user->warehouse_id;
+            $warehouse_id = $this->session->userdata('warehouse_id');
         }
         $this->db->select('players.*,warehouses.name as wname')
             ->from('players')
             ->join('users', 'users.username = players.username', 'inner')
             ->join('warehouses', 'warehouses.id = players.school_id', 'inner')
             ->limit(5);
-        if ($warehouse_id) $this->db->where('warehouse_id', $warehouse_id);
+        if ($warehouse_id) $this->db->where('users.warehouse_id', $warehouse_id);
+        $this->db->order_by('users.id', 'desc');
+        $q = $this->db->get();
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+
+    }
+
+    public function getTotalCoaches()
+    {
+
+        $this->db->select('count(id) as total', FALSE);
+        if (!$this->Owner && !$this->Admin) {
+            $this->db->where('coaches.school_id', $this->session->userdata('warehouse_id'));
+        }
+        $q = $this->db->get('coaches');
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
+        return FALSE;
+    }
+
+
+    public function getLatestCoaches()
+    {
+
+        $warehouse_id = null;
+        if (!$this->Owner || !$this->Admin) {
+            $warehouse_id = $this->session->userdata('warehouse_id');
+        }
+        $this->db->select('coaches.*,warehouses.name as wname')
+            ->from('coaches')
+            ->join('users', 'users.username = coaches.username', 'inner')
+            ->join('warehouses', 'warehouses.id = coaches.school_id', 'inner')
+            ->limit(5);
+        if ($warehouse_id) $this->db->where('users.warehouse_id', $warehouse_id);
+        $this->db->order_by('users.id', 'desc');
+        $q = $this->db->get();
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+
+    }
+
+
+    public function getTotalTeams()
+    {
+
+        $this->db->select('count(id) as total', FALSE);
+        if (!$this->Owner && !$this->Admin) {
+            $this->db->where('teams.school_id', $this->session->userdata('warehouse_id'));
+        }
+        $q = $this->db->get('teams');
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
+        return FALSE;
+    }
+
+
+    public function getLatestTeams()
+    {
+
+        $warehouse_id = null;
+        if (!$this->Owner || !$this->Admin) {
+            $warehouse_id = $this->session->userdata('warehouse_id');
+        }
+        $this->db->select('teams.*,warehouses.name as wname,categories.name as cname')
+            ->from('teams')
+            ->join('users', 'users.username = teams.username', 'inner')
+            ->join('warehouses', 'warehouses.id = teams.school_id', 'inner')
+            ->join('categories', 'categories.id = teams.division', 'inner')
+            ->limit(5);
+        if ($warehouse_id) $this->db->where('users.warehouse_id', $warehouse_id);
         $this->db->order_by('users.id', 'desc');
         $q = $this->db->get();
         if ($q->num_rows() > 0) {

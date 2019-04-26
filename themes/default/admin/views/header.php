@@ -172,7 +172,7 @@
                                         <li class="mm_auth mm_customers mm_suppliers mm_billers">
                                             <a class="dropmenu" href="#">
                                                 <i class="fa fa-users"></i>
-                                                <span class="text"> <?= lang('people'); ?> </span>
+                                                <span class="text"> <?= lang('Users'); ?> </span>
                                                 <span class="chevron closed"></span>
                                             </a>
                                             <ul>
@@ -191,6 +191,30 @@
                                                 </li>
                                             </ul>
                                         </li>
+                                        <li class="mm_teams">
+                                            <a class="dropmenu" href="#">
+                                                <i class="fa fa-circle"></i>
+                                                <span class="text"> <?= lang('Teams'); ?> </span>
+                                                <span class="chevron closed"></span>
+                                            </a>
+                                            <ul>
+                                                <li id="teams_index">
+                                                    <a class="submenu"
+                                                       href="<?= admin_url('teams'); ?>">
+                                                        <i class="fa fa-users"></i><span
+                                                                class="text"> <?= lang('List_Teams'); ?></span>
+                                                    </a>
+                                                </li>
+                                                <li id="teams_add">
+                                                    <a class="submenu"
+                                                       href="<?= admin_url('teams/add'); ?>">
+                                                        <i class="fa fa-plus-circle"></i><span
+                                                                class="text"> <?= lang('Add_Team'); ?></span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
                                         <li class="mm_players">
                                             <a class="dropmenu" href="#">
                                                 <i class="fa fa-user-md"></i>
@@ -210,6 +234,30 @@
                                                        href="<?= admin_url('players/add'); ?>">
                                                         <i class="fa fa-user-plus"></i><span
                                                                 class="text"> <?= lang('Add_Player'); ?></span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="mm_coaches">
+                                            <a class="dropmenu" href="#">
+                                                <i class="fa fa-user-md"></i>
+                                                <span class="text"> <?= lang('Coaches'); ?> </span>
+                                                <span class="chevron closed"></span>
+                                            </a>
+                                            <ul>
+                                                <li id="coaches_index">
+                                                    <a class="submenu"
+                                                       href="<?= admin_url('coaches'); ?>">
+                                                        <i class="fa fa-users"></i><span
+                                                                class="text"> <?= lang('List_Coaches'); ?></span>
+                                                    </a>
+                                                </li>
+                                                <li id="coaches_add">
+                                                    <a class="submenu"
+                                                       href="<?= admin_url('coaches/add'); ?>">
+                                                        <i class="fa fa-user-plus"></i><span
+                                                                class="text"> <?= lang('Add_Coach'); ?></span>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -407,6 +455,44 @@
                                         </li>
                                         <?php
                                     } else { // not owner and not admin ?>
+                                            <li class="mm_calendar">
+                                                <a href="<?= admin_url('calendar') ?>" class="btn-block link">
+                                                    <i class="fa fa-calendar"></i> <?= lang('Event_Calender') ?>
+                                                </a>
+                                            </li>
+
+                                        <?php if ($GP['teams-index'] || $GP['teams-add']) { ?>
+                                            <li class="mm_teams">
+                                                <a class="dropmenu" href="#">
+                                                    <i class="fa fa-circle"></i>
+                                                    <span class="text"> <?= lang('Teams'); ?> </span>
+                                                    <span class="chevron closed"></span>
+                                                </a>
+                                                <ul>
+                                                    <?php if ($GP['teams-index']) { ?>
+                                                        <li id="teams_index">
+                                                            <a class="submenu"
+                                                               href="<?= admin_url('teams'); ?>">
+                                                                <i class="fa fa-users"></i><span
+                                                                        class="text"> <?= lang('List_Teams'); ?></span>
+                                                            </a>
+                                                        </li>
+
+                                                    <?php } ?>
+
+                                                    <?php if ($GP['teams-add']) { ?>
+                                                        <li id="teams_add">
+                                                            <a class="submenu"
+                                                               href="<?= admin_url('teams/add'); ?>">
+                                                                <i class="fa fa-plus-circle"></i><span
+                                                                        class="text"> <?= lang('Add_Team'); ?></span>
+                                                            </a>
+                                                        </li>
+
+                                                    <?php } ?>
+                                                </ul>
+                                            </li>
+                                        <?php } ?>
                                         <?php if ($GP['players-index'] || $GP['players-add']) { ?>
                                             <li class="mm_players">
                                                 <a class="dropmenu" href="#">
@@ -439,12 +525,40 @@
                                                 </ul>
                                             </li>
                                         <?php } ?>
-
-                                            <li class="mm_calendar">
-                                                <a href="<?= admin_url('calendar') ?>" class="btn-block link">
-                                                    <i class="fa fa-calendar"></i> <?= lang('Event_Calender') ?>
+                                        <?php if ($GP['coaches-index'] || $GP['coaches-add']) { ?>
+                                            <li class="mm_coaches">
+                                                <a class="dropmenu" href="#">
+                                                    <i class="fa fa-user-md"></i>
+                                                    <span class="text"> <?= lang('Coaches'); ?> </span>
+                                                    <span class="chevron closed"></span>
                                                 </a>
+                                                <ul>
+                                                    <?php if ($GP['coaches-index']) { ?>
+                                                        <li id="coaches_index">
+                                                            <a class="submenu"
+                                                               href="<?= admin_url('coaches'); ?>">
+                                                                <i class="fa fa-users"></i><span
+                                                                        class="text"> <?= lang('List_Coaches'); ?></span>
+                                                            </a>
+                                                        </li>
+
+                                                    <?php } ?>
+
+                                                    <?php if ($GP['coaches-add']) { ?>
+                                                        <li id="coaches_add">
+                                                            <a class="submenu"
+                                                               href="<?= admin_url('coaches/add'); ?>">
+                                                                <i class="fa fa-user-plus"></i><span
+                                                                        class="text"> <?= lang('Add_Coach'); ?></span>
+                                                            </a>
+                                                        </li>
+
+                                                    <?php } ?>
+                                                </ul>
                                             </li>
+                                        <?php } ?>
+
+
                                         <?php if ($GP['reports-quantity_alerts'] || $GP['reports-expiry_alerts'] || $GP['reports-products'] || $GP['reports-monthly_sales'] || $GP['reports-sales'] || $GP['reports-payments'] || $GP['reports-purchases'] || $GP['reports-customers'] || $GP['reports-suppliers'] || $GP['reports-expenses'] || $GP['reports-order_transaction_report']) { ?>
                                             <li class="mm_reports">
                                                 <a class="dropmenu" href="#">
