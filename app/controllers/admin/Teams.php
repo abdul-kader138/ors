@@ -42,8 +42,8 @@ class Teams extends MY_Controller
 
         $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
 
-        $bc = array(array('link' => base_url(), 'page' => lang('home')), array('link' => '#', 'page' => lang('Teams')));
-        $meta = array('page_title' => lang('Teams'), 'bc' => $bc);
+        $bc = array(array('link' => base_url(), 'page' => lang('home')), array('link' => '#', 'page' => lang('Team_Managers')));
+        $meta = array('page_title' => lang('Team_Managers'), 'bc' => $bc);
         $this->page_construct('teams/index', $meta, $this->data);
     }
 
@@ -148,8 +148,8 @@ class Teams extends MY_Controller
             $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
             $this->data['schools'] = $this->site->getAllWarehouses();
             $this->data['categories'] = $this->site->getAllCategories();
-            $bc = array(array('link' => admin_url('home'), 'page' => lang('home')), array('link' => admin_url('teams'), 'page' => lang('Teams')), array('link' => '#', 'page' => lang('Add_Team')));
-            $meta = array('page_title' => lang('Teames'), 'bc' => $bc);
+            $bc = array(array('link' => admin_url('home'), 'page' => lang('home')), array('link' => admin_url('teams'), 'page' => lang('Team_Managers')), array('link' => '#', 'page' => lang('Add_Team_Manager')));
+            $meta = array('page_title' => lang('Team_Managers'), 'bc' => $bc);
             $this->page_construct('teams/add_team', $meta, $this->data);
         }
     }
@@ -248,8 +248,8 @@ class Teams extends MY_Controller
             $this->data['schools'] = $this->site->getAllWarehouses();
             $this->data['categories'] = $this->site->getAllCategories();
             $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
-            $bc = array(array('link' => admin_url('home'), 'page' => lang('home')), array('link' => admin_url('teams'), 'page' => lang('Teams')), array('link' => '#', 'page' => lang('Edit_team')));
-            $meta = array('page_title' => lang('Teams'), 'bc' => $bc);
+            $bc = array(array('link' => admin_url('home'), 'page' => lang('home')), array('link' => admin_url('teams'), 'page' => lang('Team_Managers')), array('link' => '#', 'page' => lang('Edit_Team_Managers')));
+            $meta = array('page_title' => lang('Team_Managers'), 'bc' => $bc);
             $this->page_construct('teams/edit_team', $meta, $this->data);
         }
     }

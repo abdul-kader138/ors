@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <div class="box">
     <div class="box-header">
-        <h2 class="blue"><i class="fa-fw fa fa-users"></i><?= lang('Edit_Team'); ?></h2>
+        <h2 class="blue"><i class="fa-fw fa fa-users"></i><?= lang('Edit_Team_Manager'); ?></h2>
     </div>
     <div class="box-content">
         <!--        <div class="row">-->
@@ -86,7 +86,7 @@
                 </fieldset>
             </div>
             <div class="col-md-12">
-                <p><?php echo form_submit('edit_team', lang('Edit_Team'), 'class="btn btn-primary"'); ?></p>
+                <p><?php echo form_submit('edit_team_manager', lang('Edit_Team_Manager'), 'class="btn btn-primary"'); ?></p>
 
                 <?php echo form_close(); ?>
             </div>

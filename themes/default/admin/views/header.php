@@ -194,7 +194,7 @@
                                         <li class="mm_teams">
                                             <a class="dropmenu" href="#">
                                                 <i class="fa fa-circle"></i>
-                                                <span class="text"> <?= lang('Teams'); ?> </span>
+                                                <span class="text"> <?= lang('Team_Managers'); ?> </span>
                                                 <span class="chevron closed"></span>
                                             </a>
                                             <ul>
@@ -202,14 +202,14 @@
                                                     <a class="submenu"
                                                        href="<?= admin_url('teams'); ?>">
                                                         <i class="fa fa-users"></i><span
-                                                                class="text"> <?= lang('List_Teams'); ?></span>
+                                                                class="text"> <?= lang('List_Team_Manager'); ?></span>
                                                     </a>
                                                 </li>
                                                 <li id="teams_add">
                                                     <a class="submenu"
                                                        href="<?= admin_url('teams/add'); ?>">
                                                         <i class="fa fa-plus-circle"></i><span
-                                                                class="text"> <?= lang('Add_Team'); ?></span>
+                                                                class="text"> <?= lang('Add_Team_Manager'); ?></span>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -465,7 +465,7 @@
                                             <li class="mm_teams">
                                                 <a class="dropmenu" href="#">
                                                     <i class="fa fa-circle"></i>
-                                                    <span class="text"> <?= lang('Teams'); ?> </span>
+                                                    <span class="text"> <?= lang('Team_Managers'); ?> </span>
                                                     <span class="chevron closed"></span>
                                                 </a>
                                                 <ul>
@@ -474,7 +474,7 @@
                                                             <a class="submenu"
                                                                href="<?= admin_url('teams'); ?>">
                                                                 <i class="fa fa-users"></i><span
-                                                                        class="text"> <?= lang('List_Teams'); ?></span>
+                                                                        class="text"> <?= lang('List_Team_Managers'); ?></span>
                                                             </a>
                                                         </li>
 
@@ -485,7 +485,7 @@
                                                             <a class="submenu"
                                                                href="<?= admin_url('teams/add'); ?>">
                                                                 <i class="fa fa-plus-circle"></i><span
-                                                                        class="text"> <?= lang('Add_Team'); ?></span>
+                                                                        class="text"> <?= lang('Add_Team_Manager'); ?></span>
                                                             </a>
                                                         </li>
 

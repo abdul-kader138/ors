@@ -167,7 +167,7 @@
             </div>
             </fieldset>
             <div class="col-md-12">
-                <p><?php echo form_submit('add_player', lang('Add_Player'), 'class="btn btn-primary"'); ?></p>
+                <p><?php echo form_submit('add_coach', lang('Add_Coach'), 'class="btn btn-primary"'); ?></p>
 
                 <?php echo form_close(); ?>
             </div>
