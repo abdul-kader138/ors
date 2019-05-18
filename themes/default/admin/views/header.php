@@ -215,6 +215,23 @@
                                             </ul>
                                         </li>
 
+                                        <li class="mm_system_settings">
+                                            <a class="dropmenu" href="#">
+                                                <i class="fa fa-industry"></i>
+                                                <span class="text"> <?= lang('School'); ?> </span>
+                                                <span class="chevron closed"></span>
+                                            </a>
+                                            <ul>
+                                                <li id="system_settings_warehouses">
+                                                    <a href="<?= admin_url('system_settings/warehouses') ?>">
+                                                        <i class="fa fa-building-o"></i><span
+                                                                class="text"> <?= lang('School'); ?></span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+
                                         <li class="mm_players">
                                             <a class="dropmenu" href="#">
                                                 <i class="fa fa-user-md"></i>
@@ -299,12 +316,6 @@
                                                         <a href="<?= admin_url('system_settings/categories') ?>">
                                                             <i class="fa fa-folder-open"></i><span
                                                                     class="text"> <?= lang('categories'); ?></span>
-                                                        </a>
-                                                    </li>
-                                                    <li id="system_settings_warehouses">
-                                                        <a href="<?= admin_url('system_settings/warehouses') ?>">
-                                                            <i class="fa fa-building-o"></i><span
-                                                                    class="text"> <?= lang('School'); ?></span>
                                                         </a>
                                                     </li>
                                                     <li id="system_settings_email_templates">

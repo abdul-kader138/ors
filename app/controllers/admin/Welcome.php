@@ -31,11 +31,13 @@ class Welcome extends MY_Controller
         $this->data['users'] = $this->db_model->getLatestUsers();
         $this->data['players'] = $this->db_model->getLatestPlayers();
         $this->data['coaches'] = $this->db_model->getLatestCoaches();
-        $this->data['teams'] = $this->db_model->getLatestTeams();
+        $this->data['schools'] = $this->db_model->getLatestSchools();
         $this->data['total_users'] = $this->db_model->getTotalUsers();
         $this->data['total_players'] = $this->db_model->getTotalPlayers();
         $this->data['total_coaches'] = $this->db_model->getTotalCoaches();
-        $this->data['total_teams'] = $this->db_model->getTotalTeams();
+        $this->data['total_schools'] = $this->db_model->getTotalSchools();
+        $this->data['zone_male_history'] = $this->db_model->getZoneMaleHistory();
+        $this->data['zone_female_history'] = $this->db_model->getZoneFemaleHistory();
         $lmsdate = date('Y-m-d', strtotime('first day of last month')) . ' 00:00:00';
         $lmedate = date('Y-m-d', strtotime('last day of last month')) . ' 23:59:59';
         $bc = array(array('link' => '#', 'page' => lang('dashboard')));

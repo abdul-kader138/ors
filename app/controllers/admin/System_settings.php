@@ -1514,7 +1514,7 @@ class System_settings extends MY_Controller
 
         $this->load->library('datatables');
         $this->datatables
-            ->select("{$this->db->dbprefix('warehouses')}.id as id, map, code, {$this->db->dbprefix('warehouses')}.name as name,  phone, email, address")
+            ->select("{$this->db->dbprefix('warehouses')}.id as id, map, code, {$this->db->dbprefix('warehouses')}.name as name,  phone, email, address,principal,zonal_representative,home_ground")
             ->from("warehouses")
             ->add_column("Actions", "<div class=\"text-center\"><a href='" . admin_url('system_settings/edit_warehouse/$1') . "' class='tip' title='" . lang("edit_warehouse") . "' data-toggle='modal' data-target='#myModal'><i class=\"fa fa-edit\"></i></a> <a href='#' class='tip po' title='<b>" . lang("delete_warehouse") . "</b>' data-content=\"<p>" . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . admin_url('system_settings/delete_warehouse/$1') . "'>" . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i></a></div>", "id");
 
@@ -1574,6 +1574,10 @@ class System_settings extends MY_Controller
                 'name' => $this->input->post('name'),
                 'phone' => $this->input->post('phone'),
                 'email' => $this->input->post('email'),
+                'principal' => $this->input->post('principal'),
+                'gcp' => $this->input->post('gcp'),
+                'zonal_representative' => $this->input->post('zonal_representative'),
+                'home_ground' => $this->input->post('home_ground'),
                 'address' => $this->input->post('address'),
                 'price_group_id' => $this->input->post('price_group'),
                 'map' => $map,
@@ -1610,6 +1614,10 @@ class System_settings extends MY_Controller
                 'name' => $this->input->post('name'),
                 'phone' => $this->input->post('phone'),
                 'email' => $this->input->post('email'),
+                'principal' => $this->input->post('principal'),
+                'gcp' => $this->input->post('gcp'),
+                'zonal_representative' => $this->input->post('zonal_representative'),
+                'home_ground' => $this->input->post('home_ground'),
                 'address' => $this->input->post('address'),
                 'price_group_id' => $this->input->post('price_group'),
             );

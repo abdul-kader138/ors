@@ -17,7 +17,99 @@ function row_status($x)
     }
 }
 
+$m_central = 0;
+$m_east = 0;
+$m_north = 0;
+$m_south = 0;
+$m_tobago = 0;
+
+foreach ($zone_male_history as $zones) {
+    if ($zones->zone == 'Central') $m_central = (int)$zones->id;
+    if ($zones->zone == 'East') $m_east = (int)$zones->id;
+    if ($zones->zone == 'North') $m_north = (int)$zones->id;
+    if ($zones->zone == 'South') $m_south = (int)$zones->id;
+    if ($zones->zone == 'Tobago') $m_tobago = (int)$zones->id;
+}
+
+
+$f_central = 0;
+$f_east = 0;
+$f_north = 0;
+$f_south = 0;
+$f_tobago = 0;
+
+foreach ($zone_female_history as $zones_m) {
+    if ($zones_m->zone == 'Central') $f_central = (int)$zones_m->id;
+    if ($zones_m->zone == 'East') $f_east = (int)$zones_m->id;
+    if ($zones_m->zone == 'North') $f_north = (int)$zones_m->id;
+    if ($zones_m->zone == 'South') $f_south = (int)$zones_m->id;
+    if ($zones_m->zone == 'Tobago') $f_tobago = (int)$zones_m->id;
+}
 ?>
+<!--<script src="--><?//= $assets; ?><!--js/highcharts.js"></script>-->
+<!--<script src="--><?//= $assets; ?><!--js/exporting.js"></script>-->
+<!--<script src="--><?//= $assets; ?><!--js/hc/export-data.js"></script>-->
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script type="text/javascript">
+    $(function () {
+        Highcharts.chart('bschart', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Registration By Zone'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: [
+                    'Central',
+                    'East',
+                    'North',
+                    'South',
+                    'Tobago'
+
+                ],
+                crosshair: false
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ''
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Boys',
+                data: [<?php echo $m_central.",".$m_east.",".$m_north.",".$m_south.",".$m_tobago; ?>]
+
+            }, {
+                name: 'Girls',
+                data: [<?php echo $f_central.",".$f_east.",".$f_north.",".$f_south.",".$f_tobago; ?>]
+
+            }]
+        });
+    });
+
+</script>
+
 <div class="row" style="margin-bottom: 5px;">
     <div class="col-sm-12">
         <div class="col-sm-3">
@@ -40,7 +132,7 @@ function row_status($x)
                 <h1 class="bold">&nbsp;&nbsp;</h1>
 
                 <p class="bold">
-                <h1 style="text-align: center;color: white;"><?= $total_players->total ? $total_players->total:0 ?></h1></p>
+                <h1 style="text-align: center;color: white;"><?= $total_players->total ? $total_players->total : 0 ?></h1></p>
             </div>
         </div>
         <div class="col-sm-3">
@@ -51,24 +143,43 @@ function row_status($x)
                 <h1 class="bold">&nbsp;&nbsp;</h1>
 
                 <p class="bold">
-                <h1 style="text-align: center;color: white;"><?= $total_coaches->total ? $total_coaches->total:0 ?></h1></p>
+                <h1 style="text-align: center;color: white;"><?= $total_coaches->total ? $total_coaches->total : 0 ?></h1></p>
 
             </div>
         </div>
         <div class="col-sm-3">
             <div class="small-box padding1010 " style="background-color: #ffc582">
-                <h2 class="bold" style="color: white"><?= lang('Total_Team') ?></h2>
+                <h2 class="bold" style="color: white"><?= lang('Total_Schools') ?></h2>
                 <i class="icon fa fa-plus-circle"></i>
 
                 <h1 class="bold">&nbsp;&nbsp;</h1>
 
                 <p class="bold">
-                <h1 style="text-align: center;color: white;"><?= $total_teams->total ? $total_teams->total:0 ?></h1></p>
+                <h1 style="text-align: center;color: white;"><?= $total_schools->total ? $total_schools->total : 0 ?></h1></p>
             </div>
 
         </div>
     </div>
 
+</div>
+
+<div class="row" style="margin-bottom: 15px;">
+    <div class="col-sm-12">
+        <div class="box">
+            <div class="box-header">
+                <h2 class="blue"><i
+                            class="fa-fw fa fa-line-chart"></i><?= lang('Registration By Zone'); ?>
+                </h2>
+            </div>
+            <div class="box-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="bschart" style="width:100%; height:450px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="row" style="margin-bottom: 15px;">
     <div class="col-md-12">
@@ -91,7 +202,7 @@ function row_status($x)
                                 <li class=""><a href="#players"><?= lang('Players') ?></a></li>
                             <?php }
                             if ($Owner || $Admin || $GP['teams-index']) { ?>
-                                <li class=""><a href="#teams"><?= lang('Teams') ?></a></li>
+                                <li class=""><a href="#teams"><?= lang('Schools') ?></a></li>
                             <?php }
                             ?>
                         </ul>
@@ -247,23 +358,23 @@ function row_status($x)
                                                     <thead>
                                                     <tr>
                                                         <th style="width:30px !important;">#</th>
-                                                        <th><?= $this->lang->line("Full_Name"); ?></th>
-                                                        <th><?= $this->lang->line("User_Name"); ?></th>
-                                                        <th><?= $this->lang->line("Division"); ?></th>
-                                                        <th><?= $this->lang->line("School"); ?></th>
-                                                        <th><?= $this->lang->line("Zone"); ?></th>
+                                                        <th><?= $this->lang->line("Name"); ?></th>
+                                                        <th><?= $this->lang->line("Email"); ?></th>
+                                                        <th><?= $this->lang->line("Phone"); ?></th>
+                                                        <th><?= $this->lang->line("Principal"); ?></th>
+                                                        <th><?= $this->lang->line("Home_Ground"); ?></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <?php if (!empty($teams)) {
+                                                    <?php if (!empty($schools)) {
                                                         $r = 1;
-                                                        foreach ($teams as $team) {
+                                                        foreach ($schools as $school) {
                                                             echo '<tr><td>' . $r . '</td>
-                                                            <td>' . $team->name.'</td>
-                                                            <td>' . $team->username . '</td>
-                                                            <td>' . $team->cname . '</td>
-                                                            <td>' . $team->wname . '</td>
-                                                            <td>' . $team->zone . '</td>
+                                                            <td>' . $school->name . '</td>
+                                                            <td>' . $school->email . '</td>
+                                                            <td>' . $school->phone . '</td>
+                                                            <td>' . $school->principal . '</td>
+                                                            <td>' . $school->home_ground . '</td>
                                             </tr>';
                                                             $r++;
                                                         }

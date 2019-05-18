@@ -18,7 +18,7 @@
                 });
                 $.ajax({'dataType': 'json', 'type': 'POST', 'url': sSource, 'data': aoData, 'success': fnCallback});
             },
-            "aoColumns": [{"bSortable": false, "mRender": checkbox}, { "bSortable": false, "mRender": img_hl }, null, null, null, null, null, {"bSortable": false}]
+            "aoColumns": [{"bSortable": false, "mRender": checkbox}, { "bSortable": false, "mRender": img_hl },  null, null, null, null,null,null,null,null, {"bSortable": false}]
         });
     });
 </script>
@@ -68,18 +68,21 @@
                             <th style="min-width:30px; width: 30px; text-align: center;">
                                 <input class="checkbox checkth" type="checkbox" name="check"/>
                             </th>
-                            <th style="min-width:40px; width: 40px; text-align: center;"><?= lang("map"); ?></th>
+                            <th style="min-width:40px; width: 40px; text-align: center;"><?= lang("School_logo"); ?></th>
                             <th class="col-xs-1"><?= lang("code"); ?></th>
                             <th class="col-xs-2"><?= lang("name"); ?></th>
                             <th class="col-xs-2"><?= lang("phone"); ?></th>
                             <th class="col-xs-2"><?= lang("email"); ?></th>
                             <th class="col-xs-3"><?= lang("address"); ?></th>
+                            <th class="col-xs-3"><?= lang("Principal"); ?></th>
+                            <th class="col-xs-3"><?= lang("Zonal_Representative"); ?></th>
+                            <th class="col-xs-3"><?= lang("Home_Ground"); ?></th>
                             <th style="width:65px;"><?= lang("actions"); ?></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td colspan="8" class="dataTables_empty"><?= lang('loading_data_from_server') ?></td>
+                            <td colspan="11" class="dataTables_empty"><?= lang('loading_data_from_server') ?></td>
                         </tr>
 
                         </tbody>

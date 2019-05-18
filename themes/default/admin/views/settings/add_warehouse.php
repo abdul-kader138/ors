@@ -27,12 +27,33 @@
                 <label class="control-label" for="email"><?php echo $this->lang->line("email"); ?></label>
                 <?php echo form_input('email', '', 'class="form-control" id="email"'); ?>
             </div>
+
+            <div class="form-group">
+                <label class="control-label" for="Principal"><?php echo $this->lang->line("Principal_*"); ?></label>
+                <?php echo form_input('principal', '', 'class="form-control" id="principal" required="required"'); ?>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="General_Council_Representative"><?php echo $this->lang->line("General_Council_Representative_*"); ?></label>
+                <?php echo form_input('gcp', '', 'class="form-control" id="gcp" required="required"'); ?>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="Zonal_Representative"><?php echo $this->lang->line("Zonal_Representative_*"); ?></label>
+                <?php echo form_input('zonal_representative', '', 'class="form-control" id="zonal_representative" required="required"'); ?>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="Home_Ground"><?php echo $this->lang->line("Home_Ground"); ?></label>
+                <?php echo form_input('home_ground', '', 'class="form-control" id="home_ground" required="required"'); ?>
+            </div>
+
             <div class="form-group">
                 <label class="control-label" for="address"><?php echo $this->lang->line("address"); ?></label>
                 <?php echo form_textarea('address', '', 'class="form-control" id="address" required="required"'); ?>
             </div>
             <div class="form-group">
-                <?= lang("warehouse_map", "image") ?>
+                <?= lang("School_Logo", "image") ?>
                 <input id="image" type="file" data-browse-label="<?= lang('browse'); ?>" name="userfile" data-show-upload="false" data-show-preview="false"
                        class="form-control file">
             </div>

@@ -456,14 +456,14 @@ class Db_model extends CI_Model
     }
 
 
-    public function getTotalTeams()
+    public function getTotalSchools()
     {
 
         $this->db->select('count(id) as total', FALSE);
         if (!$this->Owner && !$this->Admin) {
-            $this->db->where('teams.school_id', $this->session->userdata('warehouse_id'));
+            $this->db->where('warehouses.id', $this->session->userdata('warehouse_id'));
         }
-        $q = $this->db->get('teams');
+        $q = $this->db->get('warehouses');
         if ($q->num_rows() > 0) {
             return $q->row();
         }
@@ -471,21 +471,19 @@ class Db_model extends CI_Model
     }
 
 
-    public function getLatestTeams()
+    public function getLatestSchools()
     {
 
         $warehouse_id = null;
         if (!$this->Owner || !$this->Admin) {
             $warehouse_id = $this->session->userdata('warehouse_id');
         }
-        $this->db->select('teams.*,warehouses.name as wname,categories.name as cname')
-            ->from('teams')
-            ->join('users', 'users.username = teams.username', 'inner')
-            ->join('warehouses', 'warehouses.id = teams.school_id', 'inner')
-            ->join('categories', 'categories.id = teams.division', 'inner')
+        $this->db->select('warehouses.*,users.username as wname')
+            ->from('warehouses')
+            ->join('users', 'users.warehouse_id = warehouses.id', 'left')
             ->limit(5);
-        if ($warehouse_id) $this->db->where('users.warehouse_id', $warehouse_id);
-        $this->db->order_by('users.id', 'desc');
+        if ($warehouse_id) $this->db->where('warehouses.id', $warehouse_id);
+        $this->db->order_by('warehouses.id', 'desc');
         $q = $this->db->get();
         if ($q->num_rows() > 0) {
             foreach (($q->result()) as $row) {
@@ -496,5 +494,59 @@ class Db_model extends CI_Model
 
     }
 
+
+    public function getZoneMaleHistory($start_date = NULL, $end_date = NULL)
+    {
+//        if (!$start_date) {
+//            $start_date = date('Y-m-d', strtotime('first day of this month')) . ' 00:00:00';
+//        }
+//        if (!$end_date) {
+//            $end_date = date('Y-m-d', strtotime('last day of this month')) . ' 23:59:59';
+//        }
+
+        $this->db
+            ->select("zone,COUNT(id) as id")
+//            ->select_count('id')
+            ->from('players')
+            ->where('gender','Male')
+            ->group_by('zone')
+            ->order_by('zone', 'asc')
+            ->limit(10);
+        $q = $this->db->get();
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return FALSE;
+    }
+
+    public function getZoneFemaleHistory($start_date = NULL, $end_date = NULL)
+    {
+//        if (!$start_date) {
+//            $start_date = date('Y-m-d', strtotime('first day of this month')) . ' 00:00:00';
+//        }
+//        if (!$end_date) {
+//            $end_date = date('Y-m-d', strtotime('last day of this month')) . ' 23:59:59';
+//        }
+
+        $this->db
+            ->select("zone,COUNT(id) as id")
+//            ->select_count('id')
+            ->from('players')
+            ->where('gender','Female')
+            ->group_by('zone')
+            ->order_by('zone', 'asc')
+            ->limit(10);
+        $q = $this->db->get();
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return FALSE;
+    }
 
 }

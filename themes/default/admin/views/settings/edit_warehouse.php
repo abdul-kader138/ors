@@ -23,10 +23,32 @@
                 <label class="control-label" for="phone"><?php echo $this->lang->line("phone"); ?></label>
                 <?php echo form_input('phone', $warehouse->phone, 'class="form-control" id="phone"'); ?>
             </div>
+
+
             <div class="form-group">
                 <label class="control-label" for="email"><?php echo $this->lang->line("email"); ?></label>
                 <?php echo form_input('email', $warehouse->email, 'class="form-control" id="email"'); ?>
             </div>
+
+            <div class="form-group">
+                <label class="control-label" for="Principal"><?php echo $this->lang->line("Principal_*"); ?></label>
+                <?php echo form_input('principal', $warehouse->principal, 'class="form-control" id="principal" required="required"'); ?>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="General_Council_Representative"><?php echo $this->lang->line("General_Council_Representative_*"); ?></label>
+                <?php echo form_input('gcp', $warehouse->gcp, 'class="form-control" id="gcp" required="required"'); ?>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="Zonal_Representative"><?php echo $this->lang->line("Zonal_Representative_*"); ?></label>
+                <?php echo form_input('zonal_representative', $warehouse->zonal_representative, 'class="form-control" required="required" id="zonal_representative"'); ?>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="Home_Ground"><?php echo $this->lang->line("Home_Ground"); ?></label>
+                <?php echo form_input('home_ground', $warehouse->home_ground, 'class="form-control" id="home_ground"'); ?>
+            </div>
+
+
             <div class="form-group">
                 <label class="control-label" for="address"><?php echo $this->lang->line("address"); ?></label>
                 <?php echo form_textarea('address', $warehouse->address, 'class="form-control" id="address" required="required"'); ?>
