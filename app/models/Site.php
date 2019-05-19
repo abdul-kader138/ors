@@ -155,7 +155,14 @@ class Site extends CI_Model
 
     public function getAllWarehouses()
     {
+        $warehouse_id = null;
+        if (!$this->Owner && !$this->Admin) {
+            $warehouse_id = $this->session->userdata('warehouse_id');
+        }
+        if($warehouse_id) $this->db->where('id',$warehouse_id);
+
         $q = $this->db->get('warehouses');
+
         if ($q->num_rows() > 0) {
             foreach (($q->result()) as $row) {
                 $data[] = $row;
@@ -174,18 +181,18 @@ class Site extends CI_Model
         return FALSE;
     }
 
-    public function getAllCategories()
-    {
-        $this->db->where('parent_id', NULL)->or_where('parent_id', 0)->order_by('name');
-        $q = $this->db->get("categories");
-        if ($q->num_rows() > 0) {
-            foreach (($q->result()) as $row) {
-                $data[] = $row;
-            }
-            return $data;
-        }
-        return FALSE;
-    }
+//    public function getAllCategories()
+//    {
+//        $this->db->where('parent_id', NULL)->or_where('parent_id', 0)->order_by('name');
+//        $q = $this->db->get("categories");
+//        if ($q->num_rows() > 0) {
+//            foreach (($q->result()) as $row) {
+//                $data[] = $row;
+//            }
+//            return $data;
+//        }
+//        return FALSE;
+//    }
 
     public function getSubCategories($parent_id)
     {
@@ -1296,6 +1303,51 @@ class Site extends CI_Model
             ->where('DATEDIFF(now(),date) >=', 30)
             ->where('repair_status', 1);
         return $this->db->count_all_results('sales');
+    }
+
+    public function getAllZone()
+    {
+        $user_details=$this->getUserByID($this->session->userdata('user_id'));
+        $zone_id = null;
+        if (!$this->Owner && !$this->Admin && $user_details->zone) {
+            $zone_id = $user_details->zone;
+        }
+        if($zone_id) $this->db->where('name',$zone_id);
+        $q = $this->db->get('brands');
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return FALSE;
+    }
+    public function getUserByID($id)
+    {
+        $q = $this->db->get_where('users', array('id' => $id), 1);
+        if ($q->num_rows() > 0) {
+            return $q->row();
+        }
+        return FALSE;
+    }
+
+    public function getAllCategories()
+    {
+        $user_details=$this->getUserByID($this->session->userdata('user_id'));
+        $category_id = null;
+        if (!$this->Owner && !$this->Admin && $user_details->division) {
+            $category_id = $user_details->division;
+        }
+        if($category_id) $this->db->where('id',$category_id);
+        $this->db->where('parent_id', NULL)->or_where('parent_id', 0)->order_by('name');
+        $q = $this->db->get("categories");
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return FALSE;
     }
 
 

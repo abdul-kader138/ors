@@ -24,3 +24,6 @@ ALTER TABLE `sma_warehouses` ADD `principal` VARCHAR(100) NOT NULL AFTER `price_
 ALTER TABLE `sma_warehouses` ADD `gcp` VARCHAR(100) NOT NULL AFTER `price_group_id`;
 ALTER TABLE `sma_warehouses` ADD `zonal_representative` VARCHAR(100) NOT NULL AFTER `price_group_id`;
 ALTER TABLE `sma_warehouses` ADD `home_ground` VARCHAR(100) default NULL AFTER `price_group_id`;
+
+ALTER TABLE `sma_users` ADD `zone` VARCHAR(50) NULL DEFAULT NULL AFTER `allow_discount`;
+ALTER TABLE `sma_users` ADD `division` INT(9) NULL DEFAULT NULL AFTER `zone`;

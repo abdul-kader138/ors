@@ -60,13 +60,8 @@
                                 <td><?= $warehouses->name; ?></td>
                             </tr>
                             <tr>
-                                <td><?= lang("Is_Tagged_With_Team"); ?></td>
-                                <td><?= ($players->is_tagged == 1) ? 'Yes' : 'No'; ?></td>
-                            </tr>
-
-                            <tr>
-                                <td><?= lang("Year"); ?></td>
-                                <td><?= $players->year; ?></td>
+                                <td><?= lang("Last_School_Attend"); ?></td>
+                                <td><?= $players->last_attend_school; ?></td>
                             </tr>
                             </tbody>
                         </table>
@@ -107,11 +102,6 @@
                             <tr>
                                 <td><?= lang("SEA_Number"); ?></td>
                                 <td><?= $players->sea_number; ?></td>
-                            </tr>
-
-                            <tr>
-                                <td><?= lang("Team_Name"); ?></td>
-                                <td><?= $players->team_id; ?></td>
                             </tr>
                             <tr>
                                 <td><?= lang("Transfer_Or_Repeat_Student?"); ?></td>

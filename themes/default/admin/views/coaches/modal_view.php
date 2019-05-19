@@ -64,14 +64,6 @@
                                 <td><?= lang("SEA_Year"); ?></td>
                                 <td><?= $coach->sea_year; ?></td>
                             </tr>
-                            <tr>
-                                <td><?= lang("Is_Tagged_With_Team"); ?></td>
-                                <td><?= ($players->is_tagged == 1) ? 'Yes' : 'No'; ?></td>
-                            </tr>
-                            <tr>
-                                <td><?= lang("Team_Name"); ?></td>
-                                <td><?= $coach->team_id; ?></td>
-                            </tr>
                             </tbody>
                         </table>
                     </div>

@@ -28,8 +28,10 @@
                                 <div class="form-group">
                                     <?= lang("Zone", "Zone").'<b>*</b>'; ?>
                                     <?php
-                                    $zones = array('East' => lang('East'), 'North' => lang('North'), 'South' => lang('South'), 'Central' => lang('Central'), 'Tobago' => lang('Tobago'));
-                                    echo form_dropdown('zone', $zones, (isset($_POST['zone']) ? $_POST['zone'] : ''), 'id="zone" class="form-control select" style="width:100%;" ');
+                                    foreach ($zones as $zone) {
+                                        $wh12[$zone->name] = $zone->name;
+                                    }
+                                    echo form_dropdown('zone', $wh12, (isset($_POST['zone']) ? $_POST['zone'] : ''), 'id="zone" class="form-control select" style="width:100%;" ');
                                     ?>
                                 </div>
 
@@ -89,16 +91,6 @@
 
                             </div>
                             <div class="col-md-5 col-md-offset-1">
-
-                                <div class="clearfix"></div>
-                                <div class="form-group">
-                                    <?= lang('Year', 'Year'); ?>
-                                    <?php
-                                    $opt = array("2012" => lang('2012'), "2013" => lang('2013'), "2014" => lang('2014'), "2015" => lang('2015'), "2016" => lang('2016'), "2017" => lang('2017'), "2018" => lang('2018'), "2019" => lang('2019'), "2020" => lang('2020'), "2021" => lang('2021'), "2022" => lang('2022'), "2023" => lang('2023'), "2024" => lang('2024'), "2025" => lang('2025'), "2026" => lang('2026'), "2027" => lang('2027'), "2028" => lang('2028'));
-                                    echo form_dropdown('year', $opt, (isset($_POST['year']) ? $_POST['year'] : ''), 'id="year" required="required" class="form-control select" style="width:100%;"');
-                                    ?>
-                                </div>
-
                                 <div class="form-group">
                                     <?= lang("Division", "Division").'<b>*</b>'; ?>
                                     <?php
@@ -132,7 +124,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <?php echo lang('Last_Attend_school', 'Last_Attend_school').'<b>*</b>'; ?>
+                                    <?php echo lang('Last_Attend_school', 'Last_School_Attend').'<b>*</b>'; ?>
                                     <div class="controls">
                                         <?php echo form_input('last_attend_school', (isset($_POST['last_attend_school']) ? $_POST['last_attend_school'] : ''), 'class="form-control" required="required" id="last_attend_school"'); ?>
                                     </div>

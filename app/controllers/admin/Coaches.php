@@ -58,25 +58,34 @@ class Coaches extends MY_Controller
         }
 
         $user_id = null;
-        if (!$this->Owner && !$this->Admin &&  !$this->Teams && !$this->session->userdata('view_right') ) {
+        if (!$this->Owner && !$this->Admin && !$this->Teams && !$this->session->userdata('view_right'))
             $user_id = $this->session->userdata('user_id');
-        }
 
         $warehouse_id = null;
-        if (!$this->Owner && !$this->Admin) {
-            $warehouse_id = $this->session->userdata('warehouse_id');
-        }
+        if (!$this->Owner && !$this->Admin) $warehouse_id = $this->session->userdata('warehouse_id');
+
+        $user_details=$this->site->getUserByID($this->session->userdata('user_id'));
+        $zone_id = null;
+        if (!$this->Owner && !$this->Admin && $user_details->zone) $zone_id = $user_details->zone;
+
+        $category_id = null;
+        if (!$this->Owner && !$this->Admin && $user_details->division) $category_id = $user_details->division;
+
 
         $this->load->library('datatables');
         $this->datatables
-            ->select($this->db->dbprefix('coaches') . ".id as ids," . $this->db->dbprefix('users') . ".avatar," . $this->db->dbprefix('coaches') . ".cfl as ref,concat(" . $this->db->dbprefix('users') . ".first_name,' ', " . $this->db->dbprefix('users') . ".last_name) as u_name, " . $this->db->dbprefix('coaches') . ".gender,  " . $this->db->dbprefix('warehouses') . ".name, " . $this->db->dbprefix('coaches') . ".sea_year,  " . $this->db->dbprefix('categories') . ".name as names,". $this->db->dbprefix('coaches') . ".zone," . $this->db->dbprefix('coaches') . ".is_tagged")
+            ->select($this->db->dbprefix('coaches') . ".id as ids," . $this->db->dbprefix('users') . ".avatar," . $this->db->dbprefix('coaches') . ".cfl as ref,concat(" . $this->db->dbprefix('users') . ".first_name,' ', " . $this->db->dbprefix('users') . ".last_name) as u_name, " . $this->db->dbprefix('coaches') . ".gender,  " . $this->db->dbprefix('warehouses') . ".name, " . $this->db->dbprefix('coaches') . ".sea_year,  " . $this->db->dbprefix('categories') . ".name as names," . $this->db->dbprefix('coaches') . ".zone")
             ->from("users");
-        if ($user_id) {
-            $this->datatables->where('users.id', $user_id);
-        }
+
         $this->datatables->join('coaches', 'users.username=coaches.username', 'inner')
             ->join('categories', 'coaches.division=categories.id', 'left')
             ->join('warehouses', 'coaches.school_id=warehouses.id', 'inner');
+
+        if ($user_id)  $this->datatables->where('users.id', $user_id);
+        if ($warehouse_id) $this->datatables->where('users.warehouse_id', $warehouse_id);
+        if ($category_id) $this->datatables->where('categories.id', $category_id);
+        if ($zone_id) $this->datatables->where('users.zone', $zone_id);
+
         $this->datatables->group_by('users.id');
 
         $this->datatables->edit_column('active', '$1', 'ids')
@@ -85,7 +94,6 @@ class Coaches extends MY_Controller
                 . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i></a></div>", "ids");
         echo $this->datatables->generate();
     }
-
 
 
     function add()
@@ -132,6 +140,8 @@ class Coaches extends MY_Controller
                 'edit_right' => 0,
                 'username' => $username,
                 'password' => $password,
+                'zone' => $this->input->post('zone'),
+                'division' => $this->input->post('division'),
                 'email' => $email,
                 'ip_address' => $ip_address,
                 'created_on' => time(),
@@ -156,7 +166,7 @@ class Coaches extends MY_Controller
         }
         if ($this->form_validation->run() == true && $this->coaches_model->addCoach($coach_data, $user_data)) {
 //        if ($this->form_validation->run() == true) {
-            if ($notify) $msg = $this->sendEmail(($this->input->post('first_name').' '.$this->input->post('last_name')), $email, $this->input->post('password'));
+            if ($notify) $msg = $this->sendEmail(($this->input->post('first_name') . ' ' . $this->input->post('last_name')), $email, $this->input->post('password'));
             $this->session->set_flashdata('message', 'Data successfully updated.');
             admin_redirect("coaches");
 
@@ -164,6 +174,7 @@ class Coaches extends MY_Controller
             $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
             $this->data['schools'] = $this->site->getAllWarehouses();
             $this->data['categories'] = $this->site->getAllCategories();
+            $this->data['zones'] = $this->site->getAllZone();
             $bc = array(array('link' => admin_url('home'), 'page' => lang('home')), array('link' => admin_url('coaches'), 'page' => lang('Players')), array('link' => '#', 'page' => lang('Add_Coach')));
             $meta = array('page_title' => lang('Coaches'), 'bc' => $bc);
             $this->page_construct('coaches/add_coach', $meta, $this->data);
@@ -247,6 +258,8 @@ class Coaches extends MY_Controller
                 'last_name' => $this->input->post('last_name'),
                 'email' => strtolower($this->input->post('email')),
                 'phone' => $this->input->post('phone'),
+                'zone' => $this->input->post('zone'),
+                'division' => $this->input->post('division'),
                 'gender' => $this->input->post('gender'),
                 'warehouse_id' => $this->input->post('school_id')
             );
@@ -271,6 +284,7 @@ class Coaches extends MY_Controller
             $this->data['user'] = $usr_details;
             $this->data['schools'] = $this->site->getAllWarehouses();
             $this->data['categories'] = $this->site->getAllCategories();
+            $this->data['zones'] = $this->site->getAllZone();
             $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
             $bc = array(array('link' => admin_url('home'), 'page' => lang('home')), array('link' => admin_url('coaches'), 'page' => lang('Coach')), array('link' => '#', 'page' => lang('Edit_Coach')));
             $meta = array('page_title' => lang('Players'), 'bc' => $bc);

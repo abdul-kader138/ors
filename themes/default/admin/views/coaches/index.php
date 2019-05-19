@@ -11,12 +11,6 @@
         n = n + '';
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
     }
-    function player_status(x) {
-        var y = x.split('__');
-        return y[0] == 1
-            ? '<span class="label label-success"></i> Yes</span>'
-            : '<span class="label label-danger"></i> No</span>';
-    }
 
     function bcp_status(x) {
         if (x == null) {
@@ -79,7 +73,7 @@
             "aoColumns": [{
                 "bSortable": false,
                 "mRender": checkbox
-            },  {"bSortable": false,"mRender": player_img_hl},{"mRender": ref_status},{"mRender": name_status}, null, null,  null,  null,null,{"mRender": player_status}, {"bSortable": false}]
+            },  {"bSortable": false,"mRender": player_img_hl},{"mRender": ref_status},{"mRender": name_status}, null, null,  null,  null,null,{"bSortable": false}]
         }).fnSetFilteringDelay().dtFilter([
             {column_number: 2, filter_default_label: "[<?=lang('ID');?>]", filter_type: "text", data: []},
             {column_number: 3, filter_default_label: "[<?=lang('Name');?>]", filter_type: "text", data: []},
@@ -142,17 +136,16 @@
                             <th class="col-xs-1"><?php echo lang('ID'); ?></th>
                             <th class="col-xs-2"><?php echo lang('Name'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Gender'); ?></th>
-                            <th class="col-xs-1"><?php echo lang('School'); ?></th>
+                            <th class="col-xs-2"><?php echo lang('School'); ?></th>
                             <th class="col-xs-1"><?php echo lang('SEA_Year'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Division'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Zone'); ?></th>
-                            <th class="col-xs-1"><?php echo lang('Is_Tagged_With_Team'); ?></th>
-                            <th style="width:80px;"><?php echo lang('actions'); ?></th>
+                            <th style="width:40px;"><?php echo lang('actions'); ?></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td colspan="11" class="dataTables_empty"><?= lang('loading_data_from_server') ?></td>
+                            <td colspan="10" class="dataTables_empty"><?= lang('loading_data_from_server') ?></td>
                         </tr>
                         </tbody>
                         <tfoot class="dtFilter">
@@ -168,8 +161,7 @@
                             <th></th>
                             <th></th>
                             <th></th>
-                            <th></th>
-                            <th style="width:85px;"><?= lang("actions"); ?></th>
+                            <th style="width:40px;"><?= lang("actions"); ?></th>
                         </tr>
                         </tfoot>
                     </table>

@@ -65,19 +65,25 @@ class Players extends MY_Controller
             $warehouse_id = $this->session->userdata('warehouse_id');
         }
 
+        $user_details=$this->site->getUserByID($this->session->userdata('user_id'));
+        $zone_id = null;
+        if (!$this->Owner && !$this->Admin && $user_details->zone) $zone_id = $user_details->zone;
+
+        $category_id = null;
+        if (!$this->Owner && !$this->Admin && $user_details->division) $category_id = $user_details->division;
+
         $this->load->library('datatables');
         $this->datatables
-            ->select($this->db->dbprefix('players') . ".id as ids," . $this->db->dbprefix('users') . ".avatar," . $this->db->dbprefix('players') . ".ssfl as ref,concat(" . $this->db->dbprefix('users') . ".first_name,' ', " . $this->db->dbprefix('users') . ".last_name) as u_name, " . $this->db->dbprefix('players') . ".gender,  " . $this->db->dbprefix('players') . ".dob, floor(datediff(curdate()," . $this->db->dbprefix('players') . ".dob) / 365) as ages," . $this->db->dbprefix('players') . ".bcp, " . $this->db->dbprefix('warehouses') . ".name, " . $this->db->dbprefix('players') . ".sea_year,  " . $this->db->dbprefix('categories') . ".name as names," . $this->db->dbprefix('players') . ".is_tagged")
+            ->select($this->db->dbprefix('players') . ".id as ids," . $this->db->dbprefix('users') . ".avatar," . $this->db->dbprefix('players') . ".ssfl as ref,concat(" . $this->db->dbprefix('users') . ".first_name,' ', " . $this->db->dbprefix('users') . ".last_name) as u_name, " . $this->db->dbprefix('players') . ".gender,  " . $this->db->dbprefix('players') . ".dob, floor(datediff(curdate()," . $this->db->dbprefix('players') . ".dob) / 365) as ages," . $this->db->dbprefix('players') . ".bcp, " . $this->db->dbprefix('warehouses') . ".name, " . $this->db->dbprefix('players') . ".sea_year,  " . $this->db->dbprefix('categories') . ".name as names")
             ->from("users");
-        if ($user_id) {
-            $this->datatables->where('users.id', $user_id);
-        }
-        if ($warehouse_id) {
-            $this->datatables->where('users.warehouse_id', $warehouse_id);
-        }
         $this->datatables->join('players', 'users.username=players.username', 'inner')
             ->join('categories', 'players.division=categories.id', 'left')
             ->join('warehouses', 'players.school_id=warehouses.id', 'inner');
+
+        if ($user_id) $this->datatables->where('users.id', $user_id);
+        if ($warehouse_id) $this->datatables->where('users.warehouse_id', $warehouse_id);
+        if ($category_id) $this->datatables->where('categories.id', $category_id);
+        if ($zone_id) $this->datatables->where('users.zone', $zone_id);
         $this->datatables->group_by('users.id');
 
         $this->datatables->edit_column('active', '$1', 'ids')
@@ -141,6 +147,8 @@ class Players extends MY_Controller
                 'ip_address' => $ip_address,
                 'created_on' => time(),
                 'last_login' => time(),
+                'zone' => $this->input->post('zone'),
+                'division' => $this->input->post('division'),
                 'active' => $this->input->post('status')
             );
             $players_data = array(
@@ -150,7 +158,6 @@ class Players extends MY_Controller
                 'bcp' => $this->input->post('bcp'),
                 'school_id' => $this->input->post('school_id'),
                 'gender' => $this->input->post('gender'),
-                'year' => $this->input->post('year'),
                 'sessions' => $this->input->post('year'),
                 'username' => $username,
                 'is_tagged' => 0,
@@ -178,6 +185,7 @@ class Players extends MY_Controller
             $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
             $this->data['schools'] = $this->site->getAllWarehouses();
             $this->data['categories'] = $this->site->getAllCategories();
+            $this->data['zones'] = $this->site->getAllZone();
             $bc = array(array('link' => admin_url('home'), 'page' => lang('home')), array('link' => admin_url('players'), 'page' => lang('Players')), array('link' => '#', 'page' => lang('Add_Player')));
             $meta = array('page_title' => lang('Players'), 'bc' => $bc);
             $this->page_construct('players/add_player', $meta, $this->data);
@@ -208,7 +216,6 @@ class Players extends MY_Controller
         $this->form_validation->set_rules('last_name', lang("last_name"), 'trim|required');
         $this->form_validation->set_rules('dob', lang("dob"), 'trim|required');
         $this->form_validation->set_rules('bcp', lang("bcp"), 'trim|required');
-        $this->form_validation->set_rules('year', lang("year"), 'trim|required');
         $this->form_validation->set_rules('gender', lang("gender"), 'trim|required');
         $this->form_validation->set_rules('school_id', lang("school_id"), 'trim|required');
         $this->form_validation->set_rules('zone', lang("zone"), 'trim|required');
@@ -229,6 +236,8 @@ class Players extends MY_Controller
                 'email' => strtolower($this->input->post('email')),
                 'phone' => $this->input->post('phone'),
                 'gender' => $this->input->post('gender'),
+                'zone' => $this->input->post('zone'),
+                'division' => $this->input->post('division'),
                 'warehouse_id' => $this->input->post('school_id')
             );
             $players_data = array(
@@ -261,6 +270,7 @@ class Players extends MY_Controller
             $this->data['user'] = $usr_details;
             $this->data['schools'] = $this->site->getAllWarehouses();
             $this->data['categories'] = $this->site->getAllCategories();
+            $this->data['zones'] = $this->site->getAllZone();
             $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
             $bc = array(array('link' => admin_url('home'), 'page' => lang('home')), array('link' => admin_url('players'), 'page' => lang('Players')), array('link' => '#', 'page' => lang('Edit_Player')));
             $meta = array('page_title' => lang('Players'), 'bc' => $bc);

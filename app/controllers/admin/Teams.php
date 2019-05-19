@@ -63,12 +63,20 @@ class Teams extends MY_Controller
             $user_id = $this->session->userdata('user_id');
         }
 
+        $warehouse_id = null;
+        if (!$this->Owner && !$this->Admin) {
+            $warehouse_id = $this->session->userdata('warehouse_id');
+        }
+
         $this->load->library('datatables');
         $this->datatables
             ->select($this->db->dbprefix('teams') . ".id as ids," . $this->db->dbprefix('users') . ".avatar," . $this->db->dbprefix('teams') . ".tfl as ref," . $this->db->dbprefix('teams') . ".name as u_name, "  . $this->db->dbprefix('warehouses') . ".name as nam, " . $this->db->dbprefix('categories') . ".name as name1s,". $this->db->dbprefix('teams') . ".zone")
             ->from("users");
         if ($user_id) {
             $this->datatables->where('users.id', $user_id);
+        }
+        if ($warehouse_id) {
+            $this->datatables->where('users.warehouse_id', $warehouse_id);
         }
         $this->datatables->join('teams', 'users.username=teams.username', 'inner')
             ->join('categories', 'teams.division=categories.id', 'left')
@@ -116,6 +124,8 @@ class Teams extends MY_Controller
                 'phone' => $this->input->post('phone'),
                 'group_id' => $this->input->post('group') ? $this->input->post('group') : '7',
                 'warehouse_id' => $this->input->post('school_id'),
+                'zone' => $this->input->post('zone'),
+                'division' => $this->input->post('division'),
                 'view_right' => 0,
                 'edit_right' => 0,
                 'username' => $username,
@@ -148,6 +158,7 @@ class Teams extends MY_Controller
             $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
             $this->data['schools'] = $this->site->getAllWarehouses();
             $this->data['categories'] = $this->site->getAllCategories();
+            $this->data['zones'] = $this->site->getAllZone();
             $bc = array(array('link' => admin_url('home'), 'page' => lang('home')), array('link' => admin_url('teams'), 'page' => lang('Team_Managers')), array('link' => '#', 'page' => lang('Add_Team_Manager')));
             $meta = array('page_title' => lang('Team_Managers'), 'bc' => $bc);
             $this->page_construct('teams/add_team', $meta, $this->data);
@@ -227,6 +238,8 @@ class Teams extends MY_Controller
                 'first_name' => $this->input->post('name'),
                 'email' => strtolower($this->input->post('email')),
                 'phone' => $this->input->post('phone'),
+                'zone' => $this->input->post('zone'),
+                'division' => $this->input->post('division'),
                 'warehouse_id' => $this->input->post('school_id')
             );
             $coach_data = array(
@@ -247,6 +260,7 @@ class Teams extends MY_Controller
             $this->data['user'] = $usr_details;
             $this->data['schools'] = $this->site->getAllWarehouses();
             $this->data['categories'] = $this->site->getAllCategories();
+            $this->data['zones'] = $this->site->getAllZone();
             $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
             $bc = array(array('link' => admin_url('home'), 'page' => lang('home')), array('link' => admin_url('teams'), 'page' => lang('Team_Managers')), array('link' => '#', 'page' => lang('Edit_Team_Managers')));
             $meta = array('page_title' => lang('Team_Managers'), 'bc' => $bc);

@@ -104,6 +104,43 @@ class Coaches_model extends CI_Model
     }
 
 
+    public function getAllZone()
+    {
+        $user_details=$this->getUserByID($this->session->userdata('user_id'));
+        $zone_id = null;
+        if (!$this->Owner && !$this->Admin && $user_details) {
+            $zone_id = $user_details->zone;
+        }
+        if($zone_id) $this->db->where('name',$zone_id);
+        $q = $this->db->get('brands');
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return FALSE;
+    }
+
+
+    public function getAllCategories()
+    {
+        $user_details=$this->getUserByID($this->session->userdata('user_id'));
+        $category_id = null;
+        if (!$this->Owner && !$this->Admin && $user_details) {
+            $category_id = $user_details->division;
+        }
+        if($category_id) $this->db->where('id',$category_id);
+        $this->db->where('parent_id', NULL)->or_where('parent_id', 0)->order_by('name');
+        $q = $this->db->get("categories");
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[] = $row;
+            }
+            return $data;
+        }
+        return FALSE;
+    }
 
 
 

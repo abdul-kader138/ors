@@ -11,7 +11,8 @@
             ?>
             <div class="row">
                 <fieldset class="scheduler-border">
-                    <legend style="text-align: center" class="scheduler-border"><i class="fa-fw fa fa-user-secret"></i><b>General
+                    <legend style="text-align: center" class="scheduler-border"><i
+                                class="fa-fw fa fa-user-secret"></i><b>General
                             Information</b></legend>
                     <div class="col-md-12">
                         <div class="col-md-5">
@@ -33,7 +34,7 @@
                                 <?php echo lang('email', 'email'); ?>
                                 <div class="controls">
                                     <?php
-                                    $atr=array('name'=>'email', 'id'=>'email','type'=>'email','class'=>'form-control');
+                                    $atr = array('name' => 'email', 'id' => 'email', 'type' => 'email', 'class' => 'form-control');
                                     echo form_input($atr, (isset($_POST['email']) ? $_POST['email'] : $user->email)); ?>
                                 </div>
                             </div>
@@ -42,24 +43,26 @@
 
                             <div class="clearfix"></div>
                             <div class="form-group">
-                                <?= lang("School", "School").'<b>*</b>'; ?>
+                                <?= lang("School", "School") . '<b>*</b>'; ?>
                                 <?php
                                 foreach ($schools as $school) {
                                     $wh[$school->id] = $school->name;
                                 }
-                                echo form_dropdown('school_id', $wh, (isset($_POST['school_id']) ? $_POST['school_id'] : $team->school_id ), 'id="school_id" class="form-control select" style="width:100%;" ');
+                                echo form_dropdown('school_id', $wh, (isset($_POST['school_id']) ? $_POST['school_id'] : $team->school_id), 'id="school_id" class="form-control select" style="width:100%;" ');
                                 ?>
                             </div>
 
                             <div class="form-group">
-                                <?= lang("Zone", "Zone").'<b>*</b>'; ?>
+                                <?= lang("Zone", "Zone") . '<b>*</b>'; ?>
                                 <?php
-                                $zones = array('East' => lang('East'), 'North' => lang('North'), 'South' => lang('South'), 'Central' => lang('Central'), 'Tobago' => lang('Tobago'));
-                                echo form_dropdown('zone', $zones, (isset($_POST['zone']) ? $_POST['zone'] : $team->zone), 'id="zone" class="form-control select" style="width:100%;" ');
+                                foreach ($zones as $zone) {
+                                    $wh12[$zone->name] = $zone->name;
+                                }
+                                echo form_dropdown('zone', $wh12, (isset($_POST['zone']) ? $_POST['zone'] : $team->zone), 'id="zone" class="form-control select" style="width:100%;" ');
                                 ?>
                             </div>
                             <div class="form-group">
-                                <?= lang("Division", "Division").'<b>*</b>'; ?>
+                                <?= lang("Division", "Division") . '<b>*</b>'; ?>
                                 <?php
                                 foreach ($categories as $category) {
                                     $gp[$category->id] = $category->name;

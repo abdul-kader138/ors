@@ -73,8 +73,10 @@
                             <div class="form-group">
                                 <?= lang("Zone", "Zone").'<b>*</b>'; ?>
                                 <?php
-                                $zones = array('East' => lang('East'), 'North' => lang('North'), 'South' => lang('South'), 'Central' => lang('Central'), 'Tobago' => lang('Tobago'));
-                                echo form_dropdown('zone', $zones, (isset($_POST['zone']) ? $_POST['zone'] : ''), 'id="zone" class="form-control select" style="width:100%;" ');
+                                foreach ($zones as $zone) {
+                                    $wh12[$zone->name] = $zone->name;
+                                }
+                                echo form_dropdown('zone', $wh12, (isset($_POST['zone']) ? $_POST['zone'] : ''), 'id="zone" class="form-control select" style="width:100%;" ');
                                 ?>
                             </div>
                             <div class="form-group">
