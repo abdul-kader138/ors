@@ -9,7 +9,8 @@
                     onclick="window.print();">
                 <i class="fa fa-print"></i> <?= lang('print'); ?>
             </button>
-            <h4 class="modal-title" id="myModalLabel"><?= lang("Player_- "); ?><?= $players->first_name . ' ' . $players->last_name ?></h4>
+            <h4 class="modal-title"
+                id="myModalLabel"><?= lang("Player_- "); ?><?= $players->first_name . ' ' . $players->last_name ?></h4>
         </div>
         <div class="modal-body">
 
@@ -63,6 +64,22 @@
                                 <td><?= lang("Last_School_Attend"); ?></td>
                                 <td><?= $players->last_attend_school; ?></td>
                             </tr>
+                            <tr>
+                                <td><?= lang("Status"); ?></td>
+                                <td><?= $players->p_status; ?></td>
+                            </tr>
+                            <?php if ($updated_by) { ?>
+                                <tr>
+                                    <td><?= lang("Status_Updated_By"); ?></td>
+                                    <td><?= $updated_by->first_name." ".$updated_by->last_name; ?></td>
+                                </tr>
+                            <?php } ?>
+                            <?php if ($players->status_updated_date) { ?>
+                                <tr>
+                                    <td><?= lang("Status_Updated_Date"); ?></td>
+                                    <td><?= $players->status_updated_date; ?></td>
+                                </tr>
+                            <?php } ?>
                             </tbody>
                         </table>
                     </div>
@@ -104,7 +121,7 @@
                                 <td><?= $players->sea_number; ?></td>
                             </tr>
                             <tr>
-                                <td><?= lang("Transfer_Or_Repeat_Student?"); ?></td>
+                                <td><?= lang("Transfer_/_Transfer_Repeat_/_N/A"); ?></td>
                                 <td><?= $players->trs; ?></td>
                             </tr>
                             </tbody>
@@ -112,16 +129,18 @@
                     </div>
                 </div>
                 <div class="col-xs-12">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped dfTable">
-                                <thead><th>Address</th></thead>
-                                <tbody>
-                                <tr>
-                                    <td><?= $players->address; ?></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped dfTable">
+                            <thead>
+                            <th>Address</th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><?= $players->address; ?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="clearfix"></div>

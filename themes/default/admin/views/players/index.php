@@ -5,13 +5,12 @@
 
 </style>
 <script>
-
-    function pad(n, width, z) {
-        z = z || '0';
-        n = n + '';
-        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+    function player_status(x) {
+        var y = x.split('__');
+        if (y[0] == 'Approved') return '<span class="label label-success"> Approved</span>';
+        if (y[0] == 'Rejected') return '<span class="label label-danger"> Rejected</span>';
+        if (y[0] == 'Pending') return '<span class="label label-warning"> Pending</span>';
     }
-
     function bcp_status(x) {
         if (x == null) {
             return '';
@@ -73,7 +72,10 @@
             "aoColumns": [{
                 "bSortable": false,
                 "mRender": checkbox
-            },  {"bSortable": false,"mRender": player_img_hl},{"mRender": ref_status},{"mRender": name_status}, null, {"mRender": fsd}, null, {"mRender": bcp_status}, null, null, null, {"bSortable": false}]
+            }, {
+                "bSortable": false,
+                "mRender": player_img_hl
+            }, {"mRender": ref_status}, {"mRender": name_status}, null, {"mRender": fsd}, null, {"mRender": bcp_status}, null, null, null, {"mRender": player_status}, {"bSortable": false}]
         }).fnSetFilteringDelay().dtFilter([
             {column_number: 2, filter_default_label: "[<?=lang('SSFL');?>]", filter_type: "text", data: []},
             {column_number: 3, filter_default_label: "[<?=lang('Name');?>]", filter_type: "text", data: []},
@@ -88,8 +90,21 @@
             },
             {column_number: 8, filter_default_label: "[<?=lang('School');?>]", filter_type: "text", data: []},
             {column_number: 9, filter_default_label: "[<?=lang('SEA_Year');?>]", filter_type: "text", data: []},
-            {column_number: 10, filter_default_label: "[<?=lang('Division');?>]", filter_type: "text", data: []}
-
+            {column_number: 10, filter_default_label: "[<?=lang('Division');?>]", filter_type: "text", data: []},
+            {
+                column_number: 11, select_type: 'select2',
+                select_type_options: {
+                    placeholder: '<?=lang('Status');?>',
+                    width: '100%',
+                    style: 'width:100%;',
+                    minimumResultsForSearch: -1,
+                    allowClear: true
+                },
+                data: [{value: 'Pending', label: '<?=lang('Pending');?>'}, {
+                    value: 'Approved',
+                    label: '<?=lang('Approved');?>'
+                }, {value: 'Rejected', label: '<?=lang('Rejected');?>'}]
+            }
         ], "footer");
     });
 </script>
@@ -125,7 +140,7 @@
     <div class="box-content">
         <div class="row">
             <div class="col-lg-12">
-<!--                <p class="introtext">--><?//= lang('list_results'); ?><!--</p>-->
+                <!--                <p class="introtext">--><? //= lang('list_results'); ?><!--</p>-->
 
                 <div class="table-responsive">
                     <table id="UsrTable" cellpadding="0" cellspacing="0" border="0"
@@ -136,21 +151,22 @@
                                 <input class="checkbox checkth" type="checkbox" name="check"/>
                             </th>
                             <th class="col-xs-1"><?php echo lang('Photo'); ?></th>
-                            <th class="col-xs-2"><?php echo lang('SSFL_No'); ?></th>
-                            <th class="col-xs-2"><?php echo lang('Name'); ?></th>
+                            <th class="col-xs-1"><?php echo lang('SSFL_No'); ?></th>
+                            <th class="col-xs-1"><?php echo lang('Name'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Gender'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Date_Of_birth'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Age'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Birth_Certificate_Pin'); ?></th>
-                            <th class="col-xs-2"><?php echo lang('School'); ?></th>
+                            <th class="col-xs-1"><?php echo lang('School'); ?></th>
                             <th class="col-xs-1"><?php echo lang('SEA_Year'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Division'); ?></th>
+                            <th class="col-xs-1"><?php echo lang('Status'); ?></th>
                             <th style="width:80px;"><?php echo lang('actions'); ?></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td colspan="9" class="dataTables_empty"><?= lang('loading_data_from_server') ?></td>
+                            <td colspan="13" class="dataTables_empty"><?= lang('loading_data_from_server') ?></td>
                         </tr>
                         </tbody>
                         <tfoot class="dtFilter">
@@ -158,6 +174,7 @@
                             <th style="min-width:30px; width: 30px; text-align: center;">
                                 <input class="checkbox checkft" type="checkbox" name="check"/>
                             </th>
+                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>

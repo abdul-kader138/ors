@@ -288,7 +288,9 @@ class Teams extends MY_Controller
 
         $pr_details = $this->teams_model->getteamsByID($id);
         $usr_details = $this->teams_model->getUsersByID($pr_details->username);
-        if ($this->coaches_model->deleteCoach($id, $usr_details->id)) {
+        if ($this->teams_model->deleteTeam($id, $usr_details->id)) {
+            unlink('assets/uploads/avatars/' . $usr_details->avatar);
+            unlink('assets/uploads/avatars/thumbs/' . $usr_details->avatar);
             $this->sma->send_json(array('error' => 0, 'msg' => lang("Info_Deleted_Successfully")));
         } else {
             $this->sma->send_json(array('error' => 1, 'msg' => lang("Operation_Not_Success")));

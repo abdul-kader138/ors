@@ -367,16 +367,16 @@ class Site extends CI_Model
         $this->db->where("from_date <=", $date);
         $this->db->where("till_date >=", $date);
         if (!$this->Owner) {
-            if ($this->Supplier) {
-                $this->db->where('scope', 4);
-            } elseif ($this->Customer) {
+            if ($this->Teams) {
+                $this->db->where('scope', 2)->or_where('scope', 3);
+            } elseif ($this->Coaches) {
                 $this->db->where('scope', 1)->or_where('scope', 3);
             } elseif (!$this->Customer && !$this->Supplier) {
-                $this->db->where('scope', 2)->or_where('scope', 3);
+                $this->db->where('scope', 4)->or_where('scope', 3);
             }
         }
         $q = $this->db->get("notifications");
-        if ($q->num_rows() > 0) {
+        if ($q->num_rows() > 0 && !$this->Owner) {
             foreach (($q->result()) as $row) {
                 $data[] = $row;
             }

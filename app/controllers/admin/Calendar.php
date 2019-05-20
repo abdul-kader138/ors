@@ -96,7 +96,8 @@ class Calendar extends MY_Controller
         if ($this->form_validation->run() == true) {
             $id = $this->input->post('id');
             if($event = $this->calendar_model->getEventByID($id)) {
-                if(!$this->Owner && $event->user_id != $this->session->userdata('user_id')) {
+//                if(!$this->Owner && $event->user_id != $this->session->userdata('user_id')) {
+                if(!$this->Owner) {
                     $res = array('error' => 1, 'msg' => lang('access_denied'));
                     $this->sma->send_json($res);
                 }
@@ -124,6 +125,12 @@ class Calendar extends MY_Controller
     public function delete_event($id)
     {
         if($this->input->is_ajax_request()) {
+
+            if(!$this->Owner) {
+                $res = array('error' => 1, 'msg' => lang('access_denied'));
+                $this->sma->send_json($res);
+            }
+
             if($event = $this->calendar_model->getEventByID($id)) {
                 if(!$this->Owner && $event->user_id != $this->session->userdata('user_id')) {
                     $res = array('error' => 1, 'msg' => lang('access_denied'));

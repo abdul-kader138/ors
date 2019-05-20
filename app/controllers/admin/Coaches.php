@@ -56,7 +56,7 @@ class Coaches extends MY_Controller
                 redirect($_SERVER["HTTP_REFERER"]);
             }
         }
-
+        $payments_link=null;
         $user_id = null;
         if (!$this->Owner && !$this->Admin && !$this->Teams && !$this->session->userdata('view_right'))
             $user_id = $this->session->userdata('user_id');
@@ -71,10 +71,13 @@ class Coaches extends MY_Controller
         $category_id = null;
         if (!$this->Owner && !$this->Admin && $user_details->division) $category_id = $user_details->division;
 
+        if ($this->Owner || $this->Admin) $payments_link = anchor('admin/coaches/update_status/$1', '<i class="fa fa-check-square"></i>' . lang(''), 'data-toggle="modal" class="tip" title="' . lang('Update_Status') . '" data-target="#myModal"');
+
+
 
         $this->load->library('datatables');
         $this->datatables
-            ->select($this->db->dbprefix('coaches') . ".id as ids," . $this->db->dbprefix('users') . ".avatar," . $this->db->dbprefix('coaches') . ".cfl as ref,concat(" . $this->db->dbprefix('users') . ".first_name,' ', " . $this->db->dbprefix('users') . ".last_name) as u_name, " . $this->db->dbprefix('coaches') . ".gender,  " . $this->db->dbprefix('warehouses') . ".name, " . $this->db->dbprefix('coaches') . ".sea_year,  " . $this->db->dbprefix('categories') . ".name as names," . $this->db->dbprefix('coaches') . ".zone")
+            ->select($this->db->dbprefix('coaches') . ".id as ids," . $this->db->dbprefix('users') . ".avatar," . $this->db->dbprefix('coaches') . ".cfl as ref,concat(" . $this->db->dbprefix('users') . ".first_name,' ', " . $this->db->dbprefix('users') . ".last_name) as u_name, " . $this->db->dbprefix('coaches') . ".gender,  " . $this->db->dbprefix('warehouses') . ".name, " . $this->db->dbprefix('categories') . ".name as names," . $this->db->dbprefix('coaches') . ".zone,". $this->db->dbprefix('coaches') . ".c_status")
             ->from("users");
 
         $this->datatables->join('coaches', 'users.username=coaches.username', 'inner')
@@ -91,7 +94,7 @@ class Coaches extends MY_Controller
         $this->datatables->edit_column('active', '$1', 'ids')
             ->add_column("Actions", "<div class=\"text-center\"><a href='" . admin_url('coaches/edit/$1') . "' class='tip' title='" . lang("Edit_Coach") . "'><i class=\"fa fa-edit\"></i></a>&nbsp;<a href='#' class='po' title='<b>" . lang("Delete_Coach") . "</b>' data-content=\"<p>"
                 . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . admin_url('coaches/delete/$1') . "'>"
-                . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i></a></div>", "ids");
+                . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i></a>&nbsp;" . $payments_link . "</div>", "ids");
         echo $this->datatables->generate();
     }
 
@@ -117,9 +120,10 @@ class Coaches extends MY_Controller
         $this->form_validation->set_rules('school_id', lang("school_id"), 'trim|required');
         $this->form_validation->set_rules('gender', lang("gender"), 'trim|required');
         $this->form_validation->set_rules('zone', lang("zone"), 'trim|required');
+        $this->form_validation->set_rules('avatar', lang("avatar"), 'trim');
         $this->form_validation->set_rules('division', lang("division"), 'trim|required');
-        $this->form_validation->set_rules('sea_year', lang("sea_year"), 'trim|required');
 
+        $image = null;
         if ($this->form_validation->run() == true) {
             $username = strtolower($this->input->post('username'));
             $email = strtolower($this->input->post('email'));
@@ -127,7 +131,8 @@ class Coaches extends MY_Controller
             $notify = $this->input->post('notify');
             $ip_address = $this->input->ip_address();
             $salt = $this->store_salt ? $this->salt() : FALSE;
-            $image = null;
+            if ($_FILES['avatar']['size'] > 0) $image = $this->image_upload();
+            else $this->form_validation->set_rules('avatar', lang("avatar"), 'required');
 
             $user_data = array(
                 'first_name' => $this->input->post('first_name'),
@@ -144,6 +149,7 @@ class Coaches extends MY_Controller
                 'division' => $this->input->post('division'),
                 'email' => $email,
                 'ip_address' => $ip_address,
+                'avatar' => $image,
                 'created_on' => time(),
                 'last_login' => time(),
                 'active' => $this->input->post('status')
@@ -159,7 +165,6 @@ class Coaches extends MY_Controller
                 'created_by' => $this->session->userdata('user_id'),
                 'zone' => $this->input->post('zone'),
                 'division' => $this->input->post('division'),
-                'sea_year' => $this->input->post('sea_year'),
                 'address' => $this->input->post('address'),
             );
 
@@ -175,6 +180,10 @@ class Coaches extends MY_Controller
             $this->data['schools'] = $this->site->getAllWarehouses();
             $this->data['categories'] = $this->site->getAllCategories();
             $this->data['zones'] = $this->site->getAllZone();
+            if ($image) {
+                unlink('assets/uploads/avatars/' . $image);
+                unlink('assets/uploads/avatars/thumbs/' . $image);
+            }
             $bc = array(array('link' => admin_url('home'), 'page' => lang('home')), array('link' => admin_url('coaches'), 'page' => lang('Players')), array('link' => '#', 'page' => lang('Add_Coach')));
             $meta = array('page_title' => lang('Coaches'), 'bc' => $bc);
             $this->page_construct('coaches/add_coach', $meta, $this->data);
@@ -214,10 +223,13 @@ class Coaches extends MY_Controller
             $this->session->set_flashdata('error', lang('Coach_Not_Found'));
             $this->sma->md();
         }
+        $updated_by=null;
         $this->data['coach'] = $pr_details;
         $this->data['user'] = $this->coaches_model->getUsersByID($pr_details->username);
+        if ($pr_details->status_updated_by) $updated_by = $this->site->getUserByID($pr_details->status_updated_by);
         $this->data['warehouses'] = $this->coaches_model->getWarehouseByID($pr_details->school_id);
         $this->data['category'] = $this->coaches_model->getCategoryByID($pr_details->division);
+        $this->data['updated_by'] = $updated_by;
         $this->load->view($this->theme . 'coaches/modal_view', $this->data);
     }
 
@@ -246,7 +258,6 @@ class Coaches extends MY_Controller
         $this->form_validation->set_rules('gender', lang("gender"), 'trim|required');
         $this->form_validation->set_rules('zone', lang("zone"), 'trim|required');
         $this->form_validation->set_rules('division', lang("division"), 'trim|required');
-        $this->form_validation->set_rules('sea_year', lang("sea_year"), 'trim|required');
 
         if ($usr_details->email != strtolower($this->input->post('email'))) {
             $this->form_validation->set_rules('email', lang("email"), 'trim|required|is_unique[users.email]');
@@ -272,7 +283,6 @@ class Coaches extends MY_Controller
                 'updated_by' => $this->session->userdata('user_id'),
                 'zone' => $this->input->post('zone'),
                 'division' => $this->input->post('division'),
-                'sea_year' => $this->input->post('sea_year'),
                 'address' => $this->input->post('address'),
             );
         }
@@ -313,9 +323,90 @@ class Coaches extends MY_Controller
         $pr_details = $this->coaches_model->getCoachesByID($id);
         $usr_details = $this->coaches_model->getUsersByID($pr_details->username);
         if ($this->coaches_model->deleteCoach($id, $usr_details->id)) {
+            unlink('assets/uploads/avatars/' . $usr_details->avatar);
+            unlink('assets/uploads/avatars/thumbs/' . $usr_details->avatar);
             $this->sma->send_json(array('error' => 0, 'msg' => lang("Info_Deleted_Successfully")));
         } else {
             $this->sma->send_json(array('error' => 1, 'msg' => lang("Operation_Not_Success")));
+        }
+    }
+
+
+    function image_upload()
+    {
+        $this->load->library('upload');
+        $config['upload_path'] = 'assets/uploads/avatars';
+        $config['allowed_types'] = 'gif|jpg|png';
+        //$config['max_size'] = '500';
+        $config['max_width'] = $this->Settings->iwidth;
+        $config['max_height'] = $this->Settings->iheight;
+        $config['overwrite'] = FALSE;
+        $config['encrypt_name'] = TRUE;
+        $config['max_filename'] = 25;
+
+        $this->upload->initialize($config);
+
+        if (!$this->upload->do_upload('avatar')) {
+
+            $error = $this->upload->display_errors();
+            $this->session->set_flashdata('error', $error);
+            redirect($_SERVER["HTTP_REFERER"]);
+        }
+
+        $photo = $this->upload->file_name;
+
+        $this->load->helper('file');
+        $this->load->library('image_lib');
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = 'assets/uploads/avatars/' . $photo;
+        $config['new_image'] = 'assets/uploads/avatars/thumbs/' . $photo;
+        $config['maintain_ratio'] = TRUE;
+        $config['width'] = 200;
+        $config['height'] = 200;
+
+        $this->image_lib->clear();
+        $this->image_lib->initialize($config);
+
+        if (!$this->image_lib->resize()) {
+            echo $this->image_lib->display_errors();
+        }
+        return $photo;
+    }
+
+
+    public function update_status($id)
+    {
+
+        if (!$this->Owner && !$this->Admin) {
+            $this->session->set_flashdata('warning', lang('access_denied'));
+            die("<script type='text/javascript'>setTimeout(function(){ window.top.location.href = '" . (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : site_url('welcome')) . "'; }, 10);</script>");
+            redirect($_SERVER["HTTP_REFERER"]);
+        }
+
+        $this->data['coaches'] = $this->coaches_model->getCoachesByID($id);
+        $this->load->view($this->theme . 'coaches/update_status', $this->data);
+    }
+
+
+    public function update_player_status($id)
+    {
+
+        $this->form_validation->set_rules('status', lang("sale_status"), 'required');
+
+        if ($this->form_validation->run() == true) {
+            $status = $this->input->post('status');
+            $status_updated_date = date('Y-m-d h:i:s');
+            $status_updated_by = $this->session->userdata('user_id');
+        } elseif ($this->input->post('update')) {
+            $this->session->set_flashdata('error', validation_errors());
+            admin_redirect(isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : 'players');
+        }
+
+        if ($this->form_validation->run() == true && $this->coaches_model->updateStatus($id, $status, $status_updated_by, $status_updated_date)) {
+            $this->session->set_flashdata('message', lang('status_updated'));
+            admin_redirect(isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : 'players');
+        } else {
+            admin_redirect(isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : 'players');
         }
     }
 

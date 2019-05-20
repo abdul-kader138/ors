@@ -60,10 +60,24 @@
                                 <td><?= lang("Division"); ?></td>
                                 <td><?= $category->name; ?></td>
                             </tr>
+
                             <tr>
-                                <td><?= lang("SEA_Year"); ?></td>
-                                <td><?= $coach->sea_year; ?></td>
+                                <td><?= lang("Status"); ?></td>
+                                <td><?= $coach->c_status; ?></td>
                             </tr>
+
+                            <?php if ($updated_by) { ?>
+                                <tr>
+                                    <td><?= lang("Status_Updated_By"); ?></td>
+                                    <td><?= $updated_by->first_name." ".$updated_by->last_name; ?></td>
+                                </tr>
+                            <?php } ?>
+                            <?php if ($coach->status_updated_date) { ?>
+                                <tr>
+                                    <td><?= lang("Status_Updated_Date"); ?></td>
+                                    <td><?= $coach->status_updated_date; ?></td>
+                                </tr>
+                            <?php } ?>
                             </tbody>
                         </table>
                     </div>

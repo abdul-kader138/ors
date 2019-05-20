@@ -145,9 +145,9 @@
 
 
                                 <div class="form-group">
-                                    <?= lang('Transfer_Or_Repeat_Student?', 'Transfer_Or_Repeat_Student?') . '<b>*</b>'; ?>
+                                    <?= lang('Transfer_/_Transfer_Repeat_/_N/A', 'Repeater_/_Transfer_Repeater_/_N/A') . '<b>*</b>'; ?>
                                     <?php
-                                    $tr = array('Yes' => lang('Yes'), 'No' => lang('No'));
+                                    $tr = array('Repeater' => lang('Repeater'), 'Transfer Repeater' => lang('Transfer_Repeater'),'N/A' => lang('N/A'));
                                     echo form_dropdown('trs', $tr, (isset($_POST['trs']) ? $_POST['trs'] : $player->trs), 'id="trs" required="required" class="form-control select" style="width:100%;"');
                                     ?>
                                 </div>

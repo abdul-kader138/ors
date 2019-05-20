@@ -6,18 +6,11 @@
 </style>
 <script>
 
-    function pad(n, width, z) {
-        z = z || '0';
-        n = n + '';
-        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-    }
-
-    function bcp_status(x) {
-        if (x == null) {
-            return '';
-        } else {
-            return '<div class="text-center"><span class="payment_status label label-default">' + x + '</span></div>';
-        }
+    function player_status(x) {
+        var y = x.split('__');
+        if (y[0] == 'Approved') return '<span class="label label-success"> Approved</span>';
+        if (y[0] == 'Rejected') return '<span class="label label-danger"> Rejected</span>';
+        if (y[0] == 'Pending') return '<span class="label label-warning"> Pending</span>';
     }
 
     function name_status(x) {
@@ -73,19 +66,27 @@
             "aoColumns": [{
                 "bSortable": false,
                 "mRender": checkbox
-            },  {"bSortable": false,"mRender": player_img_hl},{"mRender": ref_status},{"mRender": name_status}, null, null,  null,  null,null,{"bSortable": false}]
+            },  {"bSortable": false,"mRender": player_img_hl},{"mRender": ref_status},{"mRender": name_status},  null,  null,  null,null,{"mRender": player_status},{"bSortable": false}]
         }).fnSetFilteringDelay().dtFilter([
             {column_number: 2, filter_default_label: "[<?=lang('ID');?>]", filter_type: "text", data: []},
             {column_number: 3, filter_default_label: "[<?=lang('Name');?>]", filter_type: "text", data: []},
             {column_number: 4, filter_default_label: "[<?=lang('Gender');?>]", filter_type: "text", data: []},
             {column_number: 5, filter_default_label: "[<?=lang('School');?>]", filter_type: "text", data: []},
-            {column_number: 6, filter_default_label: "[<?=lang('SEA_Year');?>]", filter_type: "text", data: []},
-            {column_number: 7, filter_default_label: "[<?=lang('Division');?>]", filter_type: "text", data: []},
+            {column_number: 6, filter_default_label: "[<?=lang('Division');?>]", filter_type: "text", data: []},
+            {column_number: 7, filter_default_label: "[<?=lang('Zone');?>]", filter_type: "text", data: []},
             {
-                column_number: 8,
-                filter_default_label: "[<?=lang('Is_Tagged_With_Team');?>]",
-                filter_type: "text",
-                data: []
+                column_number: 8, select_type: 'select2',
+                select_type_options: {
+                    placeholder: '<?=lang('Status');?>',
+                    width: '100%',
+                    style: 'width:100%;',
+                    minimumResultsForSearch: -1,
+                    allowClear: true
+                },
+                data: [{value: 'Pending', label: '<?=lang('Pending');?>'}, {
+                    value: 'Approved',
+                    label: '<?=lang('Approved');?>'
+                }, {value: 'Rejected', label: '<?=lang('Rejected');?>'}]
             }
         ], "footer");
     });
@@ -137,15 +138,15 @@
                             <th class="col-xs-2"><?php echo lang('Name'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Gender'); ?></th>
                             <th class="col-xs-2"><?php echo lang('School'); ?></th>
-                            <th class="col-xs-1"><?php echo lang('SEA_Year'); ?></th>
-                            <th class="col-xs-1"><?php echo lang('Division'); ?></th>
+                            <th class="col-xs-2"><?php echo lang('Division'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Zone'); ?></th>
+                            <th class="col-xs-1"><?php echo lang('Status'); ?></th>
                             <th style="width:40px;"><?php echo lang('actions'); ?></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td colspan="10" class="dataTables_empty"><?= lang('loading_data_from_server') ?></td>
+                            <td colspan="11" class="dataTables_empty"><?= lang('loading_data_from_server') ?></td>
                         </tr>
                         </tbody>
                         <tfoot class="dtFilter">

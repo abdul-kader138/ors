@@ -87,7 +87,7 @@ class Teams_model extends CI_Model
         $this->db->trans_strict(TRUE);
         $this->db->trans_start();
         $this->db->where('id',$player_id);
-        $this->db->delete('coaches');
+        $this->db->delete('teams');
         $this->db->where('id',$user_id);
         $this->db->delete('users');
         $this->db->trans_complete();

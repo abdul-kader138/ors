@@ -46,6 +46,8 @@ class Players extends MY_Controller
 
     function getPlayers()
     {
+
+        $payments_link = "";
         if (!$this->Owner && !$this->Admin) {
             $get_permission = $this->permission_details[0];
             if ((!$get_permission['players-index'])) {
@@ -56,7 +58,7 @@ class Players extends MY_Controller
         }
 
         $user_id = null;
-        if (!$this->Owner && !$this->Admin && !$this->Coaches && !$this->Teams && !$this->session->userdata('view_right') ) {
+        if (!$this->Owner && !$this->Admin && !$this->Coaches && !$this->Teams && !$this->session->userdata('view_right')) {
             $user_id = $this->session->userdata('user_id');
         }
 
@@ -65,16 +67,19 @@ class Players extends MY_Controller
             $warehouse_id = $this->session->userdata('warehouse_id');
         }
 
-        $user_details=$this->site->getUserByID($this->session->userdata('user_id'));
+        $user_details = $this->site->getUserByID($this->session->userdata('user_id'));
         $zone_id = null;
         if (!$this->Owner && !$this->Admin && $user_details->zone) $zone_id = $user_details->zone;
 
         $category_id = null;
         if (!$this->Owner && !$this->Admin && $user_details->division) $category_id = $user_details->division;
 
+        if ($this->Owner || $this->Admin) $payments_link = anchor('admin/players/update_status/$1', '<i class="fa fa-check-square"></i>' . lang(''), 'data-toggle="modal" class="tip" title="' . lang('Update_Status') . '" data-target="#myModal"');
+
+
         $this->load->library('datatables');
         $this->datatables
-            ->select($this->db->dbprefix('players') . ".id as ids," . $this->db->dbprefix('users') . ".avatar," . $this->db->dbprefix('players') . ".ssfl as ref,concat(" . $this->db->dbprefix('users') . ".first_name,' ', " . $this->db->dbprefix('users') . ".last_name) as u_name, " . $this->db->dbprefix('players') . ".gender,  " . $this->db->dbprefix('players') . ".dob, floor(datediff(curdate()," . $this->db->dbprefix('players') . ".dob) / 365) as ages," . $this->db->dbprefix('players') . ".bcp, " . $this->db->dbprefix('warehouses') . ".name, " . $this->db->dbprefix('players') . ".sea_year,  " . $this->db->dbprefix('categories') . ".name as names")
+            ->select($this->db->dbprefix('players') . ".id as ids," . $this->db->dbprefix('users') . ".avatar," . $this->db->dbprefix('players') . ".ssfl as ref,concat(" . $this->db->dbprefix('users') . ".first_name,' ', " . $this->db->dbprefix('users') . ".last_name) as u_name, " . $this->db->dbprefix('players') . ".gender,  " . $this->db->dbprefix('players') . ".dob, floor(datediff(curdate()," . $this->db->dbprefix('players') . ".dob) / 365) as ages," . $this->db->dbprefix('players') . ".bcp, " . $this->db->dbprefix('warehouses') . ".name, " . $this->db->dbprefix('players') . ".sea_year,  " . $this->db->dbprefix('categories') . ".name as names, " . $this->db->dbprefix('players') . ".p_status as st")
             ->from("users");
         $this->datatables->join('players', 'users.username=players.username', 'inner')
             ->join('categories', 'players.division=categories.id', 'left')
@@ -89,7 +94,7 @@ class Players extends MY_Controller
         $this->datatables->edit_column('active', '$1', 'ids')
             ->add_column("Actions", "<div class=\"text-center\"><a href='" . admin_url('players/edit/$1') . "' class='tip' title='" . lang("Edit_Player") . "'><i class=\"fa fa-edit\"></i></a>&nbsp;<a href='#' class='po' title='<b>" . lang("Delete_Player") . "</b>' data-content=\"<p>"
                 . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . admin_url('players/delete/$1') . "'>"
-                . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i></a></div>", "ids");
+                . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i>&nbsp;" . $payments_link . "</a></div>", "ids");
         echo $this->datatables->generate();
     }
 
@@ -121,8 +126,10 @@ class Players extends MY_Controller
         $this->form_validation->set_rules('pc', lang("pc"), 'trim|required');
         $this->form_validation->set_rules('sea_year', lang("sea_year"), 'trim|required');
         $this->form_validation->set_rules('trs', lang("trs"), 'trim|required');
+        $this->form_validation->set_rules('avatar', lang("avatar"), 'trim');
         $this->form_validation->set_rules('last_attend_school', lang("last_attend_school"), 'trim|required');
 
+        $image = null;
         if ($this->form_validation->run() == true) {
             $username = strtolower($this->input->post('username'));
             $email = strtolower($this->input->post('email'));
@@ -130,7 +137,9 @@ class Players extends MY_Controller
             $notify = $this->input->post('notify');
             $ip_address = $this->input->ip_address();
             $salt = $this->store_salt ? $this->salt() : FALSE;
-            $image = null;
+            if ($_FILES['avatar']['size'] > 0) $image = $this->image_upload();
+            else $this->form_validation->set_rules('avatar', lang("avatar"), 'required');
+
 
             $user_data = array(
                 'first_name' => $this->input->post('first_name'),
@@ -149,6 +158,7 @@ class Players extends MY_Controller
                 'last_login' => time(),
                 'zone' => $this->input->post('zone'),
                 'division' => $this->input->post('division'),
+                'avatar' => $image,
                 'active' => $this->input->post('status')
             );
             $players_data = array(
@@ -177,7 +187,7 @@ class Players extends MY_Controller
 
         }
         if ($this->form_validation->run() == true && $this->players_model->addPlayers($players_data, $user_data)) {
-            if ($notify) $msg = $this->sendEmail(($this->input->post('first_name').' '.$this->input->post('last_name')), $email, $this->input->post('password'));
+            if ($notify) $msg = $this->sendEmail(($this->input->post('first_name') . ' ' . $this->input->post('last_name')), $email, $this->input->post('password'));
             $this->session->set_flashdata('message', 'Data successfully updated.');
             admin_redirect("players");
 
@@ -186,6 +196,10 @@ class Players extends MY_Controller
             $this->data['schools'] = $this->site->getAllWarehouses();
             $this->data['categories'] = $this->site->getAllCategories();
             $this->data['zones'] = $this->site->getAllZone();
+            if ($image) {
+                unlink('assets/uploads/avatars/' . $image);
+                unlink('assets/uploads/avatars/thumbs/' . $image);
+            }
             $bc = array(array('link' => admin_url('home'), 'page' => lang('home')), array('link' => admin_url('players'), 'page' => lang('Players')), array('link' => '#', 'page' => lang('Add_Player')));
             $meta = array('page_title' => lang('Players'), 'bc' => $bc);
             $this->page_construct('players/add_player', $meta, $this->data);
@@ -313,10 +327,13 @@ class Players extends MY_Controller
             $this->session->set_flashdata('error', lang('Players_Not_Found'));
             $this->sma->md();
         }
+        $updated_by = null;
         $this->data['players'] = $pr_details;
         $this->data['user'] = $this->players_model->getUsersByID($pr_details->username);
+        if ($pr_details->status_updated_by) $updated_by = $this->site->getUserByID($pr_details->status_updated_by);
         $this->data['warehouses'] = $this->players_model->getWarehouseByID($pr_details->school_id);
         $this->data['category'] = $this->players_model->getCategoryByID($pr_details->division);
+        $this->data['updated_by'] = $updated_by;
         $this->load->view($this->theme . 'players/modal_view', $this->data);
     }
 
@@ -341,10 +358,89 @@ class Players extends MY_Controller
         $pr_details = $this->players_model->getPlayersByID($id);
         $usr_details = $this->players_model->getUsersByID($pr_details->username);
         if ($this->players_model->deletePlayer($id, $usr_details->id)) {
+            unlink('assets/uploads/avatars/' . $usr_details->avatar);
+            unlink('assets/uploads/avatars/thumbs/' . $usr_details->avatar);
             $this->sma->send_json(array('error' => 0, 'msg' => lang("Info_Deleted_Successfully")));
         } else {
             $this->sma->send_json(array('error' => 1, 'msg' => lang("Operation_Not_Success")));
         }
     }
 
+    function image_upload()
+    {
+        $this->load->library('upload');
+        $config['upload_path'] = 'assets/uploads/avatars';
+        $config['allowed_types'] = 'gif|jpg|png';
+        //$config['max_size'] = '500';
+        $config['max_width'] = $this->Settings->iwidth;
+        $config['max_height'] = $this->Settings->iheight;
+        $config['overwrite'] = FALSE;
+        $config['encrypt_name'] = TRUE;
+        $config['max_filename'] = 25;
+
+        $this->upload->initialize($config);
+
+        if (!$this->upload->do_upload('avatar')) {
+
+            $error = $this->upload->display_errors();
+            $this->session->set_flashdata('error', $error);
+            redirect($_SERVER["HTTP_REFERER"]);
+        }
+
+        $photo = $this->upload->file_name;
+
+        $this->load->helper('file');
+        $this->load->library('image_lib');
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = 'assets/uploads/avatars/' . $photo;
+        $config['new_image'] = 'assets/uploads/avatars/thumbs/' . $photo;
+        $config['maintain_ratio'] = TRUE;
+        $config['width'] = 200;
+        $config['height'] = 200;
+
+        $this->image_lib->clear();
+        $this->image_lib->initialize($config);
+
+        if (!$this->image_lib->resize()) {
+            echo $this->image_lib->display_errors();
+        }
+        return $photo;
+    }
+
+
+    public function update_status($id)
+    {
+
+        if (!$this->Owner && !$this->Admin) {
+            $this->session->set_flashdata('warning', lang('access_denied'));
+            die("<script type='text/javascript'>setTimeout(function(){ window.top.location.href = '" . (isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : site_url('welcome')) . "'; }, 10);</script>");
+            redirect($_SERVER["HTTP_REFERER"]);
+        }
+
+        $this->data['players'] = $this->players_model->getPlayersByID($id);
+        $this->load->view($this->theme . 'players/update_status', $this->data);
+    }
+
+
+    public function update_player_status($id)
+    {
+
+        $this->form_validation->set_rules('status', lang("sale_status"), 'required');
+
+        if ($this->form_validation->run() == true) {
+            $status = $this->input->post('status');
+            $status_updated_date = date('Y-m-d h:i:s');
+            $status_updated_by = $this->session->userdata('user_id');
+        } elseif ($this->input->post('update')) {
+            $this->session->set_flashdata('error', validation_errors());
+            admin_redirect(isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : 'players');
+        }
+
+        if ($this->form_validation->run() == true && $this->players_model->updateStatus($id, $status, $status_updated_by, $status_updated_date)) {
+            $this->session->set_flashdata('message', lang('status_updated'));
+            admin_redirect(isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : 'players');
+        } else {
+            admin_redirect(isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : 'players');
+        }
+    }
 }

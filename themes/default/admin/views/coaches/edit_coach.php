@@ -45,14 +45,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <?php echo lang('email', 'email'); ?>
-                                <div class="controls">
-                                    <?php
-                                    $atr=array('name'=>'email', 'id'=>'email','type'=>'email','class'=>'form-control');
-                                    echo form_input($atr, (isset($_POST['email']) ? $_POST['email'] : $user->email)); ?>
-                                </div>
-                            </div>
+
                         </div>
                         <div class="col-md-5 col-md-offset-1">
 
@@ -85,13 +78,13 @@
                                 echo form_dropdown('division', $gp, (isset($_POST['division']) ? $_POST['division'] : $coach->division), 'id="division" class="form-control select" style="width:100%;" ');
                                 ?>
                             </div>
-
                             <div class="form-group">
-                                <?= lang('SEA_Year', 'SEA_Year').'<b>*</b>'; ?>
-                                <?php
-                                $opt = array("2012" => lang('2012'), "2013" => lang('2013'), "2014" => lang('2014'), "2015" => lang('2015'), "2016" => lang('2016'), "2017" => lang('2017'), "2018" => lang('2018'), "2019" => lang('2019'), "2020" => lang('2020'), "2021" => lang('2021'), "2022" => lang('2022'), "2023" => lang('2023'), "2024" => lang('2024'), "2025" => lang('2025'), "2026" => lang('2026'), "2027" => lang('2027'), "2028" => lang('2028'));
-                                echo form_dropdown('sea_year', $opt, (isset($_POST['sea_year']) ? $_POST['sea_year'] : $coach->sea_year), 'id="sea_year" required="required" class="form-control select" style="width:100%;"');
-                                ?>
+                                <?php echo lang('email', 'email'); ?>
+                                <div class="controls">
+                                    <?php
+                                    $atr=array('name'=>'email', 'id'=>'email','type'=>'email','class'=>'form-control');
+                                    echo form_input($atr, (isset($_POST['email']) ? $_POST['email'] : $user->email)); ?>
+                                </div>
                             </div>
 
                         </div>

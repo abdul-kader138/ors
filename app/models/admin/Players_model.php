@@ -105,6 +105,15 @@ class Players_model extends CI_Model
         return FALSE;
     }
 
+    public function updateStatus($player_id,  $status, $status_updated_by,$status_updated_date)
+    {
+        $this->db->trans_strict(TRUE);
+        $this->db->trans_start();
+        $this->db->update('players', array('p_status' => $status, 'status_updated_by' => $status_updated_by,'status_updated_date' => $status_updated_date), array('id' => $player_id));
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === FALSE) return false;
+        else return true;
+    }
 
 
 }

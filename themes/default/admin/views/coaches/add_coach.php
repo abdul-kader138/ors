@@ -7,7 +7,7 @@
         <!--        <div class="row">-->
         <div class="col-md-12">
             <?php $attrib = array('class' => 'form-horizontal', 'data-toggle' => 'validator', 'role' => 'form');
-            echo admin_form_open("coaches/add", $attrib);
+            echo admin_form_open_multipart("coaches/add", $attrib);
             ?>
             <div class="row">
                 <fieldset class="scheduler-border">
@@ -45,16 +45,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <?php echo lang('email', 'email'); ?>
-                                <div class="controls">
-                                    <input type="email" id="email" name="email" class="form-control"
-                                           required="required"/>
-                                    <?php /* echo form_input('email', '', 'class="form-control" id="email" required="required"'); */ ?>
-                                </div>
-                            </div>
-
-
 
                         </div>
                         <div class="col-md-5 col-md-offset-1">
@@ -90,13 +80,13 @@
                             </div>
 
                             <div class="form-group">
-                                <?= lang('SEA_Year', 'SEA_Year').'<b>*</b>'; ?>
-                                <?php
-                                $opt = array("2012" => lang('2012'), "2013" => lang('2013'), "2014" => lang('2014'), "2015" => lang('2015'), "2016" => lang('2016'), "2017" => lang('2017'), "2018" => lang('2018'), "2019" => lang('2019'), "2020" => lang('2020'), "2021" => lang('2021'), "2022" => lang('2022'), "2023" => lang('2023'), "2024" => lang('2024'), "2025" => lang('2025'), "2026" => lang('2026'), "2027" => lang('2027'), "2028" => lang('2028'));
-                                echo form_dropdown('sea_year', $opt, (isset($_POST['sea_year']) ? $_POST['sea_year'] : ''), 'id="sea_year" required="required" class="form-control select" style="width:100%;"');
-                                ?>
+                                <?php echo lang('email', 'email'); ?>
+                                <div class="controls">
+                                    <input type="email" id="email" name="email" class="form-control"
+                                           required="required"/>
+                                    <?php /* echo form_input('email', '', 'class="form-control" id="email" required="required"'); */ ?>
+                                </div>
                             </div>
-
                         </div>
 
                     </div>
@@ -134,17 +124,13 @@
                                 echo form_dropdown('status', $opt, (isset($_POST['status']) ? $_POST['status'] : ''), 'id="status" required="required" class="form-control select" style="width:100%;"');
                                 ?>
                             </div>
-
-
-                            <div class="row">
-                                <div class="col-md-12>
-                                                <label class="checkbox" for="notify">
-                                <input type="checkbox" name="notify" value="1" id="notify"/>
-                                &nbsp;&nbsp;<?= lang('notify_user_by_email') ?>
-                                </label>
+                            <div class="form-group">
+                                <?= lang("Photo", "Photo"); ?>
+                                <input type="file" data-browse-label="<?= lang('browse'); ?>" name="avatar"
+                                       id="avatar" required="required"
+                                       data-show-upload="false" data-show-preview="false" accept="image/*"
+                                       class="form-control file"/>
                             </div>
-                            <div class="clearfix"></div>
-                        </div>
                     </div>
                     <div class="col-md-5 col-md-offset-1">
 
@@ -164,6 +150,16 @@
                                 <?php echo form_password('confirm_password', '', 'class="form-control" id="confirm_password" required="required" data-bv-identical="true" data-bv-identical-field="password" data-bv-identical-message="' . lang('pw_not_same') . '"'); ?>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-12>
+                                                <label class="checkbox" for="notify">
+                            <input type="checkbox" name="notify" value="1" id="notify"/>
+                            &nbsp;&nbsp;<?= lang('notify_user_by_email') ?>
+                            </label>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
 
                     </div>
             </div>

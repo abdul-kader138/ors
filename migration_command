@@ -27,3 +27,13 @@ ALTER TABLE `sma_warehouses` ADD `home_ground` VARCHAR(100) default NULL AFTER `
 
 ALTER TABLE `sma_users` ADD `zone` VARCHAR(50) NULL DEFAULT NULL AFTER `allow_discount`;
 ALTER TABLE `sma_users` ADD `division` INT(9) NULL DEFAULT NULL AFTER `zone`;
+
+ALTER TABLE `sma_players` CHANGE `sessions` `sessions` VARCHAR(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `sma_players` ADD `p_status` VARCHAR(50) NOT NULL DEFAULT 'Pending' ;
+ALTER TABLE `sma_players` ADD `status_updated_date` DATETIME NULL DEFAULT NULL ;
+ALTER TABLE `sma_players` ADD `status_updated_by` INT(9) NULL DEFAULT NULL ;
+
+ALTER TABLE `sma_coaches` ADD `c_status` VARCHAR(50) NOT NULL DEFAULT 'Pending' ;
+ALTER TABLE `sma_coaches` ADD `status_updated_date` DATETIME NULL DEFAULT NULL ;
+ALTER TABLE `sma_coaches` ADD `status_updated_by` INT(9) NULL DEFAULT NULL ;
