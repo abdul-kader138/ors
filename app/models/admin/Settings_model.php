@@ -150,7 +150,7 @@ class Settings_model extends CI_Model
 
     public function deleteWarehouse($id)
     {
-        if ($this->db->delete('warehouses', array('id' => $id)) && $this->db->delete('warehouses_products', array('warehouse_id' => $id))) {
+        if ($this->db->delete('warehouses', array('id' => $id))) {
             return true;
         }
         return FALSE;

@@ -8,7 +8,6 @@
     <link rel="shortcut icon" href="<?= $assets ?>images/icon.png"/>
     <link href="<?= $assets ?>styles/theme.css" rel="stylesheet"/>
     <link href="<?= $assets ?>styles/style.css" rel="stylesheet"/>
-    <link href="<?= $assets ?>js/izitoast/css/iziToast.min.css" rel="stylesheet"/>
     <script type="text/javascript" src="<?= $assets ?>js/jquery-2.0.3.min.js"></script>
     <script type="text/javascript" src="<?= $assets ?>js/jquery-migrate-1.2.1.min.js"></script>
     <!--[if lt IE 9]>
@@ -346,123 +345,6 @@
                                                 <span class="text"> <?= lang('reports'); ?> </span>
                                                 <span class="chevron closed"></span>
                                             </a>
-<!--                                            <ul>-->
-<!--                                                <li id="reports_index">-->
-<!--                                                    <a href="--><?//= admin_url('reports') ?><!--">-->
-<!--                                                        <i class="fa fa-bars"></i><span-->
-<!--                                                                class="text"> --><?//= lang('overview_chart'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_warehouse_stock">-->
-<!--                                                    <a href="--><?//= admin_url('reports/warehouse_stock') ?><!--">-->
-<!--                                                        <i class="fa fa-building"></i><span-->
-<!--                                                                class="text"> --><?//= lang('warehouse_stock'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!---->
-<!--                                                <li id="reports_order_transaction_report">-->
-<!--                                                    <a href="--><?//= admin_url('reports/order_transaction_report') ?><!--">-->
-<!--                                                        <i class="fa fa-history"></i><span-->
-<!--                                                                class="text"> --><?//= lang('Order_Details_Report'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_order_summary_report">-->
-<!--                                                    <a href="--><?//= admin_url('reports/order_summary_report') ?><!--">-->
-<!--                                                        <i class="fa fa-history"></i><span-->
-<!--                                                                class="text"> --><?//= lang('Order_Summary_Report'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_products">-->
-<!--                                                    <a href="--><?//= admin_url('reports/products') ?><!--">-->
-<!--                                                        <i class="fa fa-barcode"></i><span-->
-<!--                                                                class="text"> --><?//= lang('products_report'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_categories">-->
-<!--                                                    <a href="--><?//= admin_url('reports/categories') ?><!--">-->
-<!--                                                        <i class="fa fa-folder-open"></i><span-->
-<!--                                                                class="text"> --><?//= lang('categories_report'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_daily_sales">-->
-<!--                                                    <a href="--><?//= admin_url('reports/daily_sales') ?><!--">-->
-<!--                                                        <i class="fa fa-calendar"></i><span-->
-<!--                                                                class="text"> --><?//= lang('Daily_Order_Status'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_monthly_sales">-->
-<!--                                                    <a href="--><?//= admin_url('reports/monthly_sales') ?><!--">-->
-<!--                                                        <i class="fa fa-calendar"></i><span-->
-<!--                                                                class="text"> --><?//= lang('Monthly_Order_Status'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_sales">-->
-<!--                                                    <a href="--><?//= admin_url('reports/sales') ?><!--">-->
-<!--                                                        <i class="fa fa-heart"></i><span-->
-<!--                                                                class="text"> --><?//= lang('sales_report'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_payments">-->
-<!--                                                    <a href="--><?//= admin_url('reports/payments') ?><!--">-->
-<!--                                                        <i class="fa fa-money"></i><span-->
-<!--                                                                class="text"> --><?//= lang('payments_report'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_tax">-->
-<!--                                                    <a href="--><?//= admin_url('reports/tax') ?><!--">-->
-<!--                                                        <i class="fa fa-area-chart"></i><span-->
-<!--                                                                class="text"> --><?//= lang('tax_report'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_profit_loss">-->
-<!--                                                    <a href="--><?//= admin_url('reports/profit_loss') ?><!--">-->
-<!--                                                        <i class="fa fa-money"></i><span-->
-<!--                                                                class="text"> --><?//= lang('profit_and_loss'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_daily_purchases">-->
-<!--                                                    <a href="--><?//= admin_url('reports/daily_purchases') ?><!--">-->
-<!--                                                        <i class="fa fa-calendar"></i><span-->
-<!--                                                                class="text"> --><?//= lang('daily_purchases'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_monthly_purchases">-->
-<!--                                                    <a href="--><?//= admin_url('reports/monthly_purchases') ?><!--">-->
-<!--                                                        <i class="fa fa-calendar"></i><span-->
-<!--                                                                class="text"> --><?//= lang('monthly_purchases'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_purchases">-->
-<!--                                                    <a href="--><?//= admin_url('reports/purchases') ?><!--">-->
-<!--                                                        <i class="fa fa-star"></i><span-->
-<!--                                                                class="text"> --><?//= lang('purchases_report'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_expenses">-->
-<!--                                                    <a href="--><?//= admin_url('reports/expenses') ?><!--">-->
-<!--                                                        <i class="fa fa-star"></i><span-->
-<!--                                                                class="text"> --><?//= lang('expenses_report'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_customer_report">-->
-<!--                                                    <a href="--><?//= admin_url('reports/customers') ?><!--">-->
-<!--                                                        <i class="fa fa-users"></i><span-->
-<!--                                                                class="text"> --><?//= lang('customers_report'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_supplier_report">-->
-<!--                                                    <a href="--><?//= admin_url('reports/suppliers') ?><!--">-->
-<!--                                                        <i class="fa fa-users"></i><span-->
-<!--                                                                class="text"> --><?//= lang('suppliers_report'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                                <li id="reports_staff_report">-->
-<!--                                                    <a href="--><?//= admin_url('reports/users') ?><!--">-->
-<!--                                                        <i class="fa fa-users"></i><span-->
-<!--                                                                class="text"> --><?//= lang('staff_report'); ?><!--</span>-->
-<!--                                                    </a>-->
-<!--                                                </li>-->
-<!--                                            </ul>-->
                                         </li>
                                         <?php
                                     } else { // not owner and not admin ?>

@@ -1,13 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-/*
- *  ============================================================================== 
- *  Author  : Mian Saleem
- *  Email   : saleem@tecdiary.com 
- *  For     : Stock Manager Advance
- *  Web     : http://tecdiary.com
- *  ============================================================================== 
- */
 
 class Logs
 {

@@ -46,10 +46,6 @@ foreach ($zone_female_history as $zones_m) {
     if ($zones_m->zone == 'Tobago') $f_tobago = (int)$zones_m->id;
 }
 ?>
-<!--<script src="--><?//= $assets; ?><!--js/highcharts.js"></script>-->
-<!--<script src="--><?//= $assets; ?><!--js/exporting.js"></script>-->
-<!--<script src="--><?//= $assets; ?><!--js/hc/export-data.js"></script>-->
-
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>

@@ -31,7 +31,8 @@ class MY_Controller extends CI_Controller {
         $this->loggedIn = $this->sma->logged_in();
 
         if($this->loggedIn) {
-            $this->default_currency = $this->site->getCurrencyByCode($this->Settings->default_currency);
+//            $this->default_currency = $this->site->getCurrencyByCode($this->Settings->default_currency);
+            $this->default_currency = Null;
             $this->data['default_currency'] = $this->default_currency;
             $this->Owner = $this->sma->in_group('owner') ? TRUE : NULL;
             $this->data['Owner'] = $this->Owner;
@@ -83,7 +84,6 @@ class MY_Controller extends CI_Controller {
             $this->dateFormats = $dateFormats;
             $this->data['dateFormats'] = $dateFormats;
             $this->load->language('calendar');
-            //$this->default_currency = $this->Settings->currency_code;
             //$this->data['default_currency'] = $this->default_currency;
             $this->m = strtolower($this->router->fetch_class());
             $this->v = strtolower($this->router->fetch_method());
@@ -115,11 +115,6 @@ class MY_Controller extends CI_Controller {
         $meta['dateFormats'] = $data['dateFormats'];
         $meta['assets'] = $data['assets'];
         $meta['GP'] = $data['GP'];
-        $meta['qty_alert_num'] = $this->site->get_total_qty_alerts();
-        $meta['exp_alert_num'] = $this->site->get_expiring_qty_alerts();
-        $meta['shop_sale_alerts'] = SHOP ? $this->site->get_shop_sale_alerts() : 0;
-        $meta['shop_payment_alerts'] = is_set ? $this->site->get_shop_payment_alerts() : 0;
-        $meta['total_ready_30'] = $this->site->getTotalReady30Days();
         $this->load->view($this->theme . 'header', $meta);
         $this->load->view($this->theme . $page, $data);
         $this->load->view($this->theme . 'footer');

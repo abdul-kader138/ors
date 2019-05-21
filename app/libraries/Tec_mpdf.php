@@ -1,14 +1,4 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-/*
- *  ==============================================================================
- *  Author  : Mian Saleem
- *  Email   : saleem@tecdiary.com
- *  For     : mPDF
- *  Web     : https://github.com/mpdf/mpdf
- *  License : GNU General Public License v2.0
- *          : https://github.com/mpdf/mpdf/blob/development/LICENSE.txt
- *  ==============================================================================
- */
 
 use Mpdf\Mpdf;
 

@@ -2,10 +2,9 @@
 
 /*
  *  ==============================================================================
- *  Author    : Mian Saleem
- *  Email     : saleem@tecdiary.com
- *  For       : Stock Manager Advance
- *  Web       : http://tecdiary.com
+ *  Author    : Abdul Kader
+ *  Email     : codelover138@gmail.com
+ *  Web       : http://oneclicksolutionbd.com
  *  ==============================================================================
  */
 

@@ -26,25 +26,5 @@ class Notify extends CI_Controller
         $this->load->view('default/notify', $data);
     }
 
-    function payment_success($msg = NULL) {
-        $data['page_title'] = lang('payment');
-        $data['msg'] = $msg ? $msg : lang('thank_you');
-        $data['msg1'] = lang('payment_added');
-        $this->load->view('default/notify', $data);
-    }
-
-    function payment_failed($msg = NULL) {
-        $data['page_title'] = lang('payment');
-        $data['msg'] = $msg ? $msg : lang('error');
-        $data['msg1'] = lang('payment_failed');
-        $this->load->view('default/notify', $data);
-    }
-
-    function payment() {
-        $data['page_title'] = lang('payment');
-        $data['msg'] = lang('info');
-        $data['msg1'] = lang('payment_processing');
-        $this->load->view('default/notify', $data);
-    }
 
 }

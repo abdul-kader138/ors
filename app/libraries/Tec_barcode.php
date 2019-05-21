@@ -1,13 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-/*
- *  ==============================================================================
- *  Author  : Mian Saleem
- *  Email   : saleem@tecdiary.com
- *  Package : zend-barcode
- *  License : New BSD License
- *  ==============================================================================
- */
 
 use Zend\Barcode\Barcode;
 

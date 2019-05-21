@@ -1,12 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-/*
- *  ==============================================================================
- *  Author  : Mian Saleem
- *  Email   : saleem@tecdiary.com
- *  For     : SMS APIs
- *  ==============================================================================
- */
 
 use Tecdiary\Sms\Sms;
 

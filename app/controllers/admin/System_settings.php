@@ -28,7 +28,6 @@ class System_settings extends MY_Controller
 
     function index()
     {
-        $this->load->library('gst');
         $this->form_validation->set_rules('site_name', lang('site_name'), 'trim|required');
         $this->form_validation->set_rules('dateformat', lang('dateformat'), 'trim|required');
         $this->form_validation->set_rules('timezone', lang('timezone'), 'trim|required');
@@ -90,14 +89,11 @@ class System_settings extends MY_Controller
                 'decimals' => $this->input->post('decimals'),
                 'decimals_sep' => $this->input->post('decimals_sep'),
                 'thousands_sep' => $this->input->post('thousands_sep'),
-                'invoice_view' => $this->input->post('invoice_view'),
                 'iwidth' => $this->input->post('iwidth'),
                 'iheight' => $this->input->post('iheight'),
                 'twidth' => $this->input->post('twidth'),
                 'theight' => $this->input->post('theight'),
                 'rtl' => $this->input->post('rtl'),
-                'each_spent' => $this->input->post('each_spent') ? $this->input->post('each_spent') : NULL,
-                'qty_decimals' => $this->input->post('qty_decimals'),
             );
             if ($this->input->post('smtp_pass')) {
                 $data['smtp_pass'] = $this->input->post('smtp_pass');
@@ -642,86 +638,8 @@ class System_settings extends MY_Controller
         if ($this->form_validation->run() == true) {
 
             $data = array(
-                'products-index' => $this->input->post('products-index'),
-                'products-edit' => $this->input->post('products-edit'),
-                'products-add' => $this->input->post('products-add'),
-                'products-delete' => $this->input->post('products-delete'),
-                'products-cost' => $this->input->post('products-cost'),
-                'products-price' => $this->input->post('products-price'),
-                'customers-index' => $this->input->post('customers-index'),
-                'customers-edit' => $this->input->post('customers-edit'),
-                'customers-add' => $this->input->post('customers-add'),
-                'customers-delete' => $this->input->post('customers-delete'),
-                'suppliers-index' => $this->input->post('suppliers-index'),
-                'suppliers-edit' => $this->input->post('suppliers-edit'),
-                'suppliers-add' => $this->input->post('suppliers-add'),
-                'suppliers-delete' => $this->input->post('suppliers-delete'),
-                'sales-index' => $this->input->post('sales-index'),
-                'sales-edit' => $this->input->post('sales-edit'),
-                'sales-add' => $this->input->post('sales-add'),
-                'sales-delete' => $this->input->post('sales-delete'),
-                'sales-email' => $this->input->post('sales-email'),
-                'sales-pdf' => $this->input->post('sales-pdf'),
-                'sales-deliveries' => $this->input->post('sales-deliveries'),
-                'sales-edit_delivery' => $this->input->post('sales-edit_delivery'),
-                'sales-add_delivery' => $this->input->post('sales-add_delivery'),
-                'sales-delete_delivery' => $this->input->post('sales-delete_delivery'),
-                'sales-email_delivery' => $this->input->post('sales-email_delivery'),
-                'sales-pdf_delivery' => $this->input->post('sales-pdf_delivery'),
-                'sales-gift_cards' => $this->input->post('sales-gift_cards'),
-                'sales-edit_gift_card' => $this->input->post('sales-edit_gift_card'),
-                'sales-add_gift_card' => $this->input->post('sales-add_gift_card'),
-                'sales-delete_gift_card' => $this->input->post('sales-delete_gift_card'),
-                'quotes-index' => $this->input->post('quotes-index'),
-                'quotes-edit' => $this->input->post('quotes-edit'),
-                'quotes-add' => $this->input->post('quotes-add'),
-                'quotes-delete' => $this->input->post('quotes-delete'),
-                'quotes-email' => $this->input->post('quotes-email'),
-                'quotes-pdf' => $this->input->post('quotes-pdf'),
-                'purchases-index' => $this->input->post('purchases-index'),
-                'purchases-edit' => $this->input->post('purchases-edit'),
-                'purchases-add' => $this->input->post('purchases-add'),
-                'purchases-delete' => $this->input->post('purchases-delete'),
-                'purchases-email' => $this->input->post('purchases-email'),
-                'purchases-pdf' => $this->input->post('purchases-pdf'),
-                'transfers-index' => $this->input->post('transfers-index'),
-                'transfers-edit' => $this->input->post('transfers-edit'),
-                'transfers-add' => $this->input->post('transfers-add'),
-                'transfers-delete' => $this->input->post('transfers-delete'),
-                'transfers-email' => $this->input->post('transfers-email'),
-                'transfers-pdf' => $this->input->post('transfers-pdf'),
-                'sales-return_sales' => $this->input->post('sales-return_sales'),
-                'reports-quantity_alerts' => $this->input->post('reports-quantity_alerts'),
-                'reports-expiry_alerts' => $this->input->post('reports-expiry_alerts'),
-                'reports-products' => $this->input->post('reports-products'),
-                'reports-daily_sales' => $this->input->post('reports-daily_sales'),
-                'reports-monthly_sales' => $this->input->post('reports-monthly_sales'),
-                'reports-payments' => $this->input->post('reports-payments'),
-                'reports-sales' => $this->input->post('reports-sales'),
-                'reports-purchases' => $this->input->post('reports-purchases'),
-                'reports-customers' => $this->input->post('reports-customers'),
-                'reports-suppliers' => $this->input->post('reports-suppliers'),
-                'sales-payments' => $this->input->post('sales-payments'),
-                'purchases-payments' => $this->input->post('purchases-payments'),
-                'purchases-expenses' => $this->input->post('purchases-expenses'),
-                'products-adjustments' => $this->input->post('products-adjustments'),
+
                 'bulk_actions' => $this->input->post('bulk_actions'),
-                'customers-deposits' => $this->input->post('customers-deposits'),
-                'customers-delete_deposit' => $this->input->post('customers-delete_deposit'),
-                'products-barcode' => $this->input->post('products-barcode'),
-                'purchases-return_purchases' => $this->input->post('purchases-return_purchases'),
-                'reports-expenses' => $this->input->post('reports-expenses'),
-                'reports-daily_purchases' => $this->input->post('reports-daily_purchases'),
-                'reports-monthly_purchases' => $this->input->post('reports-monthly_purchases'),
-                'products-stock_count' => $this->input->post('products-stock_count'),
-                'edit_price' => $this->input->post('edit_price'),
-                'returns-index' => $this->input->post('returns-index'),
-                'returns-edit' => $this->input->post('returns-edit'),
-                'returns-add' => $this->input->post('returns-add'),
-                'returns-delete' => $this->input->post('returns-delete'),
-                'returns-email' => $this->input->post('returns-email'),
-                'returns-pdf' => $this->input->post('returns-pdf'),
-                'reports-tax' => $this->input->post('reports-tax'),
 
                 'players-index' => $this->input->post('players-index'),
                 'players-edit' => $this->input->post('players-edit'),
@@ -1592,7 +1510,7 @@ class System_settings extends MY_Controller
             admin_redirect("system_settings/warehouses");
         } else {
             $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
-            $this->data['price_groups'] = $this->settings_model->getAllPriceGroups();
+//            $this->data['price_groups'] = $this->settings_model->getAllPriceGroups();
             $this->data['modal_js'] = $this->site->modal_js();
             $this->load->view($this->theme . 'settings/add_warehouse', $this->data);
         }
@@ -1672,7 +1590,7 @@ class System_settings extends MY_Controller
             $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
 
             $this->data['warehouse'] = $this->settings_model->getWarehouseByID($id);
-            $this->data['price_groups'] = $this->settings_model->getAllPriceGroups();
+//            $this->data['price_groups'] = $this->settings_model->getAllPriceGroups();
             $this->data['id'] = $id;
             $this->data['modal_js'] = $this->site->modal_js();
             $this->load->view($this->theme . 'settings/edit_warehouse', $this->data);
