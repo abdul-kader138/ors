@@ -138,10 +138,10 @@
                             <th class="col-xs-2"><?php echo lang('Name'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Gender'); ?></th>
                             <th class="col-xs-2"><?php echo lang('School'); ?></th>
-                            <th class="col-xs-2"><?php echo lang('Division'); ?></th>
+                            <th class="col-xs-1"><?php echo lang('Division'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Zone'); ?></th>
                             <th class="col-xs-1"><?php echo lang('Status'); ?></th>
-                            <th style="width:40px;"><?php echo lang('actions'); ?></th>
+                            <th ><?php echo lang('actions'); ?></th>
                         </tr>
                         </thead>
                         <tbody>

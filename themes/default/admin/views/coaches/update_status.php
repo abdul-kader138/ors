@@ -7,7 +7,7 @@
             <h4 class="modal-title" id="myModalLabel"><?php echo lang('update_status'); ?></h4>
         </div>
         <?php $attrib = array('data-toggle' => 'validator', 'role' => 'form');
-        echo admin_form_open_multipart("coaches/update_player_status/" . $coaches->id, $attrib); ?>
+        echo admin_form_open_multipart("coaches/update_coaches_status/" . $coaches->id, $attrib); ?>
         <div class="modal-body">
             <p><?= lang('enter_info'); ?></p>
             <div class="panel panel-default">

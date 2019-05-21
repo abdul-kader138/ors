@@ -37,3 +37,9 @@ ALTER TABLE `sma_players` ADD `status_updated_by` INT(9) NULL DEFAULT NULL ;
 ALTER TABLE `sma_coaches` ADD `c_status` VARCHAR(50) NOT NULL DEFAULT 'Pending' ;
 ALTER TABLE `sma_coaches` ADD `status_updated_date` DATETIME NULL DEFAULT NULL ;
 ALTER TABLE `sma_coaches` ADD `status_updated_by` INT(9) NULL DEFAULT NULL ;
+
+ALTER TABLE `sma_players` ADD `document` VARCHAR(100)  NULL DEFAULT NULL ;
+ALTER TABLE `sma_players` ADD `note` VARCHAR(200)  NULL DEFAULT NULL ;
+
+ALTER TABLE `sma_coaches` ADD `document` VARCHAR(100)  NULL DEFAULT NULL ;
+ALTER TABLE `sma_coaches` ADD `note` VARCHAR(200)  NULL DEFAULT NULL ;

@@ -80,6 +80,13 @@
                                     <td><?= $players->status_updated_date; ?></td>
                                 </tr>
                             <?php } ?>
+
+                            <?php if ($players->document) { ?>
+                                <tr>
+                                    <td><?= lang("Download_Document"); ?></td>
+                                    <td><a href="<?php echo base_url() . "assets/uploads/players/" . $players->document;?>" download><?=$players->document?></a></td>
+                                </tr>
+                            <?php } ?>
                             </tbody>
                         </table>
                     </div>

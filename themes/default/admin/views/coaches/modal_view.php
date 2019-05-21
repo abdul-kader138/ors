@@ -78,6 +78,13 @@
                                     <td><?= $coach->status_updated_date; ?></td>
                                 </tr>
                             <?php } ?>
+
+                            <?php if ($coach->document) { ?>
+                                <tr>
+                                    <td><?= lang("Download_Document"); ?></td>
+                                    <td><a href="<?php echo base_url() . "assets/uploads/coaches/" . $coach->document;?>" download><?=$coach->document?></a></td>
+                                </tr>
+                            <?php } ?>
                             </tbody>
                         </table>
                     </div>

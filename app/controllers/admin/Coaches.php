@@ -23,6 +23,9 @@ class Coaches extends MY_Controller
         $this->load->library('form_validation');
         $this->load->admin_model('coaches_model');
         $this->load->admin_model('auth_model');
+        $this->digital_file_types = 'zip|psd|ai|rar|pdf|doc|docx|xls|xlsx|ppt|pptx|gif|jpg|jpeg|png|tif';
+        $this->allowed_file_size = '5048';
+        $this->upload_path = 'assets/uploads/coaches/';
 
 
     }
@@ -72,6 +75,7 @@ class Coaches extends MY_Controller
         if (!$this->Owner && !$this->Admin && $user_details->division) $category_id = $user_details->division;
 
         if ($this->Owner || $this->Admin) $payments_link = anchor('admin/coaches/update_status/$1', '<i class="fa fa-check-square"></i>' . lang(''), 'data-toggle="modal" class="tip" title="' . lang('Update_Status') . '" data-target="#myModal"');
+        $do_upload__link = anchor('admin/coaches/upload_document/$1', '<i class="fa fa-upload"></i>' . lang(''), 'data-toggle="modal" class="tip" title="' . lang('Upload_Document') . '" data-target="#myModal"');
 
 
 
@@ -94,7 +98,7 @@ class Coaches extends MY_Controller
         $this->datatables->edit_column('active', '$1', 'ids')
             ->add_column("Actions", "<div class=\"text-center\"><a href='" . admin_url('coaches/edit/$1') . "' class='tip' title='" . lang("Edit_Coach") . "'><i class=\"fa fa-edit\"></i></a>&nbsp;<a href='#' class='po' title='<b>" . lang("Delete_Coach") . "</b>' data-content=\"<p>"
                 . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . admin_url('coaches/delete/$1') . "'>"
-                . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i></a>&nbsp;" . $payments_link . "</div>", "ids");
+                . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i></a>&nbsp;" .$payments_link . " &nbsp;".$do_upload__link."</a></div>", "ids");
         echo $this->datatables->generate();
     }
 
@@ -325,6 +329,7 @@ class Coaches extends MY_Controller
         if ($this->coaches_model->deleteCoach($id, $usr_details->id)) {
             unlink('assets/uploads/avatars/' . $usr_details->avatar);
             unlink('assets/uploads/avatars/thumbs/' . $usr_details->avatar);
+            unlink($this->upload_path . $pr_details->document);
             $this->sma->send_json(array('error' => 0, 'msg' => lang("Info_Deleted_Successfully")));
         } else {
             $this->sma->send_json(array('error' => 1, 'msg' => lang("Operation_Not_Success")));
@@ -388,7 +393,7 @@ class Coaches extends MY_Controller
     }
 
 
-    public function update_player_status($id)
+    public function update_coaches_status($id)
     {
 
         $this->form_validation->set_rules('status', lang("sale_status"), 'required');
@@ -399,15 +404,62 @@ class Coaches extends MY_Controller
             $status_updated_by = $this->session->userdata('user_id');
         } elseif ($this->input->post('update')) {
             $this->session->set_flashdata('error', validation_errors());
-            admin_redirect(isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : 'players');
+            admin_redirect(isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : 'coaches');
         }
 
         if ($this->form_validation->run() == true && $this->coaches_model->updateStatus($id, $status, $status_updated_by, $status_updated_date)) {
             $this->session->set_flashdata('message', lang('status_updated'));
-            admin_redirect(isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : 'players');
+            admin_redirect(isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : 'coaches');
         } else {
-            admin_redirect(isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : 'players');
+            admin_redirect(isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : 'coaches');
         }
     }
+
+    public function upload_document($id)
+    {
+
+        $this->data['coaches'] = $this->coaches_model->getCoachesByID($id);
+        $this->load->view($this->theme . 'coaches/upload_document', $this->data);
+    }
+
+    function upload_coaches_document($id)
+    {
+        $this->load->helper('security');
+        $this->form_validation->set_rules('document', lang("document"), 'xss_clean');
+        if ($this->form_validation->run() == true) {
+
+            $coach=$this->coaches_model->getCoachesByID($id);
+            if($coach->document) unlink($this->upload_path . $coach->document);
+
+            $note=$this->input->post('note');
+            if ($_FILES['document']['size'] > 0) {
+                $this->load->library('upload');
+                $config['upload_path'] = $this->upload_path;
+                $config['max_size'] = $this->allowed_file_size;
+                $config['allowed_types'] = $this->digital_file_types;
+                $config['overwrite'] = FALSE;
+                $config['max_filename'] = 25;
+                //$config['encrypt_name'] = TRUE;
+                $this->upload->initialize($config);
+                if (!$this->upload->do_upload('document')) {
+                    $error = $this->upload->display_errors();
+                    $this->session->set_flashdata('error', $error);
+                    redirect($_SERVER["HTTP_REFERER"]);
+                }
+                $doc_name = $this->upload->file_name;
+                $this->db->update('coaches', array('document' => $doc_name,'note' => $note), array('id' => $id));
+            }
+            $this->session->set_flashdata('message', lang('Document_Uploaded_Successfully.'));
+            redirect($_SERVER["HTTP_REFERER"]);
+
+        } elseif ($this->input->post('upload_document')) {
+            $this->session->set_flashdata('error', validation_errors());
+            redirect($_SERVER["HTTP_REFERER"]);
+        } else {
+            $this->data['error'] = validation_errors() ? validation_errors() : $this->session->flashdata('error');
+            admin_redirect(isset($_SERVER["HTTP_REFERER"]) ? $_SERVER["HTTP_REFERER"] : 'coaches');
+        }
+    }
+
 
 }
