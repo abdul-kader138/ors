@@ -29,6 +29,20 @@ $ps = array('0' => lang("disable"), '1' => lang("enable"));
                 $('#sendmail_config').slideUp();
             }
         });
+
+        var sac = $('#sac').val()
+        if(sac == 1) {
+            $('.nsac').slideUp();
+        } else {
+            $('.nsac').slideDown();
+        }
+        $('#sac').change(function () {
+            if ($(this).val() == 1) {
+                $('.nsac').slideUp();
+            } else {
+                $('.nsac').slideDown();
+            }
+        });
     });
 </script>
 <div class="box">
@@ -273,26 +287,14 @@ $ps = array('0' => lang("disable"), '1' => lang("enable"));
                                     <label class="control-label" for="protocol"><?= lang("email_protocol"); ?></label>
 
                                     <div class="controls"> <?php
-                                        $popt = array('mail' => 'PHP Mail Function', 'sendmail' => 'Send Mail', 'smtp' => 'SMTP');
+                                        $popt = array('smtp' => 'SMTP');
                                         echo form_dropdown('protocol', $popt, $Settings->protocol, 'class="form-control tip" id="protocol"  style="width:100%;" required="required"');
                                         ?>
                                     </div>
                                 </div>
                             </div>
                             <div class="clearfix"></div>
-                            <div class="row" id="sendmail_config" style="display: none;">
-                                <div class="col-md-12">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="control-label" for="mailpath"><?= lang("mailpath"); ?></label>
-
-                                            <?= form_input('mailpath', $Settings->mailpath, 'class="form-control tip" id="mailpath"'); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="row" id="smtp_config" style="display: none;">
+                            <div class="row" id="smtp_config">
                                 <div class="col-md-12">
                                     <div class="col-md-4">
                                         <div class="form-group">

@@ -73,7 +73,7 @@
                             </div>
 
                             <div class="form-group">
-                                <?php echo lang('Last_Attend_school', 'Last_School_Attend') . '<b>*</b>'; ?>
+                                <?php echo lang('Last_School_Attended', 'Last_School_Attended') . '<b>*</b>'; ?>
                                 <div class="controls">
                                     <?php echo form_input('last_attend_school', (isset($_POST['last_attend_school']) ? $_POST['last_attend_school'] : $player->last_attend_school), 'class="form-control" required="required" id="last_attend_school"'); ?>
                                 </div>

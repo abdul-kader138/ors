@@ -61,7 +61,7 @@
                                 <td><?= $warehouses->name; ?></td>
                             </tr>
                             <tr>
-                                <td><?= lang("Last_School_Attend"); ?></td>
+                                <td><?= lang("Last_School_Attended"); ?></td>
                                 <td><?= $players->last_attend_school; ?></td>
                             </tr>
                             <tr>
